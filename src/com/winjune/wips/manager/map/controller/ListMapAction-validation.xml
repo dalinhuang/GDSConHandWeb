@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC 
+  		"-//Apache Struts//XWork Validator 1.0.2//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+	<field name="rows">
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>Must between 1 and 100</message>
+		</field-validator>
+	</field>
+	<field name="columns">
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>Must between 1 and 100</message>
+		</field-validator>
+	</field>
+	<field name="length">
+		<field-validator type="double">
+			<param name="minInclusive">0.1</param>
+			<param name="maxInclusive">999.9</param>
+			<message>Must between 0.1 and 999.9</message>
+		</field-validator>
+	</field>
+</validators>  		
+  		

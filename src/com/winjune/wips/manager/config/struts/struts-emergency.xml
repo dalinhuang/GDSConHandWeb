@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="emergency" extends="json-default" namespace="/emergency">
+
+		<action name="trace"
+			class="com.winjune.wips.manager.emergency.controller.ListTraceRecordAction"
+			method="input">
+			<result name="input">trace.jsp</result>
+			<result>trace.jsp</result>
+		</action>
+
+		<action name="urgentNotice"
+			class="com.winjune.wips.manager.emergency.controller.ListUrgentNoticeAction"
+			method="input">
+			<result>/constructing.jsp</result>
+		</action>
+
+		<action name="list_trace"
+			class="com.winjune.wips.manager.emergency.controller.ListTraceRecordAction"
+			method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.mac,
+					data\[\d+\]\.position,
+					data\[\d+\]\.time,
+					data\[\d+\]\.from</param>
+			</result>
+		</action>
+
+		<action name="normal_notice"
+			class="com.winjune.wips.manager.emergency.controller.ListNormalNoticeAction"
+			method="input">
+			<result name="input">normal_notice.jsp</result>
+			<result>normal_notice.jsp</result>
+		</action>
+
+		<action name="list_normal_notice"
+			class="com.winjune.wips.manager.emergency.controller.ListNormalNoticeAction"
+			method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.position,
+					data\[\d+\]\.message</param>
+			</result>
+		</action>
+
+	</package>
+</struts>
+
+

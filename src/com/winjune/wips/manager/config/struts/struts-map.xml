@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="map" extends="json-default" namespace="/map">
+
+		<action name="map"
+			class="com.winjune.wips.manager.map.controller.ListMapAction" method="input">
+			<result name="input">map.jsp</result>
+			<result>map.jsp</result>
+		</action>
+
+		<action name="doUpload"
+			class="com.winjune.wips.manager.map.controller.MapUploadAction" method="upload">
+			<result name="input">map.jsp</result>
+			<result>upload-success.jsp</result>
+		</action>
+
+		<action name="list_map"
+			class="com.winjune.wips.manager.map.controller.ListMapAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.name,
+					data\[\d+\]\.columns,
+					data\[\d+\]\.rows,
+					data\[\d+\]\.pixels,
+					data\[\d+\]\.version,
+					data\[\d+\]\.thumbnailImgUrl</param>
+			</result>
+		</action>
+		
+		<action name="building"
+			class="com.winjune.wips.manager.map.controller.ListBuildingAction"
+			method="input">
+			<result name="input">building.jsp</result>
+			<result>building.jsp</result>
+		</action>
+		
+		<action name="list_building"
+			class="com.winjune.wips.manager.map.controller.ListBuildingAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.category,
+					data\[\d+\]\.name,
+					data\[\d+\]\.latitude,
+					data\[\d+\]\.longitude,
+					data\[\d+\]\.maps</param>
+			</result>
+		</action>
+
+		<action name="save"
+			class="com.winjune.wips.manager.map.controller.ListBuildingAction"
+			method="commit">
+			<result name="success">building.jsp</result>
+			<result name="input">building.jsp</result>
+		</action>
+		
+		<action name="position"
+			class="com.winjune.wips.manager.map.controller.ListPositionAction"
+			method="input">
+			<result name="input">position.jsp</result>
+			<result>position.jsp</result>
+		</action>
+		
+		<action name="list_position"
+			class="com.winjune.wips.manager.map.controller.ListPositionAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.mapId,
+					data\[\d+\]\.colId,
+					data\[\d+\]\.rowId,
+					data\[\d+\]\.title,
+					data\[\d+\]\.description,
+					data\[\d+\]\.titleRotation,
+					data\[\d+\]\.titleAlpha,
+					data\[\d+\]\.titleScale</param>
+			</result>
+		</action>
+
+	</package>
+</struts>
+
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="ad" extends="json-default" namespace="/ad">
+
+		<action name="index"
+			class="com.winjune.wips.manager.advertisement.controller.IndexAction">
+			<result>index.jsp</result>
+		</action>
+
+		<action name="upload"
+			class="com.winjune.wips.manager.advertisement.controller.UploadAdImgAction">
+			<result name="input">index.jsp</result>
+			<result>index.jsp</result>
+		</action>
+
+		<action name="list"
+			class="com.winjune.wips.manager.advertisement.controller.ListAdAction"
+			method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">
+					data\[\d+\]\.ad\.thumbnailImgUrl,
+					data\[\d+\]\.ad\.largeImgUrl,
+					data\[\d+\]\.ad\.thumbnailImgId,
+					data\[\d+\]\.ad\.largeImgId,
+					data\[\d+\]\.ad\.url,
+					data\[\d+\]\.ad\.duration,
+					data\[\d+\]\.ad\.fromDate,
+					data\[\d+\]\.ad\.toDate,
+					data\[\d+\]\.positions\[\d+\]\.*</param>
+			</result>
+			<result name="input">index.jsp</result>
+		</action>
+
+		<action name="listXml"
+			class="com.winjune.wips.manager.advertisement.controller.ListAdAction"
+			method="loadXml">
+			<result />
+		</action>
+
+		<action name="update"
+			class="com.winjune.wips.manager.advertisement.controller.UpdateAdAction">
+			<result />
+		</action>
+
+		<action name="save"
+			class="com.winjune.wips.manager.advertisement.controller.SaveAdAction"
+			method="execute">
+			<result name="input">index.jsp</result>
+			<result>index.jsp</result>
+		</action>
+
+	</package>
+</struts>
+
+

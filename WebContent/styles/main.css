@@ -1,0 +1,214 @@
+body {
+	padding-top: 43px;
+	padding-bottom: 10px;
+}
+
+.sidebar-nav {
+	padding: 9px 0;
+}
+
+.tdLabel .label,.wwlbl  .label {
+	background-color: #ffffff;
+	color: #000000;
+	text-shadow: none;
+}
+
+.alert li {
+	list-style: none;
+}
+
+.errorMessage,label.errorLabel {
+	color: red;
+}
+
+.hero-unit1 {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	background-color: #eeeeee;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.navbar-footer {
+	position: fixed;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+	margin-bottom: 0;
+	bottom: 0px;
+	min-height: 40px;
+	padding-right: 20px;
+	padding-left: 20px;
+	display: block;
+	margin: auto;
+	background-color: #444444;
+	background-image: -moz-linear-gradient(top, #a8a8a8, #aaaaaa);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#a8a8a8),
+		to(#aaaaaa) );
+	background-image: -webkit-linear-gradient(top, #a8a8a8, #aaaaaa);
+	background-image: -o-linear-gradient(top, #a8a8a8, #aaaaaa);
+	background-image: linear-gradient(to bottom, #a8a8a8, #aaaaaa);
+	background-repeat: repeat-x;
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffa8a8a8',
+		endColorstr='#ffaaaaaa', GradientType=0 );
+	*zoom: 1;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.navbar-inner1 {
+	min-height: 100px;
+	padding-right: 20px;
+	padding-left: 20px;
+	display: block;
+	width: 90%;
+	margin: auto;
+	background-color: #fafafa;
+	background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
+		to(#f2f2f2) );
+	background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+	background-repeat: repeat-x;
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff',
+		endColorstr='#fff2f2f2', GradientType=0 );
+	*zoom: 1;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.container-fluid1 {
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-top: 0px;
+	height: 700px;
+	display: block;
+	width: 92.5%;
+	margin: auto;
+	*zoom: 1;
+}
+
+.container-fluid1:before,.container-fluid1:after {
+	display: table;
+	line-height: 0;
+	content: "";
+}
+
+.container-fluid1:after {
+	clear: both;
+}
+
+.layout-container {
+	position: relative;
+	height: 700px;
+	max-width: 100%;
+	min-width: 10%;
+	max-height: 800px;
+	min-height: 400px;
+	display: block;
+	width: 100%;
+	margin: auto;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	background-color: #eeeeee;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.login_center {
+	position: absolute;
+	height: 300px;
+	width: 400px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	display: block;
+	background-color: #eeeeee;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.login_form {
+	position: absolute;
+	height: 90%;
+	width: 90%;
+	left: 5%;
+	right: 5%;
+	top: 5%;
+	bottom: 5%;
+	background-color: transparent;
+}
+
+.layout_grid {
+	position: relative;
+	height: 400px;
+	max-width: 100%;
+	max-height: 700px;
+	min-height: 100px;
+	display: block;
+	width: 99.81%;
+	min-height: 30px;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	background-color: #eeeeee;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.layout_toolbar {
+	position: relative;
+	height: 150px;
+	max-width: 100%;
+	max-height: 200px;
+	min-height: 100px;
+	display: block;
+	width: 99.81%;
+	min-height: 30px;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	background-color: #eeeeee;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+label
+
+
+
+
+
+
+
+
+
+
+.errorLabel

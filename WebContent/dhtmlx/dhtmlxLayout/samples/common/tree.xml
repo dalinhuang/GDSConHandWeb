@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<tree id="0">
+	<item text="System Settings" id="system" open="1" call="1" select="1">
+		<item text="User Management" id="lb">
+			<item text="User List" id="lb_1" />
+			<item text="Add User" id="lb_2" />
+		</item>
+		<item text="Privilege" id="rc">
+			<item text="User Management" id="rc_1" />
+			<item text="Role Management" id="rc_2" />
+			<item text="Authority Management" id="rc_3" />
+			<item text="Operation Management" id="rc_4" />
+			<item text="Resource Management" id="rc_5" />
+			<item text="Access Control" id="rc_5" />
+		</item>
+	</item>
+</tree>

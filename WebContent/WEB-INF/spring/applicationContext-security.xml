@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- <debug />  -->
+
+	<http auto-config="true">
+		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/styles/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/images/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/img/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/system/**" access="ROLE_ADMIN" />
+		<intercept-url pattern="/**" access="ROLE_USER" />
+
+		<form-login login-page="/login.jsp"
+			authentication-failure-url="/login.jsp?error=true"
+			default-target-url="/index.jsp" always-use-default-target="true" />
+
+		<logout invalidate-session="true" logout-success-url="/login.jsp" />
+
+		<!-- Declare there is a custom (new defined) filter, it is before FILTER_SECURITY_INTERCEPTOR -->
+		<custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+
+	</http>
+
+	<!-- Custom filter to deny unwanted users even though registered -->
+	<beans:bean id="customFilterSecurityInterceptor"
+		class="com.winjune.wips.manager.system.security.CustomFilterSecurityInterceptor">
+		<beans:property name="accessDecisionManager" ref="customAccessDecisionManager" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource" />
+	</beans:bean>
+
+	<!-- Custom authentication manager. In order to authenticate, username and 
+		password must not be the same -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="customUserDetailsService">
+			<!--  
+			<password-encoder hash="sha">
+				<salt-source user-property="username" />
+			</password-encoder>-->
+		</authentication-provider>
+	</authentication-manager>
+
+	<!-- A custom service where Spring will retrieve users and their corresponding 
+		access levels -->
+	<beans:bean name="customUserDetailsService"
+		class="com.winjune.wips.manager.system.security.CustomUserDetailsService" />
+
+	<beans:bean name="customAccessDecisionManager"
+		class="com.winjune.wips.manager.system.security.CustomAccessDecisionManager">
+	</beans:bean>
+
+	<beans:bean name="customSecurityMetadataSource"
+		class="com.winjune.wips.manager.system.security.CustomFilterInvocationSecurityMetadataSource">
+	</beans:bean>
+
+</beans:beans>

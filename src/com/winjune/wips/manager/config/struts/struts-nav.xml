@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="nav" extends="json-default" namespace="/nav">
+		
+		<action name="neighbor"
+			class="com.winjune.wips.manager.navigation.controller.ListNeighborAction"
+			method="input">
+			<result name="input">neighbor.jsp</result>
+			<result>neighbor.jsp</result>
+		</action>
+		
+		<action name="list_neighbor"
+			class="com.winjune.wips.manager.navigation.controller.ListNeighborAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.fromMap,
+					data\[\d+\]\.toMap</param>
+			</result>
+		</action>
+		
+		<action name="node"
+			class="com.winjune.wips.manager.navigation.controller.ListNodeAction"
+			method="input">
+			<result name="input">node.jsp</result>
+			<result>node.jsp</result>
+		</action>
+		
+		<action name="list_node"
+			class="com.winjune.wips.manager.navigation.controller.ListNodeAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.mapId,
+					data\[\d+\]\.colId,
+					data\[\d+\]\.rowId,
+					data\[\d+\]\.name</param>
+			</result>
+		</action>
+		
+		<action name="pair"
+			class="com.winjune.wips.manager.navigation.controller.ListNodePairAction"
+			method="input">
+			<result name="input">pair.jsp</result>
+			<result>pair.jsp</result>
+		</action>
+		
+		<action name="list_pair"
+			class="com.winjune.wips.manager.navigation.controller.ListNodePairAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.fromNode,
+					data\[\d+\]\.toNode,
+					data\[\d+\]\.distance,
+					data\[\d+\]\.guideInfo</param>
+			</result>
+		</action>
+
+	</package>
+</struts>
+
+
