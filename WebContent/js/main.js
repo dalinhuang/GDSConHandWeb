@@ -787,8 +787,8 @@ function createLoginNav(realX, realY, posx, posy, content) {
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' id='selectFloor' onchange='changeFloor(this.options[this.options.selectedIndex].value)'>" + floorStr + "</select></div>" +
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>连通点&nbsp;&nbsp;&nbsp;&nbsp</b></label><select name='selectNav' id='selectNav'>" + optStr + "</select></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>连通类型&nbsp</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='办公室到门口'></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='门口到办公室'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室'></div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
@@ -889,8 +889,6 @@ function createLineInfo(pt1, pt2) {
 				break;
 			}
 		}
-		
-	
 
 		pathInfo += op3;
 
@@ -947,8 +945,6 @@ function createLineInfo(pt1, pt2) {
 
 function opTransitLine(pt1, pt2) {
 	var opcode = document.forms['loginform']['selectNavType'].value;
-	
-
 
 	for (var i = 0; i < fromNode.length; i++) {
 
@@ -974,37 +970,37 @@ function opTransitLine(pt1, pt2) {
 
 				toNode.splice(i, 1);
 				direction.splice(i, 1);
-				
+
 				if (!judgeTransitPt(pt1)) {
-				   nav_transit[pt1 - 1] = false;
-				   
-				   trandivId = pt1 + "_transit"
-				   trandiv = document.getElementById(trandivId);
-				   trandiv.style.display = "none";
+					nav_transit[pt1 - 1] = false;
 
-				   trandivId = pt1 + "_transit"
-				   trandiv = document.getElementById(trandivId);
-				   trandiv.style.display = "none";
+					trandivId = pt1 + "_transit"
+						trandiv = document.getElementById(trandivId);
+					trandiv.style.display = "none";
 
-				   var trandivlineId = pt1 + "_" + "0";
-				   var trandivline = document.getElementById(trandivlineId);
-				   trandivline.style.display = "none";
+					trandivId = pt1 + "_transit"
+						trandiv = document.getElementById(trandivId);
+					trandiv.style.display = "none";
+
+					var trandivlineId = pt1 + "_" + "0";
+					var trandivline = document.getElementById(trandivlineId);
+					trandivline.style.display = "none";
 				}
-				
+
 				if (!judgeTransitPt(pt2)) {
-				   nav_transit[pt2 - 1] = false;
-				   
-				   trandivId = pt2 + "_transit"
-				   trandiv = document.getElementById(trandivId);
-				   trandiv.style.display = "none";
+					nav_transit[pt2 - 1] = false;
 
-				  trandivId = pt2 + "_transit"
-				  trandiv = document.getElementById(trandivId);
-				  trandiv.style.display = "none";
+					trandivId = pt2 + "_transit"
+						trandiv = document.getElementById(trandivId);
+					trandiv.style.display = "none";
 
-				  var trandivlineId = pt2 + "_" + "0";
-				  var trandivline = document.getElementById(trandivlineId);
-				  trandivline.style.display = "none";
+					trandivId = pt2 + "_transit"
+						trandiv = document.getElementById(trandivId);
+					trandiv.style.display = "none";
+
+					var trandivlineId = pt2 + "_" + "0";
+					var trandivline = document.getElementById(trandivlineId);
+					trandivline.style.display = "none";
 				}
 				//forwardGuide.splice(i, 1);
 				//backwardGuide.splice(i, 1);
@@ -1138,14 +1134,29 @@ function setPointNav(realX, realY) {
 
 					var pt2 = document.forms['loginform']['selectNav'].value;
 
-					fromNode.push(pt1);
-					toNode.push(pt2);
+					var mdirection;
+					var mforwardGuide;
+					var mbackwardGuide;
 
 					if (document.forms['loginform']['selectNavType'].value == "1") {
 						direction.push(1);
+						mdirection = 1;
 					} else {
 						direction.push(2);
+						mdirection = 2;
 					}
+
+					mforwardGuide = document.forms['loginform']['forward'].value;
+					mbackwardGuide = document.forms['loginform']['backward'].value;
+
+					//增加导航线, 跨楼层
+					$.post("NaviPath.java", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : mdirection,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
 
 					if (!nav_transit[pt2 - 1]) {
 						nav_transit[pt2 - 1] = true;
@@ -1243,11 +1254,29 @@ function setPointNav(realX, realY) {
 				fromNode.push(pt1);
 				toNode.push(pt2);
 
+				var mdirection;
+				var mforwardGuide;
+				var mbackwardGuide;
+
 				if (document.forms['loginform']['selectNavType'].value == "1") {
 					direction.push(1);
+					mdirection = 1;
 				} else {
 					direction.push(2);
+					mdirection = 2;
 				}
+
+				mforwardGuide = document.forms['loginform']['forward'].value;
+				mbackwardGuide = document.forms['loginform']['backward'].value;
+
+				//增加导航线, 本楼层
+				$.post("NaviPath.java", {
+					fromNode : pt1,
+					toNode : pt2,
+					direction : mdirection,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
 
 				if (document.forms['loginform']['selectNavType'].value == "1") {
 
@@ -1309,7 +1338,19 @@ function setPointNav(realX, realY) {
 	nav_x.push(realX);
 	nav_y.push(realY);
 
+	var mlabel = document.forms['loginform']['petName'].value;
+
 	nav_label.push(document.forms['loginform']['petName'].value);
+
+	nav_floor.push(which_floor);
+
+	//首次增加导航点,  只是设置序号, 坐标,  楼层,  label
+	$.post("NaviNode.java", {
+		map_id : which_floor,
+		placeX : realX,
+		placeY : realY,
+		label : mlabel
+	});
 
 	//alert(document.forms['loginform']['petName'].value);
 
@@ -1317,8 +1358,6 @@ function setPointNav(realX, realY) {
 	nav_transit.push(false);
 
 	nav_flag.push(true);
-
-	nav_floor.push(which_floor);
 
 	del_pop("id_out", "id_in");
 
@@ -2131,7 +2170,6 @@ function redraw() {
 
 function judgeTransitPt(pt) {
 
-	
 	for (var i = 0; i < fromNode.length; i++) {
 
 		if (fromNode[i] == pt) {
@@ -2143,8 +2181,7 @@ function judgeTransitPt(pt) {
 			}
 		}
 	}
-	
-	
+
 	for (var i = 0; i < toNode.length; i++) {
 
 		if (toNode[i] == pt) {
@@ -2156,9 +2193,7 @@ function judgeTransitPt(pt) {
 			}
 		}
 	}
-	
-	
-	
+
 	return false;
 
 }
@@ -2420,7 +2455,7 @@ function changeTransit(to_node) {
 			} else {
 				op3 = "(" + to_node + "->" + curr_node + ")";
 			}
-			
+
 			var pathInfo = " 该导航线连接导航节点" + to_node + "与" + curr_node;
 
 			var op2 = curr_node + " 到 " + to_node;
@@ -2433,9 +2468,6 @@ function changeTransit(to_node) {
 
 		}
 	}
-	
-
-	
 
 	document.all.selectNavType.options.length = 0;
 
@@ -2452,7 +2484,7 @@ function changeTransit(to_node) {
 	//alert(pathInfoDiv.innerHTML);
 	pathInfoDiv.innerHTML = "<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>"
 
-	//
+		//
 		pathInfo += op3;
 
 	var opLineDiv = document.getElementById("opline");
@@ -2461,5 +2493,4 @@ function changeTransit(to_node) {
 	//alert(pathInfoDiv.innerHTML);
 	opLineDiv.innerHTML = "<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>"
 
-	
 }
