@@ -40,6 +40,8 @@
         <mapping class="com.winjune.wips.manager.emergency.model.entity.Trace" />
         <mapping class="com.winjune.wips.manager.emergency.model.entity.NormalNotice" />
         <mapping class="com.winjune.wips.manager.navinode.model.entity.NaviNode" />
+        <mapping class="com.winjune.wips.manager.navipath.model.entity.NaviPath" />
+        <mapping class="com.winjune.wips.manager.poi.model.entity.POI" />
 		<!-- <mapping resource="com/winjune/wips/manager/common/entity/User.hbm.xml" /> -->
 
 	</session-factory>

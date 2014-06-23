@@ -60,6 +60,11 @@
 			<result name="input">success.jsp</result>
 			<result>success.jsp</result>
 		</action>
+		<action name="savenavipath"
+			class="com.winjune.wips.manager.navinode.controller.SaveNaviPathAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
 	</package>
 
 

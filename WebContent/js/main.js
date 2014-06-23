@@ -1150,7 +1150,7 @@ function setPointNav(realX, realY) {
 					mbackwardGuide = document.forms['loginform']['backward'].value;
 
 					//增加导航线, 跨楼层
-					$.post("savenavipath", {
+					$.post("savenavipath.action", {
 						fromNode : pt1,
 						toNode : pt2,
 						direction : mdirection,
@@ -1270,7 +1270,7 @@ function setPointNav(realX, realY) {
 				mbackwardGuide = document.forms['loginform']['backward'].value;
 
 				//增加导航线, 本楼层
-				$.post("savenavipath", {
+				$.post("savenavipath.action", {
 					fromNode : pt1,
 					toNode : pt2,
 					direction : mdirection,
