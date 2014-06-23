@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import com.winjune.wips.manager.common.entity.IEntity;
 
 @Entity
-@Table(name = "building")
+@Table(name = "poi")
 public class POI implements IEntity, Serializable {
 
 	/**

@@ -50,7 +50,16 @@
 		<action name="index">
 			<result>default.jsp</result>
 		</action>
-
+		<action name="savepoi"
+			class="com.winjune.wips.manager.poi.controller.SavePOIAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
+		<action name="savenavinode"
+			class="com.winjune.wips.manager.navinode.controller.SaveNaviNodeAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
 	</package>
 
 

@@ -1150,7 +1150,7 @@ function setPointNav(realX, realY) {
 					mbackwardGuide = document.forms['loginform']['backward'].value;
 
 					//增加导航线, 跨楼层
-					$.post("NaviPath.java", {
+					$.post("savenavipath", {
 						fromNode : pt1,
 						toNode : pt2,
 						direction : mdirection,
@@ -1270,7 +1270,7 @@ function setPointNav(realX, realY) {
 				mbackwardGuide = document.forms['loginform']['backward'].value;
 
 				//增加导航线, 本楼层
-				$.post("NaviPath.java", {
+				$.post("savenavipath", {
 					fromNode : pt1,
 					toNode : pt2,
 					direction : mdirection,
@@ -1345,8 +1345,8 @@ function setPointNav(realX, realY) {
 	nav_floor.push(which_floor);
 
 	//首次增加导航点,  只是设置序号, 坐标,  楼层,  label
-	$.post("NaviNode.java", {
-		map_id : which_floor,
+	$.post("savenavinode.action", {
+		mapId : which_floor,
 		placeX : realX,
 		placeY : realY,
 		label : mlabel

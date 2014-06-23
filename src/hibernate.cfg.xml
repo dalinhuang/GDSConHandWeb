@@ -39,6 +39,7 @@
         <mapping class="com.winjune.wips.manager.advertisement.model.entity.PositionAd" />
         <mapping class="com.winjune.wips.manager.emergency.model.entity.Trace" />
         <mapping class="com.winjune.wips.manager.emergency.model.entity.NormalNotice" />
+        <mapping class="com.winjune.wips.manager.navinode.model.entity.NaviNode" />
 		<!-- <mapping resource="com/winjune/wips/manager/common/entity/User.hbm.xml" /> -->
 
 	</session-factory>
