@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		
+		<title>图片加载平移放大缩小示例</title>
+		<style>
+			html,body{
+				margin:0px;
+				padding:0px;
+			}
+			canvas{
+				border: 1px solid #000;
+			}
+			/*----------------------------*/
+           button{
+	           background :  #428739;
+	           ackground : -webkit-gradient(linear, left top, left bottom, from( #c8dd95), to( #428739));
+	           background : -moz-linear-gradient(-90deg,  #c8dd95,  #428739);
+	           filter : progid : DXImageTransform.Microsoft.Gradient(GradientType = 0, StartColorStr = '#c8dd95', EndColorStr = '#428739');
+           }
+           button : hover {
+	           background :  #c8dd95;
+	           background : -webkit-gradient(linear, left top, left bottom, from( #428739), to( #c8dd95));
+	           background : -moz-linear-gradient(-90deg,  #428739,  #c8dd95);
+	          filter : progid : DXImageTransform.Microsoft.Gradient(GradientType = 0, StartColorStr = '#428739', EndColorStr = '#c8dd95');
+            }
+           button  : active {
+	            background :  #428739;
+           }
+		   
+		   .triangle{
+             border-top:10px solid #FFFFCC;
+             border-left:10px solid #FF3300;
+             border-bottom:10px solid #FFFFCC;
+             border-right:10px solid #FF3300;
+           }
+		</style>
+	</head>
+	<body id="body" style="position:absolute">
+	
+	
+		
+			
+         
+		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:0px;z-index:1;"></canvas>
+		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:0px;z-index:2;"></canvas>
+		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:0px;z-index:3;"></canvas>
+		
+		 <select name='Floor' id='Floor' onchange="selectFloor(this.options[this.options.selectedIndex].value)" style="position:absolute;left:1220px;top:0px;"><option value='1' >F15</option><option value='2'>F5</option></select>
+		
+		
+		
+
+		
+	
+		
+ 
+	<script type="text/javascript" src="js/main.js"></script>
+		
+		
+
+		
+	</body>
+</html>
