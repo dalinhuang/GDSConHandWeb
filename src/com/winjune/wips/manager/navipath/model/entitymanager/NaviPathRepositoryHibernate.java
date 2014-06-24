@@ -6,6 +6,7 @@ import com.winjune.wips.manager.common.entitymgr.LookupRepositoryHibernate;
 import com.winjune.wips.manager.common.exception.RepositoryException;
 import com.winjune.wips.manager.common.util.Operator;
 import com.winjune.wips.manager.common.util.SearchParams;
+import com.winjune.wips.manager.navinode.model.entity.NaviNode;
 import com.winjune.wips.manager.navipath.model.entity.NaviPath;
 
 public class NaviPathRepositoryHibernate {
@@ -57,7 +58,7 @@ public class NaviPathRepositoryHibernate {
 //			params.setField("toNode");
 //			params.setValue(String.valueOf(toNode));
 			
-			List<NaviPath> naviPaths = mapRepository.findAllByFieldWithPagination(params, 0, 1, "fromNode", "asc");
+			List<NaviPath> naviPaths = mapRepository.findAllByFieldWithPagination(params, 0, 10000, "fromNode", "asc");
 
 			if ((naviPaths != null) && (!naviPaths.isEmpty()))
 				
@@ -85,6 +86,17 @@ public class NaviPathRepositoryHibernate {
 
 		try {
 			mapRepository.save(object);
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteNaviPath(NaviPath object) {
+		LookupRepositoryHibernate<NaviPath, Integer> mapRepository = new LookupRepositoryHibernate<NaviPath, Integer>(
+				NaviPath.class);
+
+		try {
+			mapRepository.delete(object);
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}

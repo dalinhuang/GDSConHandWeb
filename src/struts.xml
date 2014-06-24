@@ -75,6 +75,11 @@
 			<result name="input">success.jsp</result>
 			<result>success.jsp</result>
 		</action>
+		<action name="deletenavipath"
+			class="com.winjune.wips.manager.navipath.controller.DeleteNaviPathAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
 	</package>
 
 
