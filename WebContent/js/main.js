@@ -1108,7 +1108,6 @@ function opLine(pt1, pt2) {
 				navdiv = document.getElementById(currdiv)
 					navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
-				
 				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
 				$.post("updatenavipath.action", {
 						fromNode : pt1,
@@ -1612,7 +1611,7 @@ function deleteNavPoint(posx, posy, realX, realY) {
 	nav_flag[pt - 1] = false;
 	
 	//增加导航线, 跨楼层
-	$.post("deletenavnode.action", {
+	$.post("deletenavinode.action", {
 						id : pt
 					
 					});

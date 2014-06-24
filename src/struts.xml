@@ -60,8 +60,18 @@
 			<result name="input">success.jsp</result>
 			<result>success.jsp</result>
 		</action>
+		<action name="deletenavinode"
+			class="com.winjune.wips.manager.navinode.controller.DeleteNaviNodeAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
 		<action name="savenavipath"
-			class="com.winjune.wips.manager.navinode.controller.SaveNaviPathAction" method="input">
+			class="com.winjune.wips.manager.navipath.controller.SaveNaviPathAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
+		<action name="updatenavipath"
+			class="com.winjune.wips.manager.navipath.controller.UpdateNaviPathAction" method="input">
 			<result name="input">success.jsp</result>
 			<result>success.jsp</result>
 		</action>

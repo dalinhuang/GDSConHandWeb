@@ -33,7 +33,7 @@ public class NaviNodeRepositoryHibernate {
 			SearchParams params = new SearchParams();;
 			params.setOperator(Operator.EQUAL);
 			params.setField("id");
-			params.setValue(String.valueOf(nodeId));
+			params.setValue(Integer.valueOf(nodeId));
 			
 			List<NaviNode> naviNodes = mapRepository.findAllByFieldWithPagination(params, 0, 1, "id", "asc");
 
@@ -52,6 +52,17 @@ public class NaviNodeRepositoryHibernate {
 
 		try {
 			mapRepository.save(object);
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteNaviNode(NaviNode object) {
+		LookupRepositoryHibernate<NaviNode, Integer> mapRepository = new LookupRepositoryHibernate<NaviNode, Integer>(
+				NaviNode.class);
+
+		try {
+			mapRepository.delete(object);
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}

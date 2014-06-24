@@ -44,6 +44,40 @@ public class NaviPathRepositoryHibernate {
 		
 		return null;
 	}
+
+	public static NaviPath findNaviPath(int fromNode, int toNode) {
+		LookupRepositoryHibernate<NaviPath, Integer> mapRepository = new LookupRepositoryHibernate<NaviPath, Integer>(
+				NaviPath.class);
+
+		try {
+			SearchParams params = new SearchParams();;
+			params.setOperator(Operator.EQUAL);
+			params.setField("fromNode");
+			params.setValue(Integer.valueOf(fromNode));
+//			params.setField("toNode");
+//			params.setValue(String.valueOf(toNode));
+			
+			List<NaviPath> naviPaths = mapRepository.findAllByFieldWithPagination(params, 0, 1, "fromNode", "asc");
+
+			if ((naviPaths != null) && (!naviPaths.isEmpty()))
+				
+			{
+				for (NaviPath currentNaviPaths: naviPaths)
+				{
+					if (currentNaviPaths.getToNode() == toNode)
+					{
+						return currentNaviPaths;
+					}
+				}
+			}
+				
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	
 	public static void saveNaviPath(NaviPath object) {
 		LookupRepositoryHibernate<NaviPath, Integer> mapRepository = new LookupRepositoryHibernate<NaviPath, Integer>(
