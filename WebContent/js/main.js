@@ -899,8 +899,8 @@ function createLineInfo(pt1, pt2) {
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavTerm' id='selectNavTerm' onchange='changeTransit(this.options[this.options.selectedIndex].value)'>" + conn + "</select>  </div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='办公室到门口'></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='门口到办公室'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室'></div>" +
 			"<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>" +
 
 			"</form>";
@@ -933,8 +933,8 @@ function createLineInfo(pt1, pt2) {
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='办公室到门口'></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='门口到办公室'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室'></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opLine(" + pt1 + "," + pt2 + ")'" + ">提交</button></div>" +
 
 			"</form>";
@@ -943,8 +943,12 @@ function createLineInfo(pt1, pt2) {
 	return login;
 }
 
+//不同楼层导航线的改方向和删除的导航线操作
 function opTransitLine(pt1, pt2) {
 	var opcode = document.forms['loginform']['selectNavType'].value;
+	
+	var mforwardGuide = document.forms['loginform']['forward'].value;
+	var mbackwardGuide = document.forms['loginform']['backward'].value;
 
 	for (var i = 0; i < fromNode.length; i++) {
 
@@ -953,15 +957,42 @@ function opTransitLine(pt1, pt2) {
 			switch (parseInt(opcode)) {
 			case 1:
 				direction[i] = 1;
+				
+				//fromNode 和 toNode 保持不变,  传direction = 1 表示该成双向
+				$.post("updatenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : 1,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
 				break;
 			case 2:
 
 				direction[i] = 2;
+				
+				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
+				$.post("updatenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : 2,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
 				break;
 			case 3:
 				fromNode[i] = pt2;
 				toNode[i] = pt1;
 				direction[i] = 2;
+				
+				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
+				$.post("updatenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : 3,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
 
 				break;
 			case 4:
@@ -1004,6 +1035,13 @@ function opTransitLine(pt1, pt2) {
 				}
 				//forwardGuide.splice(i, 1);
 				//backwardGuide.splice(i, 1);
+				
+				//在数据库中删除这条导航线, 只需要知道fromNode toNode 
+				$.post("deletenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						
+					});
 
 				break;
 			default:
@@ -1024,8 +1062,13 @@ function opTransitLine(pt1, pt2) {
 
 }
 
+
+//同一楼层导航线的改方向和删除的导航线操作
 function opLine(pt1, pt2) {
 	var opcode = document.forms['loginform']['selectNavType'].value;
+	
+	var mforwardGuide = document.forms['loginform']['forward'].value;
+	var mbackwardGuide = document.forms['loginform']['backward'].value;
 
 	for (var i = 0; i < fromNode.length; i++) {
 
@@ -1034,10 +1077,29 @@ function opLine(pt1, pt2) {
 			switch (parseInt(opcode)) {
 			case 1:
 				direction[i] = 1;
+				
+				//fromNode 和 toNode 保持不变,  传direction = 1 表示该成双向
+				$.post("updatenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : 1,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
+
 				break;
 			case 2:
 
 				direction[i] = 2;
+				
+				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
+				$.post("updatenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : 2,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
 				break;
 			case 3:
 				fromNode[i] = pt2;
@@ -1046,6 +1108,17 @@ function opLine(pt1, pt2) {
 				navdiv = document.getElementById(currdiv)
 					navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
+				
+				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
+				$.post("updatenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						direction : 3,
+						forwardGuide : mforwardGuide,
+						backwardGuide : mbackwardGuide
+					});
+				
+				
 				break;
 			case 4:
 
@@ -1056,6 +1129,13 @@ function opLine(pt1, pt2) {
 				//forwardGuide.splice(i, 1);
 				//backwardGuide.splice(i, 1);
 				del_div(currdiv);
+				
+				//在数据库中删除这条导航线, 只需要知道fromNode toNode 
+				$.post("deletenavipath.action", {
+						fromNode : pt1,
+						toNode : pt2,
+						
+					});
 				break;
 			default:
 				break;
@@ -1133,6 +1213,9 @@ function setPointNav(realX, realY) {
 					var y1 = nav_y[pt1 - 1];
 
 					var pt2 = document.forms['loginform']['selectNav'].value;
+					
+					fromNode.push(pt1);
+					toNode.push(pt2);
 
 					var mdirection;
 					var mforwardGuide;
@@ -1517,6 +1600,8 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 	canvas_upper.style.zIndex = 2;
 }
 
+
+//删除导航点,  注意要将所有的和这个点相关的导航线全部要删除
 function deleteNavPoint(posx, posy, realX, realY) {
 
 	//alert(interest_div.length);
@@ -1525,10 +1610,17 @@ function deleteNavPoint(posx, posy, realX, realY) {
 
 	pt = parseInt(mcurrdiv.innerHTML);
 	nav_flag[pt - 1] = false;
+	
+	//增加导航线, 跨楼层
+	$.post("deletenavnode.action", {
+						id : pt
+					
+					});
+
 
 	//alert(pt);
 
-
+    // 注意要将所有的和这个点相关的导航线全部要删除
 	for (var i = 0; i < fromNode.length; i++) {
 
 		if (fromNode[i] == pt || toNode[i] == pt) {
@@ -1545,6 +1637,12 @@ function deleteNavPoint(posx, posy, realX, realY) {
 
 
 			del_div(deldiv);
+			
+			$.post("deletenavipath.action", {
+						fromNode : fromNode[i],
+						toNode : toNode[i],
+						
+					});
 
 			i--;
 
@@ -2493,4 +2591,13 @@ function changeTransit(to_node) {
 	//alert(pathInfoDiv.innerHTML);
 	opLineDiv.innerHTML = "<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>"
 
+}
+
+
+function selectInterestNav(value) {
+  if (value == 1) {
+    isNav = true;
+  } else {
+    isNav = false;
+  }
 }
