@@ -65,6 +65,11 @@
 			<result name="input">success.jsp</result>
 			<result>success.jsp</result>
 		</action>
+		<action name="updatenavinode"
+			class="com.winjune.wips.manager.navinode.controller.UpdateNaviNodeAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
 		<action name="savenavipath"
 			class="com.winjune.wips.manager.navipath.controller.SaveNaviPathAction" method="input">
 			<result name="input">success.jsp</result>
@@ -82,7 +87,21 @@
 		</action>
 	</package>
 
+	<package name="poi" extends="json-default">
 
+		<action name="listnavinode"
+			class="com.winjune.wips.manager.navinode.controller.ListNaviNodeAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.mapId,
+					data\[\d+\]\.placeX,
+					data\[\d+\]\.placeY,
+					data\[\d+\]\.label</param>
+			</result>
+		</action>
+		
+	</package>
 
 
 	<!-- Here you include other struts configuration files -->

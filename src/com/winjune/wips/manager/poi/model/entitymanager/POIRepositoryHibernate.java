@@ -32,7 +32,7 @@ public class POIRepositoryHibernate {
 			SearchParams params = new SearchParams();;
 			params.setOperator(Operator.EQUAL);
 			params.setField("id");
-			params.setValue(String.valueOf(poiId));
+			params.setValue(Integer.valueOf(poiId));
 			
 			List<POI> pois = mapRepository.findAllByFieldWithPagination(params, 0, 1, "id", "asc");
 
