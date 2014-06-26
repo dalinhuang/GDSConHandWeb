@@ -2636,8 +2636,10 @@ function changeTransit(to_node) {
 function selectInterestNav(value) {
 	if (value == 1) {
 		isNav = true;
+		redrawAll();
 	} else {
 		isNav = false;
+		ctx_nav.clearRect(0, 0, WIDTH, HEIGHT);
 	}
 }
 
