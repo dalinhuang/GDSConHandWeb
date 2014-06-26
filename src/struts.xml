@@ -101,6 +101,19 @@
 			</result>
 		</action>
 		
+		<action name="listnavipath"
+			class="com.winjune.wips.manager.navipath.controller.ListNaviPathAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.fromNode,
+					data\[\d+\]\.toNode,
+					data\[\d+\]\.direction,
+					data\[\d+\]\.forwardGuide,
+					data\[\d+\]\.backwardGuide</param>
+			</result>
+		</action>
+		
 	</package>
 
 
