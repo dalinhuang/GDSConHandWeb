@@ -1596,11 +1596,15 @@ function modifyInterestPlace(posx, posy, realX, realY) {
 	//pop_up(posx, posy, realX, realY, true, "修改节点");
 	detaildiv = document.getElementById("stylized");
 	detaildiv.style.display = "block";
-	
-    document.forms['form1']['floor'].value = which_floor;
-	document.forms['form1']['xpos'].value = realX;
-	document.forms['form1']['ypos'].value = realY;
 
+	for (var i = 0; i < interest_div.length; i++) {
+		if (interest_div[i] == currdiv) {
+			　　　　document.forms['form1']['floor'].value = which_floor;
+			　　　　document.forms['form1']['xpos'].value = interest_x[i];
+			　　　　document.forms['form1']['ypos'].value = interest_y[i];
+			break;
+		}
+	}
 	//
 }
 
@@ -2639,7 +2643,7 @@ function selectInterestNav(value) {
 		redrawAll();
 	} else {
 		isNav = false;
-		ctx_nav.clearRect(0, 0, WIDTH, HEIGHT);
+		clearNavDraw();
 	}
 }
 
@@ -2649,31 +2653,31 @@ function submitPoiDetailInfo() {
 
 	//先根据placeX placeY floor唯一确定要更新的行
 	//再填入具体数据
-	
 
-	
+
 	$.post("updatepoi.action", {
-	    type: document.forms['form1']['selectInterest'].value,
-		hallId: document.forms['form1']['hallid'].value,
-		ttsNo: document.forms['form1']['ttsid'].value,
+		type : parseInt(document.forms['form1']['selectInterest'].value),
+		hallId : parseInt(document.forms['form1']['hallid'].value),
+		ttsNo : parseInt(document.forms['form1']['ttsid'].value),
+		mapId : which_floor,
 		placeX : document.forms['form1']['xpos'].value,
 		placeY : document.forms['form1']['ypos'].value,
-		neareastNaviNode: document.forms['form1']['nearnavid'].value,
-		iconUrl: document.forms['form1']['iconurl'].value,
-		audioUrl: document.forms['form1']['audiourl'].value,
-		webUrl: document.forms['form1']['weburl'].value,
-		picUrl: document.forms['form1']['picurl'].value,
-		label: document.forms['form1']['poilabel'].value,
-		generalDesc: document.forms['form1']['detaileddesc'].value,
-		detailedDesc: document.forms['form1']['detaileddesc'].value,
-		shareble: document.forms['form1']['shareble'].value,
-		reachable: document.forms['form1']['reachable'].value,
-		readable: document.forms['form1']['readable'].value,
-		scale: document.forms['form1']['scale'].value,
-		alpha: document.forms['form1']['alpha'].value,
-		rotation: document.forms['form1']['rotation'].value,
-		maxZoomFactor: document.forms['form1']['maxzoomfactor'].value,
-		minZoomFactor: document.forms['form1']['minzoomfactor'].value
+		neareastNaviNode : parseInt(document.forms['form1']['nearnavid'].value),
+		iconUrl : document.forms['form1']['iconurl'].value,
+		audioUrl : document.forms['form1']['audiourl'].value,
+		webUrl : document.forms['form1']['weburl'].value,
+		picUrl : document.forms['form1']['picurl'].value,
+		label : document.forms['form1']['poilabel'].value,
+		generalDesc : document.forms['form1']['detaileddesc'].value,
+		detailedDesc : document.forms['form1']['detaileddesc'].value,
+		shareble : document.forms['form1']['shareble'].value,
+		reachable : document.forms['form1']['reachable'].value,
+		readable : document.forms['form1']['readable'].value,
+		scale : document.forms['form1']['scale'].value,
+		alpha : document.forms['form1']['alpha'].value,
+		rotation : document.forms['form1']['rotation'].value,
+		maxZoomFactor : document.forms['form1']['maxzoomfactor'].value,
+		minZoomFactor : document.forms['form1']['minzoomfactor'].value
 	});
 
 	document.forms['form1']['poilabel'].value = "";
@@ -2694,4 +2698,28 @@ function submitPoiDetailInfo() {
 	document.forms['form1']['picurl'].value = "";
 	document.forms['form1']['iconurl'].value = "";
 	document.forms['form1']['audiourl'].value = "";
+}
+
+function clearNavDraw() {
+	ctx_nav.clearRect(0, 0, WIDTH, HEIGHT);
+
+	for (var i = 0; i < nav_x.length; i++) {
+		var navdiv = document.getElementById(nav_div[i]);
+
+		if (!nav_flag[i]) {
+			continue;
+		}
+
+		navdiv.style.display = "none";
+
+		if (nav_transit[i]) {
+			trandivId = (i + 1) + "_transit"
+			trandiv = document.getElementById(trandivId);
+			trandiv.style.display = "none";
+
+			var trandivlineId = (i + 1) + "_" + "0";
+			var trandivline = document.getElementById(trandivlineId);
+			trandivline.style.display = "none";
+		}
+	}
 }
