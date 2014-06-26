@@ -629,13 +629,13 @@ function createLogin(realX, realY, posx, posy, content) {
 	//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 	login.innerHTML = "<form name = 'loginform'>" +
 		"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
-					"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  value=" + realY + "></div>" +
+		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
+		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  value=" + realY + "></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='兴趣点' value=" + interest_name + "></div>" +
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>节点类型&nbsp</b></label>  <select name='selectInterest' id='selectInterest'><option value='1'>电影馆 </option><option value='2'>展览馆 </option> <option value='3'>公交站</option><option value='4'>餐厅</option><option value='5'>导航点</option></select>  </div>" +
 
 		"<div style='width:300px;height:120px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><label for=name style='font:color:green'><b>简要描述&nbsp</b></label> <br><br>&nbsp;&nbsp;<textarea name='content' cols='30' rows='4' placeholder='请输入具体信息' with='180px'></textarea></div>" +
-		
+
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPoint(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 		"</form>";
 
@@ -742,7 +742,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 	if (first) {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" +  "</div>" +
+			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
 
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='检票口' value=" + nav_name + "></div>" +
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
@@ -1188,13 +1188,11 @@ function setPoint(realX, realY) {
 	}
 
 	divstr = "div" + interest_div.length + 1;
-	
-    realX = parseInt(document.forms['loginform']['xpos'].value);
-	realY = parseInt(document.forms['loginform']['ypos'].value);
-	
-	initplace(realX, realY, document.forms['loginform']['petName'].value, divstr);
-	
 
+	realX = parseInt(document.forms['loginform']['xpos'].value);
+	realY = parseInt(document.forms['loginform']['ypos'].value);
+
+	initplace(realX, realY, document.forms['loginform']['petName'].value, divstr);
 
 	interest_x.push(realX);
 	interest_y.push(realY);
@@ -1202,17 +1200,17 @@ function setPoint(realX, realY) {
 	interest_label.push(document.forms['loginform']['petName'].value);
 
 	interest_div.push(divstr);
-	
+
 	interest_floor.push(which_floor);
-	
+
 	$.post("savepoi.action", {
 		mapId : which_floor,
 		placeX : realX,
 		placeY : realY,
 		label : document.forms['loginform']['petName'].value,
-		generalDesc: document.forms['loginform']['content'].value,
-		type:document.forms['loginform']['selectInterest'].value
-		
+		generalDesc : document.forms['loginform']['content'].value,
+		type : document.forms['loginform']['selectInterest'].value
+
 	});
 
 	del_pop("id_out", "id_in");
@@ -1595,7 +1593,13 @@ function modifyInterestPlace(posx, posy, realX, realY) {
 
 	del_pop("id_out", "id_in");
 
-	pop_up(posx, posy, realX, realY, true, "修改节点");
+	//pop_up(posx, posy, realX, realY, true, "修改节点");
+	detaildiv = document.getElementById("stylized");
+	detaildiv.style.display = "block";
+	
+    document.forms['form1']['floor'].value = which_floor;
+	document.forms['form1']['xpos'].value = realX;
+	document.forms['form1']['ypos'].value = realY;
 
 	//
 }
@@ -1616,7 +1620,6 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 				mapId : interest_floor[i],
 				placeX : interest_x[i],
 				placeY : interest_y[i],
-				
 
 			});
 
@@ -2636,4 +2639,57 @@ function selectInterestNav(value) {
 	} else {
 		isNav = false;
 	}
+}
+
+function submitPoiDetailInfo() {
+	detaildiv = document.getElementById("stylized");
+	detaildiv.style.display = "none";
+
+	//先根据placeX placeY floor唯一确定要更新的行
+	//再填入具体数据
+	
+
+	
+	$.post("updatepoi.action", {
+	    type: document.forms['form1']['selectInterest'].value,
+		hallid: document.forms['form1']['hallid'].value,
+		ttsNo: document.forms['form1']['ttsid'].value = "",
+		placeX : document.forms['form1']['xpos'].value,
+		placeY : document.forms['form1']['ypos'].value,
+		nearestNaviNode: document.forms['form1']['nearnavid'].value,
+		iconurl: document.forms['form1']['iconurl'].value,
+		audiourl: document.forms['form1']['audiourl'].value,
+		weburl: document.forms['form1']['weburl'].value,
+		picurl: document.forms['form1']['picurl'].value,
+		label: document.forms['form1']['poilabel'].value,
+		generalDesc: document.forms['form1']['detaileddesc'].value,
+		detatiledDesc: document.forms['form1']['detaileddesc'].value,
+		shareble: document.forms['form1']['shareble'].value,
+		reachable: document.forms['form1']['reachable'].value,
+		readable: document.forms['form1']['readable'].value,
+		scale: document.forms['form1']['scale'].value,
+		alpha: document.forms['form1']['alpha'].value,
+		rotation: document.forms['form1']['rotation'].value,
+		maxZoomFactor: document.forms['form1']['maxzoomfactor'].value,
+		minZoomFactor: document.forms['form1']['minzoomfactor'].value
+	});
+
+	document.forms['form1']['poilabel'].value = "";
+	document.forms['form1']['floor'].value = "";
+	document.forms['form1']['xpos'].value = "";
+	document.forms['form1']['ypos'].value = "";
+	document.forms['form1']['selectInterest'].value = "";
+	document.forms['form1']['detaileddesc'].value = "";
+	document.forms['form1']['hallid'].value = "";
+	document.forms['form1']['ttsid'].value = "";
+	document.forms['form1']['nearnavid'].value = "";
+	document.forms['form1']['scale'].value = "";
+	document.forms['form1']['alpha'].value = "";
+	document.forms['form1']['rotation'].value = "";
+	document.forms['form1']['minzoomfactor'].value = "";
+	document.forms['form1']['maxzoomfactor'].value = "";
+	document.forms['form1']['weburl'].value = "";
+	document.forms['form1']['picurl'].value = "";
+	document.forms['form1']['iconurl'].value = "";
+	document.forms['form1']['audiourl'].value = "";
 }
