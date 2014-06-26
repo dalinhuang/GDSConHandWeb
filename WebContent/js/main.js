@@ -7,6 +7,8 @@ imgY = 0,
 imgScale = 1;
 var is_transit = false;
 
+var isNav = true;
+
 var curr_node;
 
 var optStr = null;
@@ -34,6 +36,7 @@ var interest_x = new Array();
 var interest_y = new Array();
 var interest_label = new Array();
 var interest_div = new Array();
+var interest_floor = new Array();
 
 var nav_x = new Array();
 var nav_y = new Array();
@@ -117,7 +120,7 @@ function loadImg() {
 
 	/*div.style.position = "absolute";
 
-	div.style.background = "url(blue.gif) repeat-x 0 -33px";
+	div.style.background = "url(images/blue.gif) repeat-x 0 -33px";
 	div.style.color = "white";
 	div.style.height = "21px";
 	div.style.width = "21px";
@@ -138,7 +141,7 @@ function initplace(x, y, content, divid) {
 	div.id = divid;
 	div.style.position = "absolute";
 
-	div.style.background = "url(blue.gif) repeat-x 0 -33px";
+	div.style.background = "url(images/blue.gif) repeat-x 0 -33px";
 	div.style.color = "white";
 	div.style.height = "21px";
 	div.style.padding = "2px";
@@ -161,7 +164,7 @@ function initplace(x, y, content, divid) {
 	span.appendChild(document.createTextNode(""));
 
 	var arrow = document.createElement("div");
-	arrow.style.background = "url(blue.gif) no-repeat -8px -100px";
+	arrow.style.background = "url(images/blue.gif) no-repeat -8px -100px";
 	arrow.style.position = "absolute";
 	arrow.style.width = "30px";
 	arrow.style.height = "12px";
@@ -171,7 +174,7 @@ function initplace(x, y, content, divid) {
 	div.appendChild(arrow);
 
 	var leftBar = this._leftBar = document.createElement("div");
-	leftBar.style.background = "url(blue.gif) no-repeat -12px -2px";
+	leftBar.style.background = "url(images/blue.gif) no-repeat -12px -2px";
 	leftBar.style.position = "absolute";
 	leftBar.style.width = "11px";
 	leftBar.style.height = "24px";
@@ -181,7 +184,7 @@ function initplace(x, y, content, divid) {
 	div.appendChild(leftBar);
 
 	var rightBar = document.createElement("div");
-	rightBar.style.background = "url(blue.gif) no-repeat -22px -2px";
+	rightBar.style.background = "url(images/blue.gif) no-repeat -22px -2px";
 	rightBar.style.position = "absolute";
 	rightBar.style.width = "11px";
 	rightBar.style.height = "24px";
@@ -225,21 +228,21 @@ function initplace(x, y, content, divid) {
 	}
 	div.onmouseover = function () {
 		this.style.zIndex = 9999;
-		this.style.background = "url(blue2.gif) repeat-x 0 -33px";
+		this.style.background = "url(images/blue2.gif) repeat-x 0 -33px";
 		this.getElementsByTagName("span")[0].innerHTML = "";
-		arrow.style.background = "url(blue2.gif) no-repeat -8px -100px";
-		leftBar.style.background = "url(blue2.gif) no-repeat -12px -2px";
-		rightBar.style.background = "url(blue2.gif) no-repeat -22px -2px";
+		arrow.style.background = "url(images/blue2.gif) no-repeat -8px -100px";
+		leftBar.style.background = "url(images/blue2.gif) no-repeat -12px -2px";
+		rightBar.style.background = "url(images/blue2.gif) no-repeat -22px -2px";
 	}
 
 	div.onmouseout = function () {
 		this.style.zIndex = 3;
 		this.style.cursor = 'hand'; //放上去小手状
-		this.style.background = "url(blue.gif) repeat-x 0 -33px";
+		this.style.background = "url(images/blue.gif) repeat-x 0 -33px";
 		this.getElementsByTagName("span")[0].innerHTML = "";
-		arrow.style.background = "url(blue.gif) no-repeat -8px -100px";
-		leftBar.style.background = "url(blue.gif) no-repeat -12px -2px";
-		rightBar.style.background = "url(blue.gif) no-repeat -22px -2px";
+		arrow.style.background = "url(images/blue.gif) no-repeat -8px -100px";
+		leftBar.style.background = "url(images/blue.gif) no-repeat -12px -2px";
+		rightBar.style.background = "url(images/blue.gif) no-repeat -22px -2px";
 	}
 }
 
@@ -415,13 +418,23 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 	}
 
 	if (isInput) {
-		login = new createLoginNav(realX, realY, posx, posy, content);
-		if (content == null) {
-			setNewPointNav(realX, realY);
+		if (isNav) {
+			login = new createLoginNav(realX, realY, posx, posy, content);
+			if (content == null) {
+				setNewPointNav(realX, realY);
+			}
+		} else {
+			login = new createLogin(realX, realY, posx, posy, content);
+			if (content == null) {
+				setNewPoint(realX, realY);
+			}
 		}
 	} else {
-		//alert("aa");
-		login = new createInfoNav(posx, posy, realX, realY, content);
+		if (isNav) {
+			login = new createInfoNav(posx, posy, realX, realY, content);
+		} else {
+			login = new createInfo(posx, posy, realX, realY, content);
+		}
 	}
 
 	var div_in = document.createElement("div");
@@ -615,12 +628,14 @@ function createLogin(realX, realY, posx, posy, content) {
 
 	//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 	login.innerHTML = "<form name = 'loginform'>" +
-		"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "</div>" +
+		"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
+					"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  value=" + realY + "></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='兴趣点' value=" + interest_name + "></div>" +
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>节点类型&nbsp</b></label>  <select name='selectInterest' id='selectInterest'><option value='1'>电影馆 </option><option value='2'>展览馆 </option> <option value='3'>公交站</option><option value='4'>餐厅</option><option value='5'>导航点</option></select>  </div>" +
 
 		"<div style='width:300px;height:120px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><label for=name style='font:color:green'><b>简要描述&nbsp</b></label> <br><br>&nbsp;&nbsp;<textarea name='content' cols='30' rows='4' placeholder='请输入具体信息' with='180px'></textarea></div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><ceneter><a href='#'  style='display:block;text-align:center;'>编辑更完整信息</a></div>" +
+		
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPoint(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 		"</form>";
 
@@ -727,7 +742,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 	if (first) {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
+			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" +  "</div>" +
 
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='检票口' value=" + nav_name + "></div>" +
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
@@ -946,7 +961,7 @@ function createLineInfo(pt1, pt2) {
 //不同楼层导航线的改方向和删除的导航线操作
 function opTransitLine(pt1, pt2) {
 	var opcode = document.forms['loginform']['selectNavType'].value;
-	
+
 	var mforwardGuide = document.forms['loginform']['forward'].value;
 	var mbackwardGuide = document.forms['loginform']['backward'].value;
 
@@ -957,42 +972,42 @@ function opTransitLine(pt1, pt2) {
 			switch (parseInt(opcode)) {
 			case 1:
 				direction[i] = 1;
-				
+
 				//fromNode 和 toNode 保持不变,  传direction = 1 表示该成双向
 				$.post("updatenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						direction : 1,
-						forwardGuide : mforwardGuide,
-						backwardGuide : mbackwardGuide
-					});
+					fromNode : pt1,
+					toNode : pt2,
+					direction : 1,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
 				break;
 			case 2:
 
 				direction[i] = 2;
-				
+
 				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
 				$.post("updatenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						direction : 2,
-						forwardGuide : mforwardGuide,
-						backwardGuide : mbackwardGuide
-					});
+					fromNode : pt1,
+					toNode : pt2,
+					direction : 2,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
 				break;
 			case 3:
 				fromNode[i] = pt2;
 				toNode[i] = pt1;
 				direction[i] = 2;
-				
+
 				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
 				$.post("updatenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						direction : 3,
-						forwardGuide : mforwardGuide,
-						backwardGuide : mbackwardGuide
-					});
+					fromNode : pt1,
+					toNode : pt2,
+					direction : 3,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
 
 				break;
 			case 4:
@@ -1035,13 +1050,13 @@ function opTransitLine(pt1, pt2) {
 				}
 				//forwardGuide.splice(i, 1);
 				//backwardGuide.splice(i, 1);
-				
-				//在数据库中删除这条导航线, 只需要知道fromNode toNode 
+
+				//在数据库中删除这条导航线, 只需要知道fromNode toNode
 				$.post("deletenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						
-					});
+					fromNode : pt1,
+					toNode : pt2,
+
+				});
 
 				break;
 			default:
@@ -1062,11 +1077,10 @@ function opTransitLine(pt1, pt2) {
 
 }
 
-
 //同一楼层导航线的改方向和删除的导航线操作
 function opLine(pt1, pt2) {
 	var opcode = document.forms['loginform']['selectNavType'].value;
-	
+
 	var mforwardGuide = document.forms['loginform']['forward'].value;
 	var mbackwardGuide = document.forms['loginform']['backward'].value;
 
@@ -1077,29 +1091,29 @@ function opLine(pt1, pt2) {
 			switch (parseInt(opcode)) {
 			case 1:
 				direction[i] = 1;
-				
+
 				//fromNode 和 toNode 保持不变,  传direction = 1 表示该成双向
 				$.post("updatenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						direction : 1,
-						forwardGuide : mforwardGuide,
-						backwardGuide : mbackwardGuide
-					});
+					fromNode : pt1,
+					toNode : pt2,
+					direction : 1,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
 
 				break;
 			case 2:
 
 				direction[i] = 2;
-				
+
 				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
 				$.post("updatenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						direction : 2,
-						forwardGuide : mforwardGuide,
-						backwardGuide : mbackwardGuide
-					});
+					fromNode : pt1,
+					toNode : pt2,
+					direction : 2,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
 				break;
 			case 3:
 				fromNode[i] = pt2;
@@ -1110,14 +1124,13 @@ function opLine(pt1, pt2) {
 				currdiv = pt2 + "_" + pt1;
 				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
 				$.post("updatenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						direction : 3,
-						forwardGuide : mforwardGuide,
-						backwardGuide : mbackwardGuide
-					});
-				
-				
+					fromNode : pt1,
+					toNode : pt2,
+					direction : 3,
+					forwardGuide : mforwardGuide,
+					backwardGuide : mbackwardGuide
+				});
+
 				break;
 			case 4:
 
@@ -1128,13 +1141,13 @@ function opLine(pt1, pt2) {
 				//forwardGuide.splice(i, 1);
 				//backwardGuide.splice(i, 1);
 				del_div(currdiv);
-				
-				//在数据库中删除这条导航线, 只需要知道fromNode toNode 
+
+				//在数据库中删除这条导航线, 只需要知道fromNode toNode
 				$.post("deletenavipath.action", {
-						fromNode : pt1,
-						toNode : pt2,
-						
-					});
+					fromNode : pt1,
+					toNode : pt2,
+
+				});
 				break;
 			default:
 				break;
@@ -1175,7 +1188,13 @@ function setPoint(realX, realY) {
 	}
 
 	divstr = "div" + interest_div.length + 1;
+	
+    realX = parseInt(document.forms['loginform']['xpos'].value);
+	realY = parseInt(document.forms['loginform']['ypos'].value);
+	
 	initplace(realX, realY, document.forms['loginform']['petName'].value, divstr);
+	
+
 
 	interest_x.push(realX);
 	interest_y.push(realY);
@@ -1183,6 +1202,18 @@ function setPoint(realX, realY) {
 	interest_label.push(document.forms['loginform']['petName'].value);
 
 	interest_div.push(divstr);
+	
+	interest_floor.push(which_floor);
+	
+	$.post("saveinterestnode.action", {
+		mapId : which_floor,
+		placeX : realX,
+		placeY : realY,
+		label : document.forms['loginform']['petName'].value,
+		generalDesc: document.forms['loginform']['content'].value,
+		type:document.forms['loginform']['selectInterest'].value
+		
+	});
 
 	del_pop("id_out", "id_in");
 
@@ -1212,7 +1243,7 @@ function setPointNav(realX, realY) {
 					var y1 = nav_y[pt1 - 1];
 
 					var pt2 = document.forms['loginform']['selectNav'].value;
-					
+
 					fromNode.push(pt1);
 					toNode.push(pt2);
 
@@ -1599,7 +1630,6 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 	canvas_upper.style.zIndex = 2;
 }
 
-
 //删除导航点,  注意要将所有的和这个点相关的导航线全部要删除
 function deleteNavPoint(posx, posy, realX, realY) {
 
@@ -1609,17 +1639,16 @@ function deleteNavPoint(posx, posy, realX, realY) {
 
 	pt = parseInt(mcurrdiv.innerHTML);
 	nav_flag[pt - 1] = false;
-	
+
 	//增加导航线, 跨楼层
 	$.post("deletenavinode.action", {
-						id : pt
-					
-					});
+		id : pt
 
+	});
 
 	//alert(pt);
 
-    // 注意要将所有的和这个点相关的导航线全部要删除
+	// 注意要将所有的和这个点相关的导航线全部要删除
 	for (var i = 0; i < fromNode.length; i++) {
 
 		if (fromNode[i] == pt || toNode[i] == pt) {
@@ -1636,12 +1665,12 @@ function deleteNavPoint(posx, posy, realX, realY) {
 
 
 			del_div(deldiv);
-			
+
 			$.post("deletenavipath.action", {
-						fromNode : fromNode[i],
-						toNode : toNode[i],
-						
-					});
+				fromNode : fromNode[i],
+				toNode : toNode[i],
+
+			});
 
 			i--;
 
@@ -2592,11 +2621,10 @@ function changeTransit(to_node) {
 
 }
 
-
 function selectInterestNav(value) {
-  if (value == 1) {
-    isNav = true;
-  } else {
-    isNav = false;
-  }
+	if (value == 1) {
+		isNav = true;
+	} else {
+		isNav = false;
+	}
 }
