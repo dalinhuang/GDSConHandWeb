@@ -55,6 +55,16 @@
 			<result name="input">success.jsp</result>
 			<result>success.jsp</result>
 		</action>
+		<action name="deletepoi"
+			class="com.winjune.wips.manager.poi.controller.DeletePOIAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
+		<action name="updatepoi"
+			class="com.winjune.wips.manager.poi.controller.UpdatePOIAction" method="input">
+			<result name="input">success.jsp</result>
+			<result>success.jsp</result>
+		</action>
 		<action name="savenavinode"
 			class="com.winjune.wips.manager.navinode.controller.SaveNaviNodeAction" method="input">
 			<result name="input">success.jsp</result>

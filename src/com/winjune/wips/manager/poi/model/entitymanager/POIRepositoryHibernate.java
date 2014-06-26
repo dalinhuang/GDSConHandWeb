@@ -45,6 +45,21 @@ public class POIRepositoryHibernate {
 		return null;
 	}
 	
+	public static POI findPoi(int mapId, int placeX, int placeY) {
+		LookupRepositoryHibernate<POI, Integer> mapRepository = new LookupRepositoryHibernate<POI, Integer>(
+				POI.class);
+
+		Object[] params = new Object[] { mapId, placeX, placeY };
+		List<POI> pois = mapRepository.find(
+				"from POI where mapId=? and placeX=? and placeY=?", params);	
+		if (pois != null)
+		{
+			return pois.get(0);
+		}
+		
+		return null;
+	}
+	
 	public static void savePOI(POI object) {
 		LookupRepositoryHibernate<POI, Integer> mapRepository = new LookupRepositoryHibernate<POI, Integer>(
 				POI.class);
@@ -55,4 +70,16 @@ public class POIRepositoryHibernate {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void deletePoi(POI object) {
+		LookupRepositoryHibernate<POI, Integer> mapRepository = new LookupRepositoryHibernate<POI, Integer>(
+				POI.class);
+
+		try {
+			mapRepository.delete(object);
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

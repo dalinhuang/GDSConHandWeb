@@ -7,6 +7,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
@@ -16,6 +17,7 @@ import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.springframework.dao.DataAccessException;
 
 import com.winjune.wips.manager.common.exception.RepositoryException;
 import com.winjune.wips.manager.common.util.Operator;
@@ -44,7 +46,6 @@ public class LookupRepositoryHibernate<T, PK extends Serializable> extends
 	public T findByExample(T object) throws RepositoryException {
 		try {
 			Example example = Example.create(object).ignoreCase();
-
 			Criteria c = getSession().createCriteria(getPersistentClass());
 			c.add(example);
 
@@ -217,6 +218,19 @@ public class LookupRepositoryHibernate<T, PK extends Serializable> extends
 		} catch (Exception ex) {
 			throw new RepositoryException(ex);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<T> find(String queryString, Object[] values)
+			throws DataAccessException {
+		Query queryObject = getSession().createQuery(queryString);
+		if (values != null) {
+			for (int i = 0; i < values.length; i++) {
+				queryObject.setParameter(i, values[i]);
+			}
+		}
+		List<T> results = queryObject.list();
+		return results;
 	}
 
 	@SuppressWarnings("unchecked")

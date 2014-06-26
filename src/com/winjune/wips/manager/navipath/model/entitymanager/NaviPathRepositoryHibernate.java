@@ -6,7 +6,6 @@ import com.winjune.wips.manager.common.entitymgr.LookupRepositoryHibernate;
 import com.winjune.wips.manager.common.exception.RepositoryException;
 import com.winjune.wips.manager.common.util.Operator;
 import com.winjune.wips.manager.common.util.SearchParams;
-import com.winjune.wips.manager.navinode.model.entity.NaviNode;
 import com.winjune.wips.manager.navipath.model.entity.NaviPath;
 
 public class NaviPathRepositoryHibernate {
