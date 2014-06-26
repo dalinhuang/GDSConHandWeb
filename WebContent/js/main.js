@@ -1205,7 +1205,7 @@ function setPoint(realX, realY) {
 	
 	interest_floor.push(which_floor);
 	
-	$.post("saveinterestnode.action", {
+	$.post("savepoi.action", {
 		mapId : which_floor,
 		placeX : realX,
 		placeY : realY,
