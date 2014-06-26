@@ -1604,6 +1604,7 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 
 	//alert(interest_div.length);
 
+
 	for (var i = 0; i < interest_div.length; i++) {
 		if (interest_div[i] == currdiv) {
 			//var interest_x = new Array();
@@ -1611,11 +1612,19 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 			// var interest_label = new Array();
 			// var interest_div = new Array();
 
+			$.post("deletepoi.action", {
+				mapId : interest_floor[i],
+				placeX : interest_x[i],
+				placeY : interest_y[i],
+				
+
+			});
+
 			interest_x.splice(i, 1);
 			interest_y.splice(i, 1);
 			interest_label.splice(i, 1);
 			interest_div.splice(i, 1);
-
+			interest_floor.splice(i, 1);
 			break;
 		}
 	}
