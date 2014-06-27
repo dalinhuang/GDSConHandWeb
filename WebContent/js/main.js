@@ -2650,13 +2650,53 @@ function selectInterestNav(value) {
 function submitPoiDetailInfo() {
 	detaildiv = document.getElementById("stylized");
 	detaildiv.style.display = "none";
+	
+	var mtype = 0;
+	var mshareble = 1;
+	var mreachable = 1;
+	var mreadable = 1;
 
 	//先根据placeX placeY floor唯一确定要更新的行
 	//再填入具体数据
+	if (document.forms['form1']['selectInterest'].value == "0") {
+	   mtype = 0;
+	
+	} else if (document.forms['form1']['selectInterest'].value == "3"){
+	   mtype = 3;
+	
+	} else if (document.forms['form1']['selectInterest'].value == "4"){
+	   mtype = 4;
+	
+	} else if (document.forms['form1']['selectInterest'].value == "5"){
+	   mtype = 5;
+	
+	} else if (document.forms['form1']['selectInterest'].value == "6"){
+	   mtype = 6;
+	}
+	
+	
+	if (document.forms['form1']['shareble'].value == "1") {
+	   mshareble = 1;	
+	} else {
+	   mshareble = 2;
+	}
+	
+	if (document.forms['form1']['reachable'].value == "1") {
+	   mreachable = 1;	
+	} else {
+	   mreachable = 2;
+	}
+	
+	if (document.forms['form1']['readable'].value == "1") {
+	   mreadable = 1;	
+	} else {
+	   mreadable = 2;
+	}
+	
 
 
 	$.post("updatepoi.action", {
-		type : parseInt(document.forms['form1']['selectInterest'].value),
+		type : mtype,
 		hallId : parseInt(document.forms['form1']['hallid'].value),
 		ttsNo : parseInt(document.forms['form1']['ttsid'].value),
 		mapId : which_floor,
@@ -2668,11 +2708,11 @@ function submitPoiDetailInfo() {
 		webUrl : document.forms['form1']['weburl'].value,
 		picUrl : document.forms['form1']['picurl'].value,
 		label : document.forms['form1']['poilabel'].value,
-		generalDesc : document.forms['form1']['detaileddesc'].value,
+		generalDesc : document.forms['form1']['generaldesc'].value,
 		detailedDesc : document.forms['form1']['detaileddesc'].value,
-		shareble : document.forms['form1']['shareble'].value,
-		reachable : document.forms['form1']['reachable'].value,
-		readable : document.forms['form1']['readable'].value,
+		shareble : mshareble,
+		reachable : mreachable,
+		readable : mreadable,
 		scale : document.forms['form1']['scale'].value,
 		alpha : document.forms['form1']['alpha'].value,
 		rotation : document.forms['form1']['rotation'].value,
@@ -2684,7 +2724,7 @@ function submitPoiDetailInfo() {
 	document.forms['form1']['floor'].value = "";
 	document.forms['form1']['xpos'].value = "";
 	document.forms['form1']['ypos'].value = "";
-	document.forms['form1']['selectInterest'].value = "";
+	document.forms['form1']['selectInterest'].value = "0";
 	document.forms['form1']['detaileddesc'].value = "";
 	document.forms['form1']['hallid'].value = "";
 	document.forms['form1']['ttsid'].value = "";
@@ -2698,6 +2738,9 @@ function submitPoiDetailInfo() {
 	document.forms['form1']['picurl'].value = "";
 	document.forms['form1']['iconurl'].value = "";
 	document.forms['form1']['audiourl'].value = "";
+	document.forms['form1']['shareble'].value = "1";
+	document.forms['form1']['reachable'].value = "1";
+	document.forms['form1']['readable'].value = "1";
 }
 
 function clearNavDraw() {
