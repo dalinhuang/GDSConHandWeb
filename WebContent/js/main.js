@@ -2652,14 +2652,15 @@ function submitPoiDetailInfo() {
 	detaildiv.style.display = "none";
 	
 	var mtype = 0;
-	var mshareble = 1;
-	var mreachable = 1;
-	var mreadable = 1;
+	var mshareble = true;
+	var mreachable = true;
+	var mreadable = true;
 
 	//先根据placeX placeY floor唯一确定要更新的行
 	//再填入具体数据
 	if (document.forms['form1']['selectInterest'].value == "0") {
 	   mtype = 0;
+	 
 	
 	} else if (document.forms['form1']['selectInterest'].value == "3"){
 	   mtype = 3;
@@ -2674,23 +2675,23 @@ function submitPoiDetailInfo() {
 	   mtype = 6;
 	}
 	
-	
+				
 	if (document.forms['form1']['shareble'].value == "1") {
-	   mshareble = 1;	
+	   mshareble = true;	
 	} else {
-	   mshareble = 2;
+	   mshareble = false;
 	}
 	
 	if (document.forms['form1']['reachable'].value == "1") {
-	   mreachable = 1;	
+	   mreachable = true;	
 	} else {
-	   mreachable = 2;
+	   mreachable = false;
 	}
 	
 	if (document.forms['form1']['readable'].value == "1") {
-	   mreadable = 1;	
+	   mreadable = true;	
 	} else {
-	   mreadable = 2;
+	   mreadable = false;
 	}
 	
 
