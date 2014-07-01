@@ -124,6 +124,36 @@
 			</result>
 		</action>
 		
+		<action name="listpoi"
+			class="com.winjune.wips.manager.navipath.controller.ListPOIAction" method="load">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">data\[\d+\]\.id,
+					data\[\d+\]\.type,
+					data\[\d+\]\.hallId,
+					data\[\d+\]\.ttsNo,
+					data\[\d+\]\.mapId,
+					data\[\d+\]\.placeX,
+					data\[\d+\]\.placeY,
+					data\[\d+\]\.neareastNaviNode,
+					data\[\d+\]\.iconUrl,
+					data\[\d+\]\.audioUrl,
+					data\[\d+\]\.webUrl,
+					data\[\d+\]\.picUrl,
+					data\[\d+\]\.label,
+					data\[\d+\]\.generalDesc,
+					data\[\d+\]\.detailedDesc,
+					data\[\d+\]\.shareble,
+					data\[\d+\]\.reachable,
+					data\[\d+\]\.readable,
+					data\[\d+\]\.scale,
+					data\[\d+\]\.alpha,
+					data\[\d+\]\.rotation,
+					data\[\d+\]\.minZoomFactor,
+					data\[\d+\]\.maxZoomFactor</param>
+			</result>
+		</action>
+		
 	</package>
 
 
