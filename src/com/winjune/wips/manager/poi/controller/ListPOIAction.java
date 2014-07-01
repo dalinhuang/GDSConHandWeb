@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.winjune.wips.manager.common.entitymgr.LookupRepositoryHibernate;
-import com.winjune.wips.manager.map.model.entity.Position;
+import com.winjune.wips.manager.poi.model.entity.POI;
 
 public class ListPOIAction extends ActionSupport {
 
@@ -14,7 +14,7 @@ public class ListPOIAction extends ActionSupport {
 	private static final long serialVersionUID = 6124062164557675609L;
 	
 
-	private List<Position> positions;
+	private List<POI> pois;
 	
 	public String input() throws Exception {
 		return SUCCESS;
@@ -27,15 +27,15 @@ public class ListPOIAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String load() throws Exception {
-		LookupRepositoryHibernate<Position, Integer> buildingRepository = new LookupRepositoryHibernate<Position, Integer>(
-				Position.class);
+		LookupRepositoryHibernate<POI, Integer> buildingRepository = new LookupRepositoryHibernate<POI, Integer>(
+				POI.class);
 		// Convert List of roles to Positions
-		positions = buildingRepository.findAll("id", "asc");
+		pois = buildingRepository.findAll("id", "asc");
 
 		return SUCCESS;
 	}
 
-	public List<Position> getData() {
-		return this.positions;
+	public List<POI> getData() {
+		return this.pois;
 	}
 }
