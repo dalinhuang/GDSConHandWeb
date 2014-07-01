@@ -125,7 +125,7 @@
 		</action>
 		
 		<action name="listpoi"
-			class="com.winjune.wips.manager.navipath.controller.ListPOIAction" method="load">
+			class="com.winjune.wips.manager.poi.controller.ListPOIAction" method="load">
 			<result type="json">
 				<param name="excludeNullProperties">true</param>
 				<param name="includeProperties">data\[\d+\]\.id,
