@@ -3,7 +3,7 @@ var img; //图片对象
 var which_floor = 15,
 imgIsLoaded, //图片是否加载完成;
 imgX = 0,
-imgY = 0,
+imgY = 40,
 imgScale = 1;
 var is_transit = false;
 
@@ -52,7 +52,7 @@ var direction = new Array();
 var forwardGuide = new Array();
 var backwardGuide = new Array();
 
-(function int() {
+function load() {
 	canvas = document.getElementById('canvas');
 	context = canvas.getContext('2d');
 
@@ -91,9 +91,510 @@ var backwardGuide = new Array();
 
 	 */
 
+	$.post("listpoi.action", {},
+
+		function (data) {
+
+		alert(data);
+
+	});
+
 	loadImg();
 
-})();
+	canvas_upper.onmousedown = function (event) {
+		//alert("aa");
+		canvas.style.zIndex = 2;
+		canvas_upper.style.zIndex = 1;
+		ctx_up.clearRect(0, 0, WIDTH, HEIGHT);
+		//canvas.click();
+		//alert("cc");
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		ismove = false;
+
+		//var h1 =document.getElementById('h1');
+		//alert(h1);
+		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+
+
+		realX = Math.floor((pos.x - imgX) / imgScale);
+		realY = Math.floor((pos.y - imgY) / imgScale);
+		
+		
+
+		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+
+
+		//pop_up(pos.x, pos.y);
+		// alert("X="+event.clientX + "Y=" + event.clientY);
+		canvas.onmousemove = function (event) {
+			canvas.style.cursor = "move";
+			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
+			var x = pos1.x - pos.x;
+
+			//ctx_up.strokeStyle='red';
+			//ctx_up.lineWidth=3;
+
+			//alert("bb");
+			//ctx_up.moveTo(0, pos1.y);
+			//ctx_up.lineTo(1200, pos1.y);
+
+			//ctx_up.moveTo(pos1.x, 0);
+			//ctx_up.lineTo(pos1.x, 1600);
+
+			//alert(pos1.x);
+			//alert(pos1.y);
+			var y = pos1.y - pos.y;
+			pos = pos1;
+			imgX += x;
+			imgY += y;
+			drawImage();
+			ismove = true;
+
+			onmove(x, y);
+		}
+		canvas.onmouseup = function () {
+			canvas.onmousemove = null;
+			canvas.onmouseup = null;
+			canvas.style.cursor = "default";
+
+			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+			//var h1 =document.getElementById('h1');
+			//alert(h1);
+			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+			//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+			
+			
+
+
+			realX = Math.floor((pos.x - imgX) / imgScale);
+			realY = Math.floor((pos.y - imgY) / imgScale);
+
+			currdiv = null;
+
+			//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+			if (!ismove) {
+				//alert("bb");
+				del_pop("id_out", "id_in");
+				pop_up(pos.x, pos.y, realX, realY, true, null);
+			} else {
+				canvas.style.zIndex = 1;
+				canvas_upper.style.zIndex = 2;
+			}
+
+		}
+
+	}
+
+	canvas_upper.onmousemove = function (event) {
+		//canvas_upper.style.cursor = "move";
+		var pos1 = windowToCanvas(canvas_upper, event.clientX, event.clientY);
+		//var x = pos1.x - pos.x;
+
+		realX = Math.floor((pos1.x - imgX) / imgScale);
+		realY = Math.floor((pos1.y - imgY) / imgScale);
+
+		ctx_up.clearRect(0, 0, WIDTH, HEIGHT);
+
+		ctx_up.strokeStyle = 'red';
+		ctx_up.lineWidth = 2;
+
+		ctx_up.beginPath();
+
+		ctx_up.moveTo(0, pos1.y);
+		ctx_up.lineTo(WIDTH, pos1.y);
+
+		ctx_up.moveTo(pos1.x, 0);
+		ctx_up.lineTo(pos1.x, HEIGHT);
+
+		ctx_up.stroke();
+
+		//路径绘制开始
+
+
+		//路径绘制结束
+		ctx_up.closePath();
+
+		ctx_up.fillStyle = "blue";
+
+		ctx_up.font = "20pt Arial";
+		var coordinate = "(" + realX + " , " + realY + ")";
+
+		ctx_up.fillText(coordinate, pos1.x, pos1.y);
+
+		//ctx_up.fillStyle='rgb(255,0,0)';
+
+		//ctx_up.fillRect(50,50,200,200);
+
+
+		//alert(pos1.x);
+		//alert(pos1.y);
+		//var y = pos1.y - pos.y;
+		//pos = pos1;
+		//imgX += x;
+		//imgY += y;
+		//drawImage();
+		//ismove = true;
+
+		//onmove(x, y);
+	}
+
+	canvas.onmouseover = function (event) {
+		//alert("aa");
+		//var source=event.target || window.event.srcElement;
+		// source.click();
+		//source
+		//source.onmousedown();
+		// alert(source);
+	}
+
+	canvas.onmousedown = function (event) {
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		ismove = false;
+
+		//var h1 =document.getElementById('h1');
+		//alert(h1);
+		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+
+
+		realX = Math.floor((pos.x - imgX) / imgScale);
+		realY = Math.floor((pos.y - imgY) / imgScale);
+
+		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+
+
+		//pop_up(pos.x, pos.y);
+		// alert("X="+event.clientX + "Y=" + event.clientY);
+		canvas.onmousemove = function (event) {
+			canvas.style.cursor = "move";
+			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
+			var x = pos1.x - pos.x;
+
+			//ctx_up.strokeStyle='red';
+			//ctx_up.lineWidth=3;
+
+			//alert("bb");
+			//ctx_up.moveTo(0, pos1.y);
+			//ctx_up.lineTo(1200, pos1.y);
+
+			//ctx_up.moveTo(pos1.x, 0);
+			//ctx_up.lineTo(pos1.x, 1600);
+
+			//alert(pos1.x);
+			//alert(pos1.y);
+			var y = pos1.y - pos.y;
+			pos = pos1;
+			imgX += x;
+			imgY += y;
+			drawImage();
+			ismove = true;
+
+			onmove(x, y);
+		}
+		canvas.onmouseup = function () {
+			canvas.onmousemove = null;
+			canvas.onmouseup = null;
+			canvas.style.cursor = "default";
+
+			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+			//var h1 =document.getElementById('h1');
+			//alert(h1);
+			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+			//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+			
+			
+
+
+			realX = Math.floor((pos.x - imgX) / imgScale);
+			realY = Math.floor((pos.y - imgY) / imgScale);
+
+			currdiv = null;
+
+			//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+			if (!ismove) {
+				//alert("bb");
+				del_pop("id_out", "id_in");
+				pop_up(pos.x, pos.y, realX, realY, true, null);
+			} else {
+				canvas.style.zIndex = 1;
+				canvas_upper.style.zIndex = 2;
+			}
+		}
+	}
+
+	canvas.onmousewheel = canvas.onwheel = function (event) {
+		canvas.style.zIndex = 2;
+		canvas_upper.style.zIndex = 1;
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
+
+		if (event.wheelDelta > 0 && imgScale < 4) {
+			imgScale *= 2;
+			imgX = imgX * 2 - pos.x;
+			imgY = imgY * 2 - pos.y;
+			onscale(2, -pos.x, -pos.y);
+		} else if (event.wheelDelta < 0 && imgScale > 0.5) {
+			imgScale /= 2;
+			imgX = imgX * 0.5 + pos.x * 0.5;
+			imgY = imgY * 0.5 + pos.y * 0.5;
+			onscale(0.5, pos.x * 0.5, pos.y * 0.5);
+		}
+		drawImage();
+	}
+
+	canvas_upper.onmousewheel = canvas.onwheel = function (event) {
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
+
+		if (event.wheelDelta > 0 && imgScale < 4) {
+			imgScale *= 2;
+			imgX = imgX * 2 - pos.x;
+			imgY = imgY * 2 - pos.y;
+			onscale(2, -pos.x, -pos.y);
+		} else if (event.wheelDelta < 0 && imgScale > 0.5) {
+			imgScale /= 2;
+			imgX = imgX * 0.5 + pos.x * 0.5;
+			imgY = imgY * 0.5 + pos.y * 0.5;
+			onscale(0.5, pos.x * 0.5, pos.y * 0.5);
+		}
+		drawImage();
+	}
+
+	canvas.onmousedown = function (event) {
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		ismove = false;
+
+		//var h1 =document.getElementById('h1');
+		//alert(h1);
+		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+
+
+		realX = Math.floor((pos.x - imgX) / imgScale);
+		realY = Math.floor((pos.y - imgY) / imgScale);
+
+		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+
+
+		//pop_up(pos.x, pos.y);
+		// alert("X="+event.clientX + "Y=" + event.clientY);
+		canvas.onmousemove = function (event) {
+			canvas.style.cursor = "move";
+			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
+			var x = pos1.x - pos.x;
+
+			//ctx_up.strokeStyle='red';
+			//ctx_up.lineWidth=3;
+
+			//alert("bb");
+			//ctx_up.moveTo(0, pos1.y);
+			//ctx_up.lineTo(1200, pos1.y);
+
+			//ctx_up.moveTo(pos1.x, 0);
+			//ctx_up.lineTo(pos1.x, 1600);
+
+			//alert(pos1.x);
+			//alert(pos1.y);
+			var y = pos1.y - pos.y;
+			pos = pos1;
+			imgX += x;
+			imgY += y;
+			drawImage();
+			ismove = true;
+
+			onmove(x, y);
+		}
+		canvas.onmouseup = function () {
+			canvas.onmousemove = null;
+			canvas.onmouseup = null;
+			canvas.style.cursor = "default";
+
+			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+			//var h1 =document.getElementById('h1');
+			//alert(h1);
+			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+			//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+
+
+			realX = Math.floor((pos.x - imgX) / imgScale);
+			realY = Math.floor((pos.y - imgY) / imgScale);
+			
+			
+
+			currdiv = null;
+
+			//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+			if (!ismove) {
+				//alert("bb");
+				del_pop("id_out", "id_in");
+				pop_up(pos.x, pos.y, realX, realY, true, null);
+			} else {
+				canvas.style.zIndex = 1;
+				canvas_upper.style.zIndex = 2;
+			}
+		}
+	}
+
+	canvas.onmousewheel = canvas.onwheel = function (event) {
+		canvas.style.zIndex = 2;
+		canvas_upper.style.zIndex = 1;
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
+
+		if (event.wheelDelta > 0 && imgScale < 4) {
+			imgScale *= 2;
+			imgX = imgX * 2 - pos.x;
+			imgY = imgY * 2 - pos.y;
+			onscale(2, -pos.x, -pos.y);
+		} else if (event.wheelDelta < 0 && imgScale > 0.5) {
+			imgScale /= 2;
+			imgX = imgX * 0.5 + pos.x * 0.5;
+			imgY = imgY * 0.5 + pos.y * 0.5;
+			onscale(0.5, pos.x * 0.5, pos.y * 0.5);
+		}
+		drawImage();
+	}
+
+	canvas_upper.onmousewheel = canvas.onwheel = function (event) {
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
+
+		if (event.wheelDelta > 0 && imgScale < 4) {
+			imgScale *= 2;
+			imgX = imgX * 2 - pos.x;
+			imgY = imgY * 2 - pos.y;
+			onscale(2, -pos.x, -pos.y);
+		} else if (event.wheelDelta < 0 && imgScale > 0.5) {
+			imgScale /= 2;
+			imgX = imgX * 0.5 + pos.x * 0.5;
+			imgY = imgY * 0.5 + pos.y * 0.5;
+			onscale(0.5, pos.x * 0.5, pos.y * 0.5);
+		}
+		drawImage();
+	}
+
+	canvas_nav.onmousedown = function (event) {
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		ismove = false;
+
+		//var h1 =document.getElementById('h1');
+		//alert(h1);
+		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+
+
+		realX = Math.floor((pos.x - imgX) / imgScale);
+		realY = Math.floor((pos.y - imgY) / imgScale);
+
+		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+
+
+		//pop_up(pos.x, pos.y);
+		// alert("X="+event.clientX + "Y=" + event.clientY);
+		canvas.onmousemove = function (event) {
+			canvas.style.cursor = "move";
+			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
+			var x = pos1.x - pos.x;
+
+			//ctx_up.strokeStyle='red';
+			//ctx_up.lineWidth=3;
+
+			//alert("bb");
+			//ctx_up.moveTo(0, pos1.y);
+			//ctx_up.lineTo(1200, pos1.y);
+
+			//ctx_up.moveTo(pos1.x, 0);
+			//ctx_up.lineTo(pos1.x, 1600);
+
+			//alert(pos1.x);
+			//alert(pos1.y);
+			var y = pos1.y - pos.y;
+			pos = pos1;
+			imgX += x;
+			imgY += y;
+			drawImage();
+			ismove = true;
+
+			onmove(x, y);
+		}
+		canvas_nav.onmouseup = function () {
+			canvas_nav.onmousemove = null;
+			canvas_nav.onmouseup = null;
+			canvas_nav.style.cursor = "default";
+
+			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+			//var h1 =document.getElementById('h1');
+			//alert(h1);
+			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
+			//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
+
+
+			realX = Math.floor((pos.x - imgX) / imgScale);
+			realY = Math.floor((pos.y - imgY) / imgScale);
+			
+			//alert (pos.y);
+
+			currdiv = null;
+
+			//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
+			if (!ismove) {
+				//alert("bb");
+				del_pop("id_out", "id_in");
+				pop_up(pos.x, pos.y, realX, realY, true, null);
+			} else {
+				canvas.style.zIndex = 1;
+				canvas_upper.style.zIndex = 2;
+			}
+		}
+	}
+
+	canvas_nav.onmousewheel = canvas.onwheel = function (event) {
+		canvas.style.zIndex = 2;
+		canvas_upper.style.zIndex = 1;
+
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
+
+		if (event.wheelDelta > 0 && imgScale < 4) {
+			imgScale *= 2;
+			imgX = imgX * 2 - pos.x;
+			imgY = imgY * 2 - pos.y;
+			onscale(2, -pos.x, -pos.y);
+		} else if (event.wheelDelta < 0 && imgScale > 0.5) {
+			imgScale /= 2;
+			imgX = imgX * 0.5 + pos.x * 0.5;
+			imgY = imgY * 0.5 + pos.y * 0.5;
+			onscale(0.5, pos.x * 0.5, pos.y * 0.5);
+		}
+		drawImage();
+	}
+
+	canvas_nav.onmousewheel = canvas.onwheel = function (event) {
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
+
+		if (event.wheelDelta > 0 && imgScale < 4) {
+			imgScale *= 2;
+			imgX = imgX * 2 - pos.x;
+			imgY = imgY * 2 - pos.y;
+			onscale(2, -pos.x, -pos.y);
+		} else if (event.wheelDelta < 0 && imgScale > 0.5) {
+			imgScale /= 2;
+			imgX = imgX * 0.5 + pos.x * 0.5;
+			imgY = imgY * 0.5 + pos.y * 0.5;
+			onscale(0.5, pos.x * 0.5, pos.y * 0.5);
+		}
+		drawImage();
+	}
+
+}
 
 function loadImg() {
 	img = new Image();
@@ -1576,7 +2077,7 @@ function createInfoNav(posx, posy, realX, realY, content) {
 	//login.innerHTML="<div style='width:200px;height:200px;background-color:Black;'> + content + "<br><center><tr><td><input type=\"button\" value=\修改\ onClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" ><input type=\"button\" value=\删除\ onClick=\"deleteInterestPlace()\" ></td></tr>";
 	//logonClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" >"
 	//login.innerHTML="<div style='width:200px;height:200px;background-color:Black;'> + content + "<br><center><tr><td><input type=\"button\" value=\修改\ onClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" ><input type=\"button\" value=\删除\ onClick=\"deleteNavPoint()\" ></td></tr>";
-	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;位置信息&nbsp" + "  X=" + realX + "  Y=" + realY + "&nbsp;F15" + "<img src='images/edit.jpg' title='编辑' onClick= 'modifyInterestPlace(" + posx + "," + posy + "," + realX + "," + realY + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavPoint(" + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
+	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;位置信息&nbsp" + "  X=" + realX + "  Y=" + realY + "&nbsp;F15" + "<img src='images/edit.jpg' title='编辑' onClick= 'modifyNavPoint(" + posx + "," + posy + "," + realX + "," + realY + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavPoint(" + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 导航点序号      " + content + "<br></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 导航点名称      " + nav_name + "<br></div>" +
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 双向连接点      " + conn_bi_direction + "<br></div>" +
@@ -1585,6 +2086,18 @@ function createInfoNav(posx, posy, realX, realY, content) {
 
 	return login;
 	//'modifyInterestPlace('" + posx  + "," + posy + "," + realX + "," + realY + ")
+}
+
+
+function modifyNavPoint(posx, posy, realX, realY) {
+
+	//alert ("cc");
+
+	del_pop("id_out", "id_in");
+
+	pop_up(posx, posy, realX, realY, true, "修改节点");
+
+	//
 }
 
 function modifyInterestPlace(posx, posy, realX, realY) {
@@ -1712,270 +2225,7 @@ function drawImage() {
 	context.drawImage(img, 0, 0, img.width, img.height, imgX, imgY, img.width * imgScale, img.height * imgScale);
 }
 
-canvas_upper.onmousedown = function (event) {
-	//alert("aa");
-	canvas.style.zIndex = 2;
-	canvas_upper.style.zIndex = 1;
-	ctx_up.clearRect(0, 0, WIDTH, HEIGHT);
-	//canvas.click();
-	//alert("cc");
 
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	ismove = false;
-
-	//var h1 =document.getElementById('h1');
-	//alert(h1);
-	//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-	//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-	realX = Math.floor((pos.x - imgX) / imgScale);
-	realY = Math.floor((pos.y - imgY) / imgScale);
-
-	//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-
-
-	//pop_up(pos.x, pos.y);
-	// alert("X="+event.clientX + "Y=" + event.clientY);
-	canvas.onmousemove = function (event) {
-		canvas.style.cursor = "move";
-		var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
-		var x = pos1.x - pos.x;
-
-		//ctx_up.strokeStyle='red';
-		//ctx_up.lineWidth=3;
-
-		//alert("bb");
-		//ctx_up.moveTo(0, pos1.y);
-		//ctx_up.lineTo(1200, pos1.y);
-
-		//ctx_up.moveTo(pos1.x, 0);
-		//ctx_up.lineTo(pos1.x, 1600);
-
-		//alert(pos1.x);
-		//alert(pos1.y);
-		var y = pos1.y - pos.y;
-		pos = pos1;
-		imgX += x;
-		imgY += y;
-		drawImage();
-		ismove = true;
-
-		onmove(x, y);
-	}
-	canvas.onmouseup = function () {
-		canvas.onmousemove = null;
-		canvas.onmouseup = null;
-		canvas.style.cursor = "default";
-
-		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-		//var h1 =document.getElementById('h1');
-		//alert(h1);
-		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-		realX = Math.floor((pos.x - imgX) / imgScale);
-		realY = Math.floor((pos.y - imgY) / imgScale);
-
-		currdiv = null;
-
-		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-		if (!ismove) {
-			//alert("bb");
-			del_pop("id_out", "id_in");
-			pop_up(pos.x, pos.y, realX, realY, true, null);
-		} else {
-			canvas.style.zIndex = 1;
-			canvas_upper.style.zIndex = 2;
-		}
-
-	}
-
-}
-
-canvas_upper.onmousemove = function (event) {
-	//canvas_upper.style.cursor = "move";
-	var pos1 = windowToCanvas(canvas_upper, event.clientX, event.clientY);
-	//var x = pos1.x - pos.x;
-
-	realX = Math.floor((pos1.x - imgX) / imgScale);
-	realY = Math.floor((pos1.y - imgY) / imgScale);
-
-	ctx_up.clearRect(0, 0, WIDTH, HEIGHT);
-
-	ctx_up.strokeStyle = 'red';
-	ctx_up.lineWidth = 2;
-
-	ctx_up.beginPath();
-
-	ctx_up.moveTo(0, pos1.y);
-	ctx_up.lineTo(WIDTH, pos1.y);
-
-	ctx_up.moveTo(pos1.x, 0);
-	ctx_up.lineTo(pos1.x, HEIGHT);
-
-	ctx_up.stroke();
-
-	//路径绘制开始
-
-
-	//路径绘制结束
-	ctx_up.closePath();
-
-	ctx_up.fillStyle = "blue";
-
-	ctx_up.font = "20pt Arial";
-	var coordinate = "(" + realX + " , " + realY + ")";
-
-	ctx_up.fillText(coordinate, pos1.x, pos1.y);
-
-	//ctx_up.fillStyle='rgb(255,0,0)';
-
-	//ctx_up.fillRect(50,50,200,200);
-
-
-	//alert(pos1.x);
-	//alert(pos1.y);
-	//var y = pos1.y - pos.y;
-	//pos = pos1;
-	//imgX += x;
-	//imgY += y;
-	//drawImage();
-	//ismove = true;
-
-	//onmove(x, y);
-}
-
-canvas.onmouseover = function (event) {
-	//alert("aa");
-	//var source=event.target || window.event.srcElement;
-	// source.click();
-	//source
-	//source.onmousedown();
-	// alert(source);
-}
-
-canvas.onmousedown = function (event) {
-
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	ismove = false;
-
-	//var h1 =document.getElementById('h1');
-	//alert(h1);
-	//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-	//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-	realX = Math.floor((pos.x - imgX) / imgScale);
-	realY = Math.floor((pos.y - imgY) / imgScale);
-
-	//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-
-
-	//pop_up(pos.x, pos.y);
-	// alert("X="+event.clientX + "Y=" + event.clientY);
-	canvas.onmousemove = function (event) {
-		canvas.style.cursor = "move";
-		var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
-		var x = pos1.x - pos.x;
-
-		//ctx_up.strokeStyle='red';
-		//ctx_up.lineWidth=3;
-
-		//alert("bb");
-		//ctx_up.moveTo(0, pos1.y);
-		//ctx_up.lineTo(1200, pos1.y);
-
-		//ctx_up.moveTo(pos1.x, 0);
-		//ctx_up.lineTo(pos1.x, 1600);
-
-		//alert(pos1.x);
-		//alert(pos1.y);
-		var y = pos1.y - pos.y;
-		pos = pos1;
-		imgX += x;
-		imgY += y;
-		drawImage();
-		ismove = true;
-
-		onmove(x, y);
-	}
-	canvas.onmouseup = function () {
-		canvas.onmousemove = null;
-		canvas.onmouseup = null;
-		canvas.style.cursor = "default";
-
-		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-		//var h1 =document.getElementById('h1');
-		//alert(h1);
-		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-		realX = Math.floor((pos.x - imgX) / imgScale);
-		realY = Math.floor((pos.y - imgY) / imgScale);
-
-		currdiv = null;
-
-		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-		if (!ismove) {
-			//alert("bb");
-			del_pop("id_out", "id_in");
-			pop_up(pos.x, pos.y, realX, realY, true, null);
-		} else {
-			canvas.style.zIndex = 1;
-			canvas_upper.style.zIndex = 2;
-		}
-	}
-}
-
-canvas.onmousewheel = canvas.onwheel = function (event) {
-	canvas.style.zIndex = 2;
-	canvas_upper.style.zIndex = 1;
-
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
-
-	if (event.wheelDelta > 0 && imgScale < 4) {
-		imgScale *= 2;
-		imgX = imgX * 2 - pos.x;
-		imgY = imgY * 2 - pos.y;
-		onscale(2, -pos.x, -pos.y);
-	} else if (event.wheelDelta < 0 && imgScale > 0.5) {
-		imgScale /= 2;
-		imgX = imgX * 0.5 + pos.x * 0.5;
-		imgY = imgY * 0.5 + pos.y * 0.5;
-		onscale(0.5, pos.x * 0.5, pos.y * 0.5);
-	}
-	drawImage();
-}
-
-canvas_upper.onmousewheel = canvas.onwheel = function (event) {
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
-
-	if (event.wheelDelta > 0 && imgScale < 4) {
-		imgScale *= 2;
-		imgX = imgX * 2 - pos.x;
-		imgY = imgY * 2 - pos.y;
-		onscale(2, -pos.x, -pos.y);
-	} else if (event.wheelDelta < 0 && imgScale > 0.5) {
-		imgScale /= 2;
-		imgX = imgX * 0.5 + pos.x * 0.5;
-		imgY = imgY * 0.5 + pos.y * 0.5;
-		onscale(0.5, pos.x * 0.5, pos.y * 0.5);
-	}
-	drawImage();
-}
-
-function windowToCanvas(canvas, x, y) {
-	var bbox = canvas.getBoundingClientRect();
-	return {
-		x : x - bbox.left - (bbox.width - canvas.width) / 2,
-		y : y - bbox.top - (bbox.height - canvas.height) / 2
-	};
-}
 
 function drawArrowLine(sta, end, arrow) {
 	ctx_nav.save();
@@ -2005,238 +2255,12 @@ function drawArrowLine(sta, end, arrow) {
 
 }
 
-canvas.onmousedown = function (event) {
-
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	ismove = false;
-
-	//var h1 =document.getElementById('h1');
-	//alert(h1);
-	//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-	//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-	realX = Math.floor((pos.x - imgX) / imgScale);
-	realY = Math.floor((pos.y - imgY) / imgScale);
-
-	//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-
-
-	//pop_up(pos.x, pos.y);
-	// alert("X="+event.clientX + "Y=" + event.clientY);
-	canvas.onmousemove = function (event) {
-		canvas.style.cursor = "move";
-		var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
-		var x = pos1.x - pos.x;
-
-		//ctx_up.strokeStyle='red';
-		//ctx_up.lineWidth=3;
-
-		//alert("bb");
-		//ctx_up.moveTo(0, pos1.y);
-		//ctx_up.lineTo(1200, pos1.y);
-
-		//ctx_up.moveTo(pos1.x, 0);
-		//ctx_up.lineTo(pos1.x, 1600);
-
-		//alert(pos1.x);
-		//alert(pos1.y);
-		var y = pos1.y - pos.y;
-		pos = pos1;
-		imgX += x;
-		imgY += y;
-		drawImage();
-		ismove = true;
-
-		onmove(x, y);
-	}
-	canvas.onmouseup = function () {
-		canvas.onmousemove = null;
-		canvas.onmouseup = null;
-		canvas.style.cursor = "default";
-
-		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-		//var h1 =document.getElementById('h1');
-		//alert(h1);
-		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-		realX = Math.floor((pos.x - imgX) / imgScale);
-		realY = Math.floor((pos.y - imgY) / imgScale);
-
-		currdiv = null;
-
-		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-		if (!ismove) {
-			//alert("bb");
-			del_pop("id_out", "id_in");
-			pop_up(pos.x, pos.y, realX, realY, true, null);
-		} else {
-			canvas.style.zIndex = 1;
-			canvas_upper.style.zIndex = 2;
-		}
-	}
-}
-
-canvas.onmousewheel = canvas.onwheel = function (event) {
-	canvas.style.zIndex = 2;
-	canvas_upper.style.zIndex = 1;
-
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
-
-	if (event.wheelDelta > 0 && imgScale < 4) {
-		imgScale *= 2;
-		imgX = imgX * 2 - pos.x;
-		imgY = imgY * 2 - pos.y;
-		onscale(2, -pos.x, -pos.y);
-	} else if (event.wheelDelta < 0 && imgScale > 0.5) {
-		imgScale /= 2;
-		imgX = imgX * 0.5 + pos.x * 0.5;
-		imgY = imgY * 0.5 + pos.y * 0.5;
-		onscale(0.5, pos.x * 0.5, pos.y * 0.5);
-	}
-	drawImage();
-}
-
-canvas_upper.onmousewheel = canvas.onwheel = function (event) {
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
-
-	if (event.wheelDelta > 0 && imgScale < 4) {
-		imgScale *= 2;
-		imgX = imgX * 2 - pos.x;
-		imgY = imgY * 2 - pos.y;
-		onscale(2, -pos.x, -pos.y);
-	} else if (event.wheelDelta < 0 && imgScale > 0.5) {
-		imgScale /= 2;
-		imgX = imgX * 0.5 + pos.x * 0.5;
-		imgY = imgY * 0.5 + pos.y * 0.5;
-		onscale(0.5, pos.x * 0.5, pos.y * 0.5);
-	}
-	drawImage();
-}
-
 function windowToCanvas(canvas, x, y) {
 	var bbox = canvas.getBoundingClientRect();
 	return {
 		x : x - bbox.left - (bbox.width - canvas.width) / 2,
-		y : y - bbox.top - (bbox.height - canvas.height) / 2
+		y : y - bbox.top - (bbox.height - canvas.height) / 2 + 40
 	};
-}
-
-canvas_nav.onmousedown = function (event) {
-
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	ismove = false;
-
-	//var h1 =document.getElementById('h1');
-	//alert(h1);
-	//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-	//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-	realX = Math.floor((pos.x - imgX) / imgScale);
-	realY = Math.floor((pos.y - imgY) / imgScale);
-
-	//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-
-
-	//pop_up(pos.x, pos.y);
-	// alert("X="+event.clientX + "Y=" + event.clientY);
-	canvas.onmousemove = function (event) {
-		canvas.style.cursor = "move";
-		var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
-		var x = pos1.x - pos.x;
-
-		//ctx_up.strokeStyle='red';
-		//ctx_up.lineWidth=3;
-
-		//alert("bb");
-		//ctx_up.moveTo(0, pos1.y);
-		//ctx_up.lineTo(1200, pos1.y);
-
-		//ctx_up.moveTo(pos1.x, 0);
-		//ctx_up.lineTo(pos1.x, 1600);
-
-		//alert(pos1.x);
-		//alert(pos1.y);
-		var y = pos1.y - pos.y;
-		pos = pos1;
-		imgX += x;
-		imgY += y;
-		drawImage();
-		ismove = true;
-
-		onmove(x, y);
-	}
-	canvas_nav.onmouseup = function () {
-		canvas_nav.onmousemove = null;
-		canvas_nav.onmouseup = null;
-		canvas_nav.style.cursor = "default";
-
-		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-		//var h1 =document.getElementById('h1');
-		//alert(h1);
-		//h1.value = "X="+event.clientX + "Y=" + event.clientY;
-		//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-
-
-		realX = Math.floor((pos.x - imgX) / imgScale);
-		realY = Math.floor((pos.y - imgY) / imgScale);
-
-		currdiv = null;
-
-		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
-		if (!ismove) {
-			//alert("bb");
-			del_pop("id_out", "id_in");
-			pop_up(pos.x, pos.y, realX, realY, true, null);
-		} else {
-			canvas.style.zIndex = 1;
-			canvas_upper.style.zIndex = 2;
-		}
-	}
-}
-
-canvas_nav.onmousewheel = canvas.onwheel = function (event) {
-	canvas.style.zIndex = 2;
-	canvas_upper.style.zIndex = 1;
-
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
-
-	if (event.wheelDelta > 0 && imgScale < 4) {
-		imgScale *= 2;
-		imgX = imgX * 2 - pos.x;
-		imgY = imgY * 2 - pos.y;
-		onscale(2, -pos.x, -pos.y);
-	} else if (event.wheelDelta < 0 && imgScale > 0.5) {
-		imgScale /= 2;
-		imgX = imgX * 0.5 + pos.x * 0.5;
-		imgY = imgY * 0.5 + pos.y * 0.5;
-		onscale(0.5, pos.x * 0.5, pos.y * 0.5);
-	}
-	drawImage();
-}
-
-canvas_nav.onmousewheel = canvas.onwheel = function (event) {
-	var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-	event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
-
-	if (event.wheelDelta > 0 && imgScale < 4) {
-		imgScale *= 2;
-		imgX = imgX * 2 - pos.x;
-		imgY = imgY * 2 - pos.y;
-		onscale(2, -pos.x, -pos.y);
-	} else if (event.wheelDelta < 0 && imgScale > 0.5) {
-		imgScale /= 2;
-		imgX = imgX * 0.5 + pos.x * 0.5;
-		imgY = imgY * 0.5 + pos.y * 0.5;
-		onscale(0.5, pos.x * 0.5, pos.y * 0.5);
-	}
-	drawImage();
 }
 
 function drawArrowLine(sta, end, arrow) {
@@ -2650,7 +2674,7 @@ function selectInterestNav(value) {
 function submitPoiDetailInfo() {
 	detaildiv = document.getElementById("stylized");
 	detaildiv.style.display = "none";
-	
+
 	var mtype = 0;
 	var mshareble = true;
 	var mreachable = true;
@@ -2659,42 +2683,38 @@ function submitPoiDetailInfo() {
 	//先根据placeX placeY floor唯一确定要更新的行
 	//再填入具体数据
 	if (document.forms['form1']['selectInterest'].value == "0") {
-	   mtype = 0;
-	 
-	
-	} else if (document.forms['form1']['selectInterest'].value == "3"){
-	   mtype = 3;
-	
-	} else if (document.forms['form1']['selectInterest'].value == "4"){
-	   mtype = 4;
-	
-	} else if (document.forms['form1']['selectInterest'].value == "5"){
-	   mtype = 5;
-	
-	} else if (document.forms['form1']['selectInterest'].value == "6"){
-	   mtype = 6;
-	}
-	
-				
-	if (document.forms['form1']['shareble'].value == "1") {
-	   mshareble = true;	
-	} else {
-	   mshareble = false;
-	}
-	
-	if (document.forms['form1']['reachable'].value == "1") {
-	   mreachable = true;	
-	} else {
-	   mreachable = false;
-	}
-	
-	if (document.forms['form1']['readable'].value == "1") {
-	   mreadable = true;	
-	} else {
-	   mreadable = false;
-	}
-	
+		mtype = 0;
 
+	} else if (document.forms['form1']['selectInterest'].value == "3") {
+		mtype = 3;
+
+	} else if (document.forms['form1']['selectInterest'].value == "4") {
+		mtype = 4;
+
+	} else if (document.forms['form1']['selectInterest'].value == "5") {
+		mtype = 5;
+
+	} else if (document.forms['form1']['selectInterest'].value == "6") {
+		mtype = 6;
+	}
+
+	if (document.forms['form1']['shareble'].value == "1") {
+		mshareble = true;
+	} else {
+		mshareble = false;
+	}
+
+	if (document.forms['form1']['reachable'].value == "1") {
+		mreachable = true;
+	} else {
+		mreachable = false;
+	}
+
+	if (document.forms['form1']['readable'].value == "1") {
+		mreadable = true;
+	} else {
+		mreadable = false;
+	}
 
 	$.post("updatepoi.action", {
 		type : mtype,

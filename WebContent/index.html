@@ -221,7 +221,7 @@ tr:nth-child(even) {
  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
 		</style>
 	</head>
-	<body id="body" style="position:absolute">
+	<body id="body" style="position:absolute" onload="load()">
 	
 	
 		
@@ -236,7 +236,7 @@ tr:nth-child(even) {
 		 <select name='InterestNav' id='InterestNav' onchange="selectInterestNav(this.options[this.options.selectedIndex].value)" style="position:absolute;left:120px;top:0px;"><option value='1' >导航点</option><option value='2'>兴趣点</option></select>
 		
 
-		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;display:none">
+		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;top:15px;display:none">
         <form id="form1" name="form1" method="post" style="position:absolute;left:1215px;top:15px;border:solid 2px #b7ddf2;background:#ebf4fb; width:400px;" action="" >
        
         <p>兴趣点信息填写</p>
