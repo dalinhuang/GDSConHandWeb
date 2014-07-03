@@ -62,44 +62,156 @@ function load() {
 	canvas_nav = document.getElementById('nav');
 	ctx_nav = canvas_nav.getContext('2d');
 
-	//initplaceNav(100, 100, "", "22");
-	//initplaceLine(100, 100, "22");
-	//ctx_nav.fillStyle='rgb(255,255,0)';
-
-	// ctx_nav.fillRect(50,50,200,200);
-
-	//路径绘制开始
-
 	/*
+	var user =   {
+	"username":"andy",
+	"age":20,
+	"info": {"tel":"123456","cellphone":"98765"},
+	"address":
+	[   {"city":"beijing","postcode":"222333"},   {"city":"newyork","postcode":"555666"}
+	]
+	}   ;
 
-	ctx_nav.beginPath();
+	alert(user);
 
-	//路径的绘制
-
-	ctx_nav.moveTo(0,100);
-
-	ctx_nav.lineTo(0,290);
-
-	ctx_nav.lineTo(290,290);
-
-	ctx_nav.stroke();
-
-	//路径绘制结束
-	ctx_nav.closePath();
-
-	//ctx_up.clearRect(0, 0, 1200, 1600);
-
+	alert(user.username);
+	alert(user.age);
+	alert(user.info.cellphone);
+	alert(user.address[0].city);
+	alert(user.address[0].postcode);
 	 */
 
-	$.post("listpoi.action", {},
-
-		function (data) {
-
-		alert(data);
-
-	});
-
 	loadImg();
+
+	$.ajax({
+		type : 'post',
+		url : "listnavinode.action",
+		dataType : 'json',
+		success : function (data) {
+			if (data.data.length > 0) {
+				var count = data.data[data.data.length - 1].id;
+
+				currNavId = count + 1;
+
+				for (var i = 0; i < count; i++) {
+					nav_flag.push(false);
+					nav_x.push(0);
+					nav_y.push(0);
+					nav_label.push("0");
+					nav_floor.push(0);
+					nav_transit.push(false);
+					nav_div.push("0");
+				}
+			}
+
+			for (var i = 0; i < data.data.length; i++) {
+				/*
+				var nav_x = new Array();
+				var nav_y = new Array();
+				var nav_label = new Array();
+				var nav_div = new Array();
+				var nav_flag = new Array();
+				var nav_floor = new Array();
+				var nav_transit = new Array();*/
+
+				var id = data.data[i].id - 1;
+				nav_flag[id] = true;
+				nav_x[id] = data.data[i].placeX;
+				nav_y[id] = data.data[i].placeY;
+				nav_label[id] = data.data[i].label;
+				nav_floor[id] = data.data[i].mapId;
+
+				var divstr = "divnav" + id + 1;
+				initplaceNav(nav_x[id], nav_y[id], id + 1, divstr);
+
+				nav_div[id] = divstr;
+
+			}
+
+			$.ajax({
+				type : 'post',
+				url : "listnavipath.action",
+				dataType : 'json',
+				success : function (data) {
+
+					/*
+					var fromNode = new Array();
+					var toNode = new Array();
+					var direction = new Array();
+					var forwardGuide = new Array();
+					var backwardGuide = new Array();*/
+
+					for (var i = 0; i < data.data.length; i++) {
+						fromNode.push(data.data[i].fromNode);
+						toNode.push(data.data[i].toNode);
+						direction.push(data.data[i].direction);
+
+						forwardGuide.push(data.data[i].forwardGuide);
+						backwardGuide.push(data.data[i].backwardGuide);
+
+						var pt1 = data.data[i].fromNode;
+						var pt2 = data.data[i].toNode;
+
+						var divid = pt1 + "_" + pt2;
+
+						var x1 = nav_x[pt1 - 1];
+						var y1 = nav_y[pt1 - 1];
+
+						var x2 = nav_x[pt2 - 1];
+						var y2 = nav_y[pt2 - 1];
+
+						var midx = (x1 + x2) / 2;
+						var midy = (y1 + y2) / 2;
+
+						initplaceLine(midx, midy, divid);
+
+					}
+
+					for (var i = 0; i < nav_transit.length; i++) {
+						if (judgeTransitPt(i + 1)) {
+							nav_transit[i] = true;
+
+							var x2 = nav_x[i];
+							var y2 = nav_y[i];
+
+							initplaceNav(x2, y2 + 60, "换", i + 1 + "_transit");
+
+							var trandivId = i + 1 + "_transit";
+							var trandiv = document.getElementById(trandivId);
+							trandiv.style.display = "none";
+
+							initplaceLine(x2, y2 + 30, i + 1 + "_" + "0");
+
+							var trandivlineId = i + 1 + "_" + "0";
+							var trandivline = document.getElementById(trandivlineId);
+							trandivline.style.display = "none";
+
+						}
+					}
+
+					redrawAll();
+
+				},
+				error : function (text) {}
+			});
+
+			/*
+			var fromNode = new Array();
+			var toNode = new Array();
+			var direction = new Array();
+			var forwardGuide = new Array();
+			var backwardGuide = new Array();
+			/*
+			alert(data);
+			alert(data.data[0].placeX);
+
+			alert(data.data[10]);
+			alert(data.data.length);
+			 */
+
+		},
+		error : function (text) {}
+	});
 
 	canvas_upper.onmousedown = function (event) {
 		//alert("aa");
@@ -120,8 +232,6 @@ function load() {
 
 		realX = Math.floor((pos.x - imgX) / imgScale);
 		realY = Math.floor((pos.y - imgY) / imgScale);
-		
-		
 
 		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
 
@@ -164,8 +274,6 @@ function load() {
 			//alert(h1);
 			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
 			//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-			
-			
 
 
 			realX = Math.floor((pos.x - imgX) / imgScale);
@@ -304,8 +412,6 @@ function load() {
 			//alert(h1);
 			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
 			//h1.innerHTML="X="+pos.x + "  Y=" + pos.y;
-			
-			
 
 
 			realX = Math.floor((pos.x - imgX) / imgScale);
@@ -423,8 +529,6 @@ function load() {
 
 			realX = Math.floor((pos.x - imgX) / imgScale);
 			realY = Math.floor((pos.y - imgY) / imgScale);
-			
-			
 
 			currdiv = null;
 
@@ -538,7 +642,7 @@ function load() {
 
 			realX = Math.floor((pos.x - imgX) / imgScale);
 			realY = Math.floor((pos.y - imgY) / imgScale);
-			
+
 			//alert (pos.y);
 
 			currdiv = null;
@@ -1558,6 +1662,8 @@ function opTransitLine(pt1, pt2) {
 					toNode : pt2,
 
 				});
+				
+				
 
 				break;
 			default:
@@ -2088,7 +2194,6 @@ function createInfoNav(posx, posy, realX, realY, content) {
 	//'modifyInterestPlace('" + posx  + "," + posy + "," + realX + "," + realY + ")
 }
 
-
 function modifyNavPoint(posx, posy, realX, realY) {
 
 	//alert ("cc");
@@ -2224,8 +2329,6 @@ function drawImage() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.drawImage(img, 0, 0, img.width, img.height, imgX, imgY, img.width * imgScale, img.height * imgScale);
 }
-
-
 
 function drawArrowLine(sta, end, arrow) {
 	ctx_nav.save();
