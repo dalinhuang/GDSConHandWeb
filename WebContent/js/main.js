@@ -33,28 +33,28 @@ var ismove = false;
 var currdiv = null;
 
 /*
-    document.forms['form1']['poilabel'].value = "";
-	document.forms['form1']['floor'].value = "";
-	document.forms['form1']['xpos'].value = "";
-	document.forms['form1']['ypos'].value = "";
-	document.forms['form1']['selectInterest'].value = "0";
-	document.forms['form1']['detaileddesc'].value = "";
-	document.forms['form1']['hallid'].value = "";
-	document.forms['form1']['ttsid'].value = "";
-	document.forms['form1']['nearnavid'].value = "";
-	document.forms['form1']['scale'].value = "";
-	document.forms['form1']['alpha'].value = "";
-	document.forms['form1']['rotation'].value = "";
-	document.forms['form1']['minzoomfactor'].value = "";
-	document.forms['form1']['maxzoomfactor'].value = "";
-	document.forms['form1']['weburl'].value = "";
-	document.forms['form1']['picurl'].value = "";
-	document.forms['form1']['iconurl'].value = "";
-	document.forms['form1']['audiourl'].value = "";
-	document.forms['form1']['shareble'].value = "1";
-	document.forms['form1']['reachable'].value = "1";
-	document.forms['form1']['readable'].value = "1";
-*/
+document.forms['form1']['poilabel'].value = "";
+document.forms['form1']['floor'].value = "";
+document.forms['form1']['xpos'].value = "";
+document.forms['form1']['ypos'].value = "";
+document.forms['form1']['selectInterest'].value = "0";
+document.forms['form1']['detaileddesc'].value = "";
+document.forms['form1']['hallid'].value = "";
+document.forms['form1']['ttsid'].value = "";
+document.forms['form1']['nearnavid'].value = "";
+document.forms['form1']['scale'].value = "";
+document.forms['form1']['alpha'].value = "";
+document.forms['form1']['rotation'].value = "";
+document.forms['form1']['minzoomfactor'].value = "";
+document.forms['form1']['maxzoomfactor'].value = "";
+document.forms['form1']['weburl'].value = "";
+document.forms['form1']['picurl'].value = "";
+document.forms['form1']['iconurl'].value = "";
+document.forms['form1']['audiourl'].value = "";
+document.forms['form1']['shareble'].value = "1";
+document.forms['form1']['reachable'].value = "1";
+document.forms['form1']['readable'].value = "1";
+ */
 
 var interest_x = new Array();
 var interest_y = new Array();
@@ -62,7 +62,24 @@ var interest_label = new Array();
 var interest_div = new Array();
 var interest_floor = new Array();
 
-
+var interest_type = new Array();
+var interest_detaileddesc = new Array();
+var interest_hallid = new Array();
+var interest_ttsid = new Array();
+var interest_nearnavid = new Array();
+var interest_scale = new Array();
+var interest_alpha = new Array();
+var interest_rotation = new Array();
+var interest_minzoomfactor = new Array();
+var interest_maxzoomfactor = new Array();
+var interest_weburl = new Array();
+var interest_picurl = new Array();
+var interest_iconurl = new Array();
+var interest_audiourl = new Array();
+var interest_reachable = new Array();
+var interest_readable = new Array();
+var interest_generaldesc = new Array();
+var interest_shareble = new Array();
 
 var nav_x = new Array();
 var nav_y = new Array();
@@ -108,6 +125,101 @@ function load() {
 	 */
 
 	loadImg();
+
+	$.ajax({
+		type : 'post',
+		url : "listpoi.action",
+		dataType : 'json',
+		success : function (data) {
+
+			/*
+			var interest_x = new Array();
+			var interest_y = new Array();
+			var interest_label = new Array();
+			var interest_div = new Array();
+			var interest_floor = new Array();
+			var interest_type = new Array();
+			var intrest_detaileddesc = new Array();
+			var interest_hallid = new Array();
+			var interest_ttsid = new Array();
+			var interest_nearnavid = new Array();
+			var interest_scale = new Array();
+			var interest_alpha = new Array();
+			var interest_rotation = new Array();
+			var interest_minzoomfactor = new Array();
+			var interest_maxzommfactor = new Array();
+			var intrest_weburl = new Array();
+			var interest_picurl = new Array();
+			var interest_iconurl = new Array();
+			var interest_audiourl = new Array();
+			var interest_reachable = new Array();
+			var interest_readable = new Array();
+			var interest_generaldesc = new Array();
+			var interest_shareble = new Array();
+
+			$.post("updatepoi.action", {
+			type : mtype,
+			hallId : parseInt(document.forms['form1']['hallid'].value),
+			ttsNo : parseInt(document.forms['form1']['ttsid'].value),
+			mapId : which_floor,
+			placeX : document.forms['form1']['xpos'].value,
+			placeY : document.forms['form1']['ypos'].value,
+			neareastNaviNode : parseInt(document.forms['form1']['nearnavid'].value),
+			iconUrl : document.forms['form1']['iconurl'].value,
+			audioUrl : document.forms['form1']['audiourl'].value,
+			webUrl : document.forms['form1']['weburl'].value,
+			picUrl : document.forms['form1']['picurl'].value,
+			label : document.forms['form1']['poilabel'].value,
+			generalDesc : document.forms['form1']['generaldesc'].value,
+			detailedDesc : document.forms['form1']['detaileddesc'].value,
+			shareble : mshareble,
+			reachable : mreachable,
+			readable : mreadable,
+			scale : document.forms['form1']['scale'].value,
+			alpha : document.forms['form1']['alpha'].value,
+			rotation : document.forms['form1']['rotation'].value,
+			maxZoomFactor : document.forms['form1']['maxzoomfactor'].value,
+			minZoomFactor : document.forms['form1']['minzoomfactor'].value
+			});
+			 */
+			for (var i = 0; i < data.data.length; i++) {
+				interest_type.push(data.data[i].type);
+				interest_hallid.push(data.data[i].hallId);
+				interest_ttsid.push(data.data[i].ttsNo);
+				interest_floor.push(data.data[i].mapId);
+				interest_x.push(data.data[i].placeX);
+				interest_y.push(data.data[i].placeY);
+				interest_nearnavid.push(data.data[i].neareastNaviNode);
+				interest_iconurl.push(data.data[i].iconUrl);
+				interest_audiourl.push(data.data[i].audioUrl);
+				interest_weburl.push(data.data[i].webUrl);
+				interest_picurl.push(data.data[i].picUrl);
+				interest_label.push(data.data[i].label);
+				interest_generaldesc.push(data.data[i].generalDesc);
+				interest_detaileddesc.push(data.data[i].detailedDesc);
+				interest_shareble.push(data.data[i].shareble);
+				interest_reachable.push(data.data[i].reachable);
+				interest_readable.push(data.data[i].readable);
+				interest_scale.push(data.data[i].scale);
+				interest_alpha.push(data.data[i].alpha);
+				interest_rotation.push(data.data[i].rotation);
+				interest_maxzoomfactor.push(data.data[i].maxZoomFactor);
+				interest_minzoomfactor.push(data.data[i].minzoomfactor);
+				
+				var divstr = "div" + i + 1;
+
+	            initplace(interest_x[i], interest_y[i], interest_label[i], divstr);
+				
+				interest_div.push(divstr);
+				
+				
+			}
+			
+			clearInterestDraw();
+
+		},
+		error : function (text) {}
+	});
 
 	$.ajax({
 		type : 'post',
@@ -1457,9 +1569,9 @@ function createLineInfo(pt1, pt2) {
 	var conn = "";
 	var to_node;
 	var flag = false;
-	
+
 	var mbackwardGuide = "";
-	var mforwardGuide  = "";
+	var mforwardGuide = "";
 
 	curr_node = pt1;
 
@@ -1474,8 +1586,7 @@ function createLineInfo(pt1, pt2) {
 					if (!flag) {
 						flag = true;
 						to_node = toNode[i];
-						
-						
+
 					}
 
 					conn += "<option value=" + toNode[i] + ">";
@@ -1563,7 +1674,7 @@ function createLineInfo(pt1, pt2) {
 		var op2 = pt2 + " 到 " + pt1;
 		var op3 = "";
 		var mbackwardGuide = "";
-		var mforwardGuide  = "";
+		var mforwardGuide = "";
 
 		for (var i = 0; i < fromNode.length; i++) {
 
@@ -1573,7 +1684,7 @@ function createLineInfo(pt1, pt2) {
 				} else {
 					op3 = "(" + pt1 + "->" + pt2 + ")";
 				}
-				
+
 				mforwardGuide = forwardGuide[i];
 				mbackwardGuide = backwardGuide[i];
 				break;
@@ -1698,8 +1809,6 @@ function opTransitLine(pt1, pt2) {
 					toNode : pt2,
 
 				});
-				
-				
 
 				break;
 			default:
@@ -1726,8 +1835,6 @@ function opLine(pt1, pt2) {
 
 	var mforwardGuide = document.forms['loginform']['forward'].value;
 	var mbackwardGuide = document.forms['loginform']['backward'].value;
-	
-	
 
 	for (var i = 0; i < fromNode.length; i++) {
 
@@ -1735,10 +1842,10 @@ function opLine(pt1, pt2) {
 
 			switch (parseInt(opcode)) {
 			case 1:
-				direction[i] = 1;	
+				direction[i] = 1;
 
-                forwardGuide[i] = mforwardGuide;
-                backwardGuide[i] = mbackwardGuide;				
+				forwardGuide[i] = mforwardGuide;
+				backwardGuide[i] = mbackwardGuide;
 				//fromNode 和 toNode 保持不变,  传direction = 1 表示该成双向
 				$.post("updatenavipath.action", {
 					fromNode : pt1,
@@ -1752,9 +1859,9 @@ function opLine(pt1, pt2) {
 			case 2:
 
 				direction[i] = 2;
-				
+
 				forwarGuide[i] = mforwardGuide;
-                backwardGuide[i] = mbackwardGuide;
+				backwardGuide[i] = mbackwardGuide;
 
 				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
 				$.post("updatenavipath.action", {
@@ -1772,10 +1879,10 @@ function opLine(pt1, pt2) {
 				navdiv = document.getElementById(currdiv)
 					navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
-				
+
 				forwarGuide[i] = mforwardGuide;
-                backwardGuide[i] = mbackwardGuide;
-				
+				backwardGuide[i] = mbackwardGuide;
+
 				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
 				$.post("updatenavipath.action", {
 					fromNode : pt1,
@@ -1913,7 +2020,7 @@ function setPointNav(realX, realY) {
 
 					mforwardGuide = document.forms['loginform']['forward'].value;
 					mbackwardGuide = document.forms['loginform']['backward'].value;
-					
+
 					forwardGuide.push(mforwardGuide);
 					backwardGuide.push(mbackwardGuide);
 
@@ -2817,6 +2924,7 @@ function changeTransit(to_node) {
 function selectInterestNav(value) {
 	if (value == 1) {
 		isNav = true;
+		clearInterestDraw();
 		redrawAll();
 	} else {
 		isNav = false;
@@ -2939,4 +3047,14 @@ function clearNavDraw() {
 			trandivline.style.display = "none";
 		}
 	}
+}
+
+function clearInterestDraw() {
+    for (var i = 0; i < interest_x.length; i++) {
+		var interestdiv = document.getElementById(interest_div[i]);
+	
+		interestdiv.style.display = "none";
+
+	
+	}  
 }
