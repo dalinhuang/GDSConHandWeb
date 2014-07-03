@@ -102,10 +102,10 @@
 }
 #stylized button {
     clear:both;
-    margin-left:150px;
+    margin-left:50px;
     width:125px;
     height:31px;
-    background:#666666 url(images/button.png) no-repeat;
+    background:#666666;
     text-align:center;
     line-height:31px;
     color:#FFFFFF;
@@ -221,15 +221,15 @@ tr:nth-child(even) {
  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
 		</style>
 	</head>
-	<body id="body" style="position:absolute" onload="load()">
+	<body id="body" style="position:absolute;overflow:auto" onload="load()">
 	
 	
 		
 			
          
-		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:40px;z-index:1;"></canvas>
-		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:2;"></canvas>
-		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:3;"></canvas>
+		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:40px;z-index:1;overflow:auto"></canvas>
+		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:2;overflow:auto"></canvas>
+		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:3;overflow:auto"></canvas>
 		
 		 <select name='Floor' id='Floor' onchange="selectFloor(this.options[this.options.selectedIndex].value)" style="position:absolute;left:20px;top:0px;"><option value='1' >F15</option><option value='2'>F5</option></select>
 		
@@ -297,7 +297,8 @@ tr:nth-child(even) {
 		
 
 		
-        <button  type="button" onclick="submitPoiDetailInfo()" style="font:bold 14px 宋体;color:white">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       交</button>
+        <button  type="button" onclick="submitPoiDetailInfo()" style="font:bold 14px 宋体;color:white">提&nbsp;交</button>
+		<button  type="button" onclick="cancelPoiDetailInfo()" style="font:bold 14px 宋体;color:white">取&nbsp;消</button>
         <div class="spacer"></div>
     </form>
 </div>

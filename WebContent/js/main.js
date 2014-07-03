@@ -6,6 +6,7 @@ imgX = 0,
 imgY = 40,
 imgScale = 1;
 var is_transit = false;
+var curropIdx;
 
 var isNav = true;
 
@@ -197,14 +198,32 @@ function load() {
 				interest_label.push(data.data[i].label);
 				interest_generaldesc.push(data.data[i].generalDesc);
 				interest_detaileddesc.push(data.data[i].detailedDesc);
-				interest_shareble.push(data.data[i].shareble);
-				interest_reachable.push(data.data[i].reachable);
-				interest_readable.push(data.data[i].readable);
+				//interest_shareble.push(data.data[i].shareble);
+				//interest_reachable.push(data.data[i].reachable);
+				//interest_readable.push(data.data[i].readable);
 				interest_scale.push(data.data[i].scale);
 				interest_alpha.push(data.data[i].alpha);
 				interest_rotation.push(data.data[i].rotation);
 				interest_maxzoomfactor.push(data.data[i].maxZoomFactor);
-				interest_minzoomfactor.push(data.data[i].minzoomfactor);
+				interest_minzoomfactor.push(data.data[i].minZoomFactor);
+
+				if (data.data[i].shareble) {
+					interest_shareble.push("1");
+				} else {
+					interest_shareble.push("2");
+				}
+
+				if (data.data[i].reachable) {
+					interest_reachable.push("1");
+				} else {
+					interest_reachable.push("2");
+				}
+
+				if (data.data[i].readable) {
+					interest_readable.push("1");
+				} else {
+					interest_readable.push("2");
+				}
 
 				var divstr = "div" + i + 1;
 
@@ -1374,7 +1393,7 @@ function createLogin(realX, realY, posx, posy, content) {
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  value=" + realY + "></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='兴趣点' value=" + interest_name + "></div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>节点类型&nbsp</b></label>  <select name='selectInterest' id='selectInterest'><option value='1'>电影馆 </option><option value='2'>展览馆 </option> <option value='3'>公交站</option><option value='4'>餐厅</option><option value='5'>导航点</option></select>  </div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>节点类型&nbsp</b></label>  <select name='selectInterest' id='selectInterest'><option value='0' >展馆</option><option value='3'>公交站</option><option value='4' >影院</option><option value='5'>剧场</option><option value='6'>餐饮</option></select></div>" +
 
 		"<div style='width:300px;height:120px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><label for=name style='font:color:green'><b>简要描述&nbsp</b></label> <br><br>&nbsp;&nbsp;<textarea name='content' cols='30' rows='4' placeholder='请输入具体信息' with='180px'></textarea></div>" +
 
@@ -1962,6 +1981,50 @@ function setPoint(realX, realY) {
 	interest_div.push(divstr);
 
 	interest_floor.push(which_floor);
+	interest_generaldesc.push(document.forms['loginform']['content'].value);
+	interest_type.push(document.forms['loginform']['selectInterest'].value);
+
+	interest_hallid.push(-10000);
+	interest_ttsid.push(-10000);
+	interest_nearnavid.push(-10000);
+	interest_iconurl.push("");
+	interest_audiourl.push("");
+	interest_weburl.push("");
+	interest_picurl.push("");
+	interest_detaileddesc.push("");
+	interest_scale.push(-10000);
+	interest_alpha.push(-10000);
+	interest_rotation.push(-10000);
+	interest_maxzoomfactor.push(-10000);
+	interest_minzoomfactor.push(-10000);
+
+	interest_shareble.push("1");
+	interest_reachable.push("1");
+	interest_readable.push("1");
+
+	/*
+	interest_type.push(data.data[i].type);
+	interest_hallid.push(data.data[i].hallId);
+	interest_ttsid.push(data.data[i].ttsNo);
+	interest_floor.push(data.data[i].mapId);
+	interest_x.push(data.data[i].placeX);
+	interest_y.push(data.data[i].placeY);
+	interest_nearnavid.push(data.data[i].neareastNaviNode);
+	interest_iconurl.push(data.data[i].iconUrl);
+	interest_audiourl.push(data.data[i].audioUrl);
+	interest_weburl.push(data.data[i].webUrl);
+	interest_picurl.push(data.data[i].picUrl);
+	interest_label.push(data.data[i].label);
+	interest_generaldesc.push(data.data[i].generalDesc);
+	interest_detaileddesc.push(data.data[i].detailedDesc);
+	//interest_shareble.push(data.data[i].shareble);
+	//interest_reachable.push(data.data[i].reachable);
+	//interest_readable.push(data.data[i].readable);
+	interest_scale.push(data.data[i].scale);
+	interest_alpha.push(data.data[i].alpha);
+	interest_rotation.push(data.data[i].rotation);
+	interest_maxzoomfactor.push(data.data[i].maxZoomFactor);
+	interest_minzoomfactor.push(data.data[i].minZoomFactor);*/
 
 	$.post("savepoi.action", {
 		mapId : which_floor,
@@ -1969,7 +2032,25 @@ function setPoint(realX, realY) {
 		placeY : realY,
 		label : document.forms['loginform']['petName'].value,
 		generalDesc : document.forms['loginform']['content'].value,
-		type : document.forms['loginform']['selectInterest'].value
+		type : document.forms['loginform']['selectInterest'].value,
+
+		hallId : -10000,
+		ttsNo : -10000,
+		mapId : which_floor,
+		neareastNaviNode : -10000,
+		iconUrl : "",
+		audioUrl : "",
+		webUrl : "",
+		picUrl : "",
+		detailedDesc : "",
+		shareble : 0,
+		reachable : 0,
+		readable : 0,
+		scale : -10000,
+		alpha : -10000,
+		rotation : -10000,
+		maxZoomFactor : -10000,
+		minZoomFactor : -10000
 
 	});
 
@@ -2256,17 +2337,44 @@ function createInfo(posx, posy, realX, realY, content) {
 	var login = document.createElement('DIV');
 	login.style.backgroundColor = "#FFFFFF";
 
+	var idx = -1;
+
+	if (currdiv != null) {
+		for (var i = 0; i < interest_div.length; i++) {
+			if (interest_div[i] == currdiv) {
+				interest_name = interest_label[i];
+				realX = interest_x[i];
+				realY = interest_y[i];
+				idx = i;
+				break;
+			}
+		}
+	}
+
+	var mtype = "展馆";
+
+	if (interest_type[idx] == "0") {
+		mtype = "展馆";
+	} else if (interest_type[idx] == "3") {
+		mtype = "公交站";
+	} else if (interest_type[idx] == "4") {
+		mtype = "影院";
+	} else if (interest_type[idx] == "5") {
+		mtype = "剧场";
+	} else if (interest_type[idx] == "6") {
+		mtype = "餐饮";
+	}
+
 	//login.innerHTML="<div style='width:200px;height:200px;background-color:Black;'> + content + "<br><center><tr><td><input type=\"button\" value=\修改\ onClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" ><input type=\"button\" value=\删除\ onClick=\"deleteInterestPlace()\" ></td></tr>";
 	//logonClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" >"
 	//login.innerHTML="<div style='width:200px;height:200px;background-color:Black;'> + content + "<br><center><tr><td><input type=\"button\" value=\修改\ onClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" ><input type=\"button\" value=\删除\ onClick=\"deleteInterestPlace()\" ></td></tr>";
-	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + content + "&nbsp;<a href='#''>详情>></a><img src='images/edit.jpg' title='编辑' onClick= 'modifyInterestPlace(" + posx + "," + posy + "," + realX + "," + realY + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteInterestPlace(" + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
-		"<div style='width:300px;height:50px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp;位于科韵路信息港A栋<br>&nbsp;&nbsp;(020-38193993</div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px'><img src='images/star.jpg'/></div>" +
+	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + content + "<img src='images/edit.jpg' title='编辑' onClick= 'modifyInterestPlace(" + posx + "," + posy + "," + realX + "," + realY + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteInterestPlace(" + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
+		"<div style='width:300px;height:50px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp;坐标位置 X=" + interest_x[idx] + "    Y=" + interest_y[idx] + "    楼层" 　 + interest_floor[i] + "</div>" +
+
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;color:blue;text-indent: 10px'>兴趣点类型</div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;color:green;text-indent: 10px'>餐饮</div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;color:blue;text-indent: 10px'>地点描述</div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;color:green;text-indent: 10px'>提供丰富的粤菜， 价格适中</div>" +
-		"<div style='width:300px;height:80px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px'><center><img src='images/example.jpg'/></div>"
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;color:green;text-indent: 10px'>" + mtype + "</div>" +
+		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;color:blue;text-indent: 10px'>简要描述</div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;color:green;text-indent: 10px'>" + interest_generaldesc[idx] + "</div>"
 
 		return login;
 	//'modifyInterestPlace('" + posx  + "," + posy + "," + realX + "," + realY + ")
@@ -2376,10 +2484,101 @@ function modifyInterestPlace(posx, posy, realX, realY) {
 			　　　　document.forms['form1']['floor'].value = which_floor;
 			　　　　document.forms['form1']['xpos'].value = interest_x[i];
 			　　　　document.forms['form1']['ypos'].value = interest_y[i];
+
+			curropIdx = i;
 			break;
 		}
 	}
-	//
+
+	/*
+	var interest_x = new Array();
+	var interest_y = new Array();
+	var interest_label = new Array();
+	var interest_div = new Array();
+	var interest_floor = new Array();
+
+	var interest_type = new Array();
+	var interest_detaileddesc = new Array();
+	var interest_hallid = new Array();
+	var interest_ttsid = new Array();
+	var interest_nearnavid = new Array();
+	var interest_scale = new Array();
+	var interest_alpha = new Array();
+	var interest_rotation = new Array();
+	var interest_minzoomfactor = new Array();
+	var interest_maxzoomfactor = new Array();
+	var interest_weburl = new Array();
+	var interest_picurl = new Array();
+	var interest_iconurl = new Array();
+	var interest_audiourl = new Array();
+	var interest_reachable = new Array();
+	var interest_readable = new Array();
+	var interest_generaldesc = new Array();
+	var interest_shareble = new Array();
+	 */
+
+	document.forms['form1']['poilabel'].value = interest_label[curropIdx];
+	document.forms['form1']['floor'].value = interest_floor[curropIdx];
+
+	document.forms['form1']['selectInterest'].value = interest_type[curropIdx];
+	document.forms['form1']['detaileddesc'].value = interest_detaileddesc[curropIdx];
+	document.forms['form1']['generaldesc'].value = interest_generaldesc[curropIdx];
+
+	if (interest_hallid[curropIdx] == -10000) {
+		document.forms['form1']['hallid'].value = "";
+	} else {
+		document.forms['form1']['hallid'].value = interest_hallid[curropIdx];
+	}
+
+	if (interest_ttsid[curropIdx] == -10000) {
+		document.forms['form1']['ttsid'].value = "";
+	} else {
+		document.forms['form1']['ttsid'].value = interest_ttsid[curropIdx];
+	}
+
+	if (interest_nearnavid[curropIdx] == -10000) {
+		document.forms['form1']['nearnavid'].value = "";
+	} else {
+		document.forms['form1']['nearnavid'].value = interest_nearnavid[curropIdx];
+	}
+
+	if (interest_scale[curropIdx] == -10000) {
+		document.forms['form1']['scale'].value = "";
+	} else {
+		document.forms['form1']['scale'].value = interest_scale[curropIdx];
+	}
+
+	if (interest_alpha[curropIdx] == -10000) {
+		document.forms['form1']['alpha'].value = "";
+	} else {
+		document.forms['form1']['alpha'].value = interest_alpha[curropIdx];
+	}
+
+	if (interest_rotation[curropIdx] == -10000) {
+		document.forms['form1']['rotation'].value = "";
+	} else {
+		document.forms['form1']['rotation'].value = interest_rotation[curropIdx];
+	}
+
+	if (interest_minzoomfactor[curropIdx] == -10000) {
+		document.forms['form1']['minzoomfactor'].value = "";
+	} else {
+		document.forms['form1']['minzoomfactor'].value = interest_minzoomfactor[curropIdx];
+	}
+
+	if (interest_maxzoomfactor[curropIdx] == -10000) {
+		document.forms['form1']['maxzoomfactor'].value = "";
+	} else {
+		document.forms['form1']['maxzoomfactor'].value = interest_maxzoomfactor[curropIdx];
+	}
+
+	document.forms['form1']['weburl'].value = interest_weburl[curropIdx];
+	document.forms['form1']['picurl'].value = interest_picurl[curropIdx];
+	document.forms['form1']['iconurl'].value = interest_iconurl[curropIdx];
+	document.forms['form1']['audiourl'].value = interest_audiourl[curropIdx];
+	document.forms['form1']['shareble'].value = interest_shareble[curropIdx];
+	document.forms['form1']['reachable'].value = interest_reachable[curropIdx];
+	document.forms['form1']['readable'].value = interest_readable[curropIdx];
 }
 
 function deleteInterestPlace(posx, posy, realX, realY) {
@@ -2400,12 +2599,55 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 				placeY : interest_y[i],
 
 			});
+            /*
+			var interest_x = new Array();
+			var interest_y = new Array();
+			var interest_label = new Array();
+			var interest_div = new Array();
+			var interest_floor = new Array();
+
+			var interest_type = new Array();
+			var interest_detaileddesc = new Array();
+			var interest_hallid = new Array();
+			var interest_ttsid = new Array();
+			var interest_nearnavid = new Array();
+			var interest_scale = new Array();
+			var interest_alpha = new Array();
+			var interest_rotation = new Array();
+			var interest_minzoomfactor = new Array();
+			var interest_maxzoomfactor = new Array();
+			var interest_weburl = new Array();
+			var interest_picurl = new Array();
+			var interest_iconurl = new Array();
+			var interest_audiourl = new Array();
+			var interest_reachable = new Array();
+			var interest_readable = new Array();
+			var interest_generaldesc = new Array();
+			var interest_shareble = new Array();*/
 
 			interest_x.splice(i, 1);
 			interest_y.splice(i, 1);
 			interest_label.splice(i, 1);
 			interest_div.splice(i, 1);
 			interest_floor.splice(i, 1);
+			interest_type.splice(i, 1);
+			interest_detaileddesc.splice(i, 1);
+			interest_hallid.splice(i, 1);
+			interest_ttsid.splice(i, 1);
+			interest_nearnavid.splice(i, 1);
+			interest_scale.splice(i, 1);
+			interest_alpha.splice(i, 1);
+			interest_rotation.splice(i, 1);
+			interest_minzoomfactor.splice(i, 1);
+			interest_maxzoomfactor.splice(i, 1);
+			interest_weburl.splice(i, 1);
+			interest_picurl.splice(i, 1);
+			interest_iconurl.splice(i, 1);
+			interest_audiourl.splice(i, 1);
+			interest_reachable.splice(i, 1);
+			interest_readable.splice(i, 1);
+			interest_generaldesc.splice(i, 1); 
+			interest_shareble.splice(i, 1); 
 			break;
 		}
 	}
@@ -2775,7 +3017,7 @@ function selectFloor(floor) {
 		img.src = "images/map2.png";
 		which_floor = 5;
 	}
-	
+
 	if (isNav) {
 		clearInterestDraw();
 		redrawAll();
@@ -2783,9 +3025,6 @@ function selectFloor(floor) {
 		clearNavDraw();
 		showInterestDraw();
 	}
-
-	
-
 
 }
 
@@ -2855,8 +3094,6 @@ function changeFloor(floor) {
 		}
 
 	}
-
-	
 
 }
 
@@ -2942,8 +3179,6 @@ function selectInterestNav(value) {
 }
 
 function submitPoiDetailInfo() {
-	detaildiv = document.getElementById("stylized");
-	detaildiv.style.display = "none";
 
 	var mtype = 0;
 	var mshareble = true;
@@ -2985,28 +3220,92 @@ function submitPoiDetailInfo() {
 	} else {
 		mreadable = false;
 	}
-	
+
 	/*
 	var opIdx = -1;
-	
+
 	for (var i = 0; i < interest_x.length; i++) {
-	    if (interest_x[i] == document.forms['form1']['xpos'].value) {
-		    if (interest_y[i] == document.forms['form1']['ypos'].value) {
-			   if (interest_floor[i] == which_floor) {
-			      opIdx
-			   }
-			}
-		}
+	if (interest_x[i] == document.forms['form1']['xpos'].value) {
+	if (interest_y[i] == document.forms['form1']['ypos'].value) {
+	if (interest_floor[i] == which_floor) {
+	opIdx
+	}
+	}
+	}
 	}*/
+
+	//alert(mshareble);
+	interest_label[curropIdx] = document.forms['form1']['poilabel'].value;
+
+	interest_type[curropIdx] = document.forms['form1']['selectInterest'].value;
+	interest_detaileddesc[curropIdx] = document.forms['form1']['detaileddesc'].value;
+
+	if (document.forms['form1']['hallid'].value == "") {
+		interest_hallid[curropIdx] = -10000;
+	} else {
+		interest_hallid[curropIdx] = parseInt(document.forms['form1']['hallid'].value);
+	}
+
+	if (document.forms['form1']['ttsid'].value == "") {
+		interest_ttsid[curropIdx] = -10000;
+	} else {
+		interest_ttsid[curropIdx] = parseInt(document.forms['form1']['ttsid'].value);
+	}
+
+	if (document.forms['form1']['nearnavid'].value == "") {
+		interest_nearnavid[curropIdx] = -10000;
+	} else {
+		interest_nearnavid[curropIdx] = parseInt(document.forms['form1']['nearnavid'].value);
+	}
+
+	if (document.forms['form1']['scale'].value == "") {
+		interest_scale[curropIdx] = -10000;
+	} else {
+		interest_scale[curropIdx] = parseInt(document.forms['form1']['scale'].value);
+	}
+
+	if (document.forms['form1']['alpha'].value == "") {
+		interest_alpha[curropIdx] = -10000;
+	} else {
+		interest_alpha[curropIdx] = parseInt(document.forms['form1']['alpha'].value);
+	}
+
+	if (document.forms['form1']['rotation'].value == "") {
+		interest_rotation[curropIdx] = -10000;
+	} else {
+		interest_rotation[curropIdx] = parseInt(document.forms['form1']['rotation'].value);
+	}
+
+	if (document.forms['form1']['minzoomfactor'].value == "") {
+		interest_minzoomfactor[curropIdx] = -10000;
+	} else {
+		interest_minzoomfactor[curropIdx] = parseInt(document.forms['form1']['minzoomfactor'].value);
+	}
+
+	if (document.forms['form1']['maxzoomfactor'].value == "") {
+		interest_maxzoomfactor[curropIdx] = -10000;
+	} else {
+		interest_maxzoomfactor[curropIdx] = parseInt(document.forms['form1']['maxzoomfactor'].value);
+	}
+
+	interest_weburl[curropIdx] = document.forms['form1']['weburl'].value;
+	interest_picurl[curropIdx] = document.forms['form1']['picurl'].value;
+	interest_iconurl[curropIdx] = document.forms['form1']['iconurl'].value;
+	interest_audiourl[curropIdx] = document.forms['form1']['audiourl'].value;
+	interest_generaldesc[curropIdx] = document.forms['form1']['generaldesc'].value;
+
+	interest_reachable[curropIdx] = document.forms['form1']['reachable'].value;
+	interest_readable[curropIdx] = document.forms['form1']['readable'].value;
+	interest_shareble[curropIdx] = document.forms['form1']['shareble'].value;
 
 	$.post("updatepoi.action", {
 		type : mtype,
-		hallId : parseInt(document.forms['form1']['hallid'].value),
-		ttsNo : parseInt(document.forms['form1']['ttsid'].value),
+		hallId : interest_hallid[curropIdx],
+		ttsNo : interest_ttsid[curropIdx],
 		mapId : which_floor,
 		placeX : document.forms['form1']['xpos'].value,
 		placeY : document.forms['form1']['ypos'].value,
-		neareastNaviNode : parseInt(document.forms['form1']['nearnavid'].value),
+		neareastNaviNode : interest_nearnavid[curropIdx],
 		iconUrl : document.forms['form1']['iconurl'].value,
 		audioUrl : document.forms['form1']['audiourl'].value,
 		webUrl : document.forms['form1']['weburl'].value,
@@ -3017,12 +3316,44 @@ function submitPoiDetailInfo() {
 		shareble : mshareble,
 		reachable : mreachable,
 		readable : mreadable,
-		scale : document.forms['form1']['scale'].value,
-		alpha : document.forms['form1']['alpha'].value,
-		rotation : document.forms['form1']['rotation'].value,
-		maxZoomFactor : document.forms['form1']['maxzoomfactor'].value,
-		minZoomFactor : document.forms['form1']['minzoomfactor'].value
+		scale : interest_scale[curropIdx],
+		alpha : interest_alpha[curropIdx],
+		rotation : interest_rotation[curropIdx],
+		maxZoomFactor : interest_maxzoomfactor[curropIdx],
+		minZoomFactor : interest_minzoomfactor[curropIdx]
+
+	}, function (text, status) {
+		alert("提交数据成功");
+		detaildiv = document.getElementById("stylized");
+		detaildiv.style.display = "none";
 	});
+
+	document.forms['form1']['poilabel'].value = "";
+	document.forms['form1']['floor'].value = "";
+	document.forms['form1']['xpos'].value = "";
+	document.forms['form1']['ypos'].value = "";
+	document.forms['form1']['selectInterest'].value = "0";
+	document.forms['form1']['detaileddesc'].value = "";
+	document.forms['form1']['hallid'].value = "";
+	document.forms['form1']['ttsid'].value = "";
+	document.forms['form1']['nearnavid'].value = "";
+	document.forms['form1']['scale'].value = "";
+	document.forms['form1']['alpha'].value = "";
+	document.forms['form1']['rotation'].value = "";
+	document.forms['form1']['minzoomfactor'].value = "";
+	document.forms['form1']['maxzoomfactor'].value = "";
+	document.forms['form1']['weburl'].value = "";
+	document.forms['form1']['picurl'].value = "";
+	document.forms['form1']['iconurl'].value = "";
+	document.forms['form1']['audiourl'].value = "";
+	document.forms['form1']['shareble'].value = "1";
+	document.forms['form1']['reachable'].value = "1";
+	document.forms['form1']['readable'].value = "1";
+}
+
+function cancelPoiDetailInfo() {
+	detaildiv = document.getElementById("stylized");
+	detaildiv.style.display = "none";
 
 	document.forms['form1']['poilabel'].value = "";
 	document.forms['form1']['floor'].value = "";
@@ -3098,7 +3429,7 @@ function showInterestDraw() {
 		if (interest_floor[i] == which_floor) {
 			interestdiv.style.display = "block";
 		} else {
-		    interestdiv.style.display = "none";
+			interestdiv.style.display = "none";
 		}
 
 	}
