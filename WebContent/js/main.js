@@ -32,11 +32,37 @@ var isIe = (document.all) ? true : false;
 var ismove = false;
 var currdiv = null;
 
+/*
+    document.forms['form1']['poilabel'].value = "";
+	document.forms['form1']['floor'].value = "";
+	document.forms['form1']['xpos'].value = "";
+	document.forms['form1']['ypos'].value = "";
+	document.forms['form1']['selectInterest'].value = "0";
+	document.forms['form1']['detaileddesc'].value = "";
+	document.forms['form1']['hallid'].value = "";
+	document.forms['form1']['ttsid'].value = "";
+	document.forms['form1']['nearnavid'].value = "";
+	document.forms['form1']['scale'].value = "";
+	document.forms['form1']['alpha'].value = "";
+	document.forms['form1']['rotation'].value = "";
+	document.forms['form1']['minzoomfactor'].value = "";
+	document.forms['form1']['maxzoomfactor'].value = "";
+	document.forms['form1']['weburl'].value = "";
+	document.forms['form1']['picurl'].value = "";
+	document.forms['form1']['iconurl'].value = "";
+	document.forms['form1']['audiourl'].value = "";
+	document.forms['form1']['shareble'].value = "1";
+	document.forms['form1']['reachable'].value = "1";
+	document.forms['form1']['readable'].value = "1";
+*/
+
 var interest_x = new Array();
 var interest_y = new Array();
 var interest_label = new Array();
 var interest_div = new Array();
 var interest_floor = new Array();
+
+
 
 var nav_x = new Array();
 var nav_y = new Array();
@@ -1431,6 +1457,9 @@ function createLineInfo(pt1, pt2) {
 	var conn = "";
 	var to_node;
 	var flag = false;
+	
+	var mbackwardGuide = "";
+	var mforwardGuide  = "";
 
 	curr_node = pt1;
 
@@ -1445,6 +1474,8 @@ function createLineInfo(pt1, pt2) {
 					if (!flag) {
 						flag = true;
 						to_node = toNode[i];
+						
+						
 					}
 
 					conn += "<option value=" + toNode[i] + ">";
@@ -1531,6 +1562,8 @@ function createLineInfo(pt1, pt2) {
 		var op1 = pt1 + " 到 " + pt2;
 		var op2 = pt2 + " 到 " + pt1;
 		var op3 = "";
+		var mbackwardGuide = "";
+		var mforwardGuide  = "";
 
 		for (var i = 0; i < fromNode.length; i++) {
 
@@ -1540,6 +1573,9 @@ function createLineInfo(pt1, pt2) {
 				} else {
 					op3 = "(" + pt1 + "->" + pt2 + ")";
 				}
+				
+				mforwardGuide = forwardGuide[i];
+				mbackwardGuide = backwardGuide[i];
 				break;
 			}
 		}
@@ -1553,8 +1589,8 @@ function createLineInfo(pt1, pt2) {
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口'></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口' value=" + mforwardGuide + "></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室' value=" + mbackwardGuide + "></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opLine(" + pt1 + "," + pt2 + ")'" + ">提交</button></div>" +
 
 			"</form>";
@@ -1690,6 +1726,8 @@ function opLine(pt1, pt2) {
 
 	var mforwardGuide = document.forms['loginform']['forward'].value;
 	var mbackwardGuide = document.forms['loginform']['backward'].value;
+	
+	
 
 	for (var i = 0; i < fromNode.length; i++) {
 
@@ -1697,8 +1735,10 @@ function opLine(pt1, pt2) {
 
 			switch (parseInt(opcode)) {
 			case 1:
-				direction[i] = 1;
+				direction[i] = 1;	
 
+                forwardGuide[i] = mforwardGuide;
+                backwardGuide[i] = mbackwardGuide;				
 				//fromNode 和 toNode 保持不变,  传direction = 1 表示该成双向
 				$.post("updatenavipath.action", {
 					fromNode : pt1,
@@ -1712,6 +1752,9 @@ function opLine(pt1, pt2) {
 			case 2:
 
 				direction[i] = 2;
+				
+				forwarGuide[i] = mforwardGuide;
+                backwardGuide[i] = mbackwardGuide;
 
 				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
 				$.post("updatenavipath.action", {
@@ -1729,6 +1772,10 @@ function opLine(pt1, pt2) {
 				navdiv = document.getElementById(currdiv)
 					navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
+				
+				forwarGuide[i] = mforwardGuide;
+                backwardGuide[i] = mbackwardGuide;
+				
 				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
 				$.post("updatenavipath.action", {
 					fromNode : pt1,
@@ -1866,6 +1913,9 @@ function setPointNav(realX, realY) {
 
 					mforwardGuide = document.forms['loginform']['forward'].value;
 					mbackwardGuide = document.forms['loginform']['backward'].value;
+					
+					forwardGuide.push(mforwardGuide);
+					backwardGuide.push(mbackwardGuide);
 
 					//增加导航线, 跨楼层
 					$.post("savenavipath.action", {
