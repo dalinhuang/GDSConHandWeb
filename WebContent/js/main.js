@@ -205,16 +205,15 @@ function load() {
 				interest_rotation.push(data.data[i].rotation);
 				interest_maxzoomfactor.push(data.data[i].maxZoomFactor);
 				interest_minzoomfactor.push(data.data[i].minzoomfactor);
-				
+
 				var divstr = "div" + i + 1;
 
-	            initplace(interest_x[i], interest_y[i], interest_label[i], divstr);
-				
+				initplace(interest_x[i], interest_y[i], interest_label[i], divstr);
+
 				interest_div.push(divstr);
-				
-				
+
 			}
-			
+
 			clearInterestDraw();
 
 		},
@@ -2776,8 +2775,17 @@ function selectFloor(floor) {
 		img.src = "images/map2.png";
 		which_floor = 5;
 	}
+	
+	if (isNav) {
+		clearInterestDraw();
+		redrawAll();
+	} else {
+		clearNavDraw();
+		showInterestDraw();
+	}
 
-	redrawAll();
+	
+
 
 }
 
@@ -2848,7 +2856,7 @@ function changeFloor(floor) {
 
 	}
 
-	redrawAll();
+	
 
 }
 
@@ -2929,6 +2937,7 @@ function selectInterestNav(value) {
 	} else {
 		isNav = false;
 		clearNavDraw();
+		showInterestDraw();
 	}
 }
 
@@ -2976,6 +2985,19 @@ function submitPoiDetailInfo() {
 	} else {
 		mreadable = false;
 	}
+	
+	/*
+	var opIdx = -1;
+	
+	for (var i = 0; i < interest_x.length; i++) {
+	    if (interest_x[i] == document.forms['form1']['xpos'].value) {
+		    if (interest_y[i] == document.forms['form1']['ypos'].value) {
+			   if (interest_floor[i] == which_floor) {
+			      opIdx
+			   }
+			}
+		}
+	}*/
 
 	$.post("updatepoi.action", {
 		type : mtype,
@@ -3047,14 +3069,37 @@ function clearNavDraw() {
 			trandivline.style.display = "none";
 		}
 	}
+
+	for (var i = 0; i < fromNode.length; i++) {
+
+		divlineId = fromNode[i] + "_" + toNode[i];
+
+		var divline = document.getElementById(divlineId);
+
+		if (divline != null) {
+			divline.style.display = "none";
+		}
+	}
 }
 
 function clearInterestDraw() {
-    for (var i = 0; i < interest_x.length; i++) {
+	for (var i = 0; i < interest_x.length; i++) {
 		var interestdiv = document.getElementById(interest_div[i]);
-	
+
 		interestdiv.style.display = "none";
 
-	
-	}  
+	}
+}
+
+function showInterestDraw() {
+	for (var i = 0; i < interest_x.length; i++) {
+		var interestdiv = document.getElementById(interest_div[i]);
+
+		if (interest_floor[i] == which_floor) {
+			interestdiv.style.display = "block";
+		} else {
+		    interestdiv.style.display = "none";
+		}
+
+	}
 }
