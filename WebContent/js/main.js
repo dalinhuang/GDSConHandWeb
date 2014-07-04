@@ -1786,6 +1786,8 @@ function opTransitLine(pt1, pt2) {
 
 				toNode.splice(i, 1);
 				direction.splice(i, 1);
+				forwardGuide.splice(i, 1);
+				backwardGuide.splice(i, 1);
 
 				if (!judgeTransitPt(pt1)) {
 					nav_transit[pt1 - 1] = false;
@@ -1878,7 +1880,7 @@ function opLine(pt1, pt2) {
 
 				direction[i] = 2;
 
-				forwarGuide[i] = mforwardGuide;
+				forwardGuide[i] = mforwardGuide;
 				backwardGuide[i] = mbackwardGuide;
 
 				//fromNode 和 toNode 保持不变,  传direction = 2 表示该成单向
@@ -1898,7 +1900,7 @@ function opLine(pt1, pt2) {
 					navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
 
-				forwarGuide[i] = mforwardGuide;
+				forwardGuide[i] = mforwardGuide;
 				backwardGuide[i] = mbackwardGuide;
 
 				//fromNode 和 toNode 要在数据库调换位置 ,  传direction = 3 表示该成单向
@@ -1917,6 +1919,8 @@ function opLine(pt1, pt2) {
 
 				toNode.splice(i, 1);
 				direction.splice(i, 1);
+				forwardGuide.splice(i, 1);
+				backwardGuide.splice(i, 1);
 				//forwardGuide.splice(i, 1);
 				//backwardGuide.splice(i, 1);
 				del_div(currdiv);
@@ -2087,8 +2091,8 @@ function setPointNav(realX, realY) {
 					toNode.push(pt2);
 
 					var mdirection;
-					var mforwardGuide;
-					var mbackwardGuide;
+					var mforwardGuide = "";
+					var mbackwardGuid = "";
 
 					if (document.forms['loginform']['selectNavType'].value == "1") {
 						direction.push(1);
@@ -2224,6 +2228,9 @@ function setPointNav(realX, realY) {
 				mforwardGuide = document.forms['loginform']['forward'].value;
 				mbackwardGuide = document.forms['loginform']['backward'].value;
 
+				forwardGuide.push(mforwardGuide);
+				backwardGuide.push(mbackwardGuide);
+
 				//增加导航线, 本楼层
 				$.post("savenavipath.action", {
 					fromNode : pt1,
@@ -2305,8 +2312,8 @@ function setPointNav(realX, realY) {
 		placeX : realX,
 		placeY : realY,
 		label : mlabel
-	},  function (data) {
-		alert(data.data);
+	}, function (data) {
+		//alert(data.data);
 	});
 
 	//alert(document.forms['loginform']['petName'].value);
@@ -2664,6 +2671,12 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 	canvas_upper.style.zIndex = 2;
 }
 
+function mywait(time) {
+	for (var i = 0; i < time; i++) {
+		for (var j = 0; j < time; j++) {}
+	}
+}
+
 //删除导航点,  注意要将所有的和这个点相关的导航线全部要删除
 function deleteNavPoint(posx, posy, realX, realY) {
 
@@ -2688,6 +2701,13 @@ function deleteNavPoint(posx, posy, realX, realY) {
 		if (fromNode[i] == pt || toNode[i] == pt) {
 
 			var deldiv = fromNode[i] + "_" + toNode[i];
+			
+			$.post("deletenavipath.action", {
+				fromNode : fromNode[i],
+				toNode : toNode[i],
+
+			});
+
 			//alert(deldiv);
 
 			fromNode.splice(i, 1);
@@ -2696,16 +2716,14 @@ function deleteNavPoint(posx, posy, realX, realY) {
 			direction.splice(i, 1);
 			//forwardGuide.splice(i, 1);
 			//backwardGuide.splice(i, 1);
-
+			forwardGuide.splice(i, 1);
+			backwardGuide.splice(i, 1);
 
 			del_div(deldiv);
 
-			$.post("deletenavipath.action", {
-				fromNode : fromNode[i],
-				toNode : toNode[i],
+			//mywait(5000);
 
-			});
-
+			
 			i--;
 
 		}
@@ -2842,11 +2860,13 @@ function judgeTransitPt(pt) {
 	for (var i = 0; i < fromNode.length; i++) {
 
 		if (fromNode[i] == pt) {
+			if (nav_flag[toNode[i] - 1]) {
 
-			if (nav_floor[fromNode[i] - 1] != nav_floor[toNode[i] - 1]) {
+				if (nav_floor[fromNode[i] - 1] != nav_floor[toNode[i] - 1]) {
 
-				return true;
+					return true;
 
+				}
 			}
 		}
 	}
@@ -2854,11 +2874,13 @@ function judgeTransitPt(pt) {
 	for (var i = 0; i < toNode.length; i++) {
 
 		if (toNode[i] == pt) {
+			if (nav_flag[fromNode[i] - 1]) {
 
-			if (nav_floor[fromNode[i] - 1] != nav_floor[toNode[i] - 1]) {
+				if (nav_floor[fromNode[i] - 1] != nav_floor[toNode[i] - 1]) {
 
-				return true;
+					return true;
 
+				}
 			}
 		}
 	}
