@@ -2305,6 +2305,8 @@ function setPointNav(realX, realY) {
 		placeX : realX,
 		placeY : realY,
 		label : mlabel
+	},  function (data) {
+		alert(data.data.id);
 	});
 
 	//alert(document.forms['loginform']['petName'].value);
@@ -2599,7 +2601,7 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 				placeY : interest_y[i],
 
 			});
-            /*
+			/*
 			var interest_x = new Array();
 			var interest_y = new Array();
 			var interest_label = new Array();
@@ -2646,8 +2648,8 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 			interest_audiourl.splice(i, 1);
 			interest_reachable.splice(i, 1);
 			interest_readable.splice(i, 1);
-			interest_generaldesc.splice(i, 1); 
-			interest_shareble.splice(i, 1); 
+			interest_generaldesc.splice(i, 1);
+			interest_shareble.splice(i, 1);
 			break;
 		}
 	}
@@ -3326,29 +3328,30 @@ function submitPoiDetailInfo() {
 		alert("提交数据成功");
 		detaildiv = document.getElementById("stylized");
 		detaildiv.style.display = "none";
+
+		document.forms['form1']['poilabel'].value = "";
+		document.forms['form1']['floor'].value = "";
+		document.forms['form1']['xpos'].value = "";
+		document.forms['form1']['ypos'].value = "";
+		document.forms['form1']['selectInterest'].value = "0";
+		document.forms['form1']['detaileddesc'].value = "";
+		document.forms['form1']['hallid'].value = "";
+		document.forms['form1']['ttsid'].value = "";
+		document.forms['form1']['nearnavid'].value = "";
+		document.forms['form1']['scale'].value = "";
+		document.forms['form1']['alpha'].value = "";
+		document.forms['form1']['rotation'].value = "";
+		document.forms['form1']['minzoomfactor'].value = "";
+		document.forms['form1']['maxzoomfactor'].value = "";
+		document.forms['form1']['weburl'].value = "";
+		document.forms['form1']['picurl'].value = "";
+		document.forms['form1']['iconurl'].value = "";
+		document.forms['form1']['audiourl'].value = "";
+		document.forms['form1']['shareble'].value = "1";
+		document.forms['form1']['reachable'].value = "1";
+		document.forms['form1']['readable'].value = "1";
 	});
 
-	document.forms['form1']['poilabel'].value = "";
-	document.forms['form1']['floor'].value = "";
-	document.forms['form1']['xpos'].value = "";
-	document.forms['form1']['ypos'].value = "";
-	document.forms['form1']['selectInterest'].value = "0";
-	document.forms['form1']['detaileddesc'].value = "";
-	document.forms['form1']['hallid'].value = "";
-	document.forms['form1']['ttsid'].value = "";
-	document.forms['form1']['nearnavid'].value = "";
-	document.forms['form1']['scale'].value = "";
-	document.forms['form1']['alpha'].value = "";
-	document.forms['form1']['rotation'].value = "";
-	document.forms['form1']['minzoomfactor'].value = "";
-	document.forms['form1']['maxzoomfactor'].value = "";
-	document.forms['form1']['weburl'].value = "";
-	document.forms['form1']['picurl'].value = "";
-	document.forms['form1']['iconurl'].value = "";
-	document.forms['form1']['audiourl'].value = "";
-	document.forms['form1']['shareble'].value = "1";
-	document.forms['form1']['reachable'].value = "1";
-	document.forms['form1']['readable'].value = "1";
 }
 
 function cancelPoiDetailInfo() {
