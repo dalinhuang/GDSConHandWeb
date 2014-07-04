@@ -48,6 +48,10 @@ public class SaveNaviNodeAction extends ActionSupport implements ModelDriven<Nav
 		return naviNode;
 	}
 
+	public int getData() {
+		return naviNode.getId();
+	}
+
 	public void setNaviNode(NaviNode naviNode) {
 		this.naviNode = naviNode;
 	}

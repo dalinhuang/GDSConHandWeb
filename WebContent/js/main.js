@@ -2306,7 +2306,7 @@ function setPointNav(realX, realY) {
 		placeY : realY,
 		label : mlabel
 	},  function (data) {
-		alert(data.data.id);
+		alert(data.data);
 	});
 
 	//alert(document.forms['loginform']['petName'].value);
