@@ -40,6 +40,7 @@ public class DeleteNaviPathAction extends ActionSupport implements ModelDriven<N
 		NaviPath currentNaviPath = NaviPathRepositoryHibernate.findNaviPath(naviPath.getFromNode(),naviPath.getToNode());
 		if (currentNaviPath != null)
 		{
+			System.out.println("from:"+currentNaviPath.getFromNode()+" to:"+currentNaviPath.getToNode());
 			NaviPathRepositoryHibernate.deleteNaviPath(currentNaviPath);
 		}
 		
