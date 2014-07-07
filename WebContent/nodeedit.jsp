@@ -316,7 +316,7 @@ tr:nth-child(even) {
 		
  
 	<script type="text/javascript" src="js/main.js"></script>
-	<!-- 			    <script type="text/javascript">
+<!-- 	 			    <script type="text/javascript">
 			    $(document).ready(function() {
 
 var bodydiv = document.getElementById("body");
@@ -324,10 +324,10 @@ alert("loading.");
 alert("bodydiv1:"+bodydiv);
         	load();
         });
-        </script> -->
+       </script> --> 
 				    <script type="text/javascript">
 
-
+/* 
 				    if (document.all){
 
 				    	window.attachEvent('onload',load);
@@ -342,14 +342,13 @@ alert("bodydiv1:"+bodydiv);
 
 				    	}
 
-
+ */
 
 				    
  			    window.onload = function() {
 
 var bodydiv = document.getElementById("page-home");
-alert("loading.");
-alert("bodydiv2:"+bodydiv);
+
         	load();
         } 
         </script>
