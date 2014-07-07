@@ -316,46 +316,12 @@ tr:nth-child(even) {
 		
  
 	<script type="text/javascript" src="js/main.js"></script>
-<!-- 	 			    <script type="text/javascript">
-			    $(document).ready(function() {
+    <script type="text/javascript">
+		window.onload = function() {
+			load();
+		}
+    </script>
 
-var bodydiv = document.getElementById("body");
-alert("loading.");
-alert("bodydiv1:"+bodydiv);
-        	load();
-        });
-       </script> --> 
-				    <script type="text/javascript">
-
-/* 
-				    if (document.all){
-
-				    	window.attachEvent('onload',load);
-				    	alert("a1");
-
-				    	}
-
-				    	else{
-
-				    	window.addEventListener('load',load,false);//firefox
-				    	alert("a2");
-
-				    	}
-
- */
-
-				    
- 			    window.onload = function() {
-
-var bodydiv = document.getElementById("page-home");
-
-        	load();
-        } 
-        </script>
-	
-		
-					
-					
 					</div>
 				</div>
 			</div>
