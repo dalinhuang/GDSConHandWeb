@@ -954,7 +954,7 @@ function initplace(x, y, content, divid) {
 	rightBar.style.overflow = "hidden";
 	div.appendChild(rightBar);
 
-	var bodydiv = document.getElementById("body");
+	var bodydiv = document.getElementById("page-home");
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
@@ -1045,7 +1045,7 @@ function initplaceNav(x, y, content, divid) {
 
 	div.innerHTML = content;
 
-	var bodydiv = document.getElementById("body");
+	var bodydiv = document.getElementById("page-home");
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
@@ -1131,7 +1131,7 @@ function initplaceLine(x, y, divid) {
 	div.style.left = x + "px";
 	div.style.top = y + "px";
 
-	var bodydiv = document.getElementById("body");
+	var bodydiv = document.getElementById("page-home");
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
@@ -1227,7 +1227,7 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 
 	login.appendChild(x);
 
-	var bodydiv = document.getElementById("body");
+	var bodydiv = document.getElementById("page-home");
 
 	bodydiv.appendChild(div_in);
 	bodydiv.style.overflow = "scroll";
@@ -1275,7 +1275,7 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 
 	login.appendChild(x);
 
-	var bodydiv = document.getElementById("body");
+	var bodydiv = document.getElementById("page-home");
 
 	bodydiv.appendChild(div_in);
 	bodydiv.style.overflow = "scroll";
@@ -1285,7 +1285,7 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 }
 
 function del_pop(id_out, id_in) {
-	var bodydiv = document.getElementById('body');
+	var bodydiv = document.getElementById('page-home');
 	bodydiv.style.overflow = "scroll";
 
 	var childs = bodydiv.childNodes;
@@ -1334,7 +1334,7 @@ function onmove(x, y) {
 }
 
 function del_div(temp) {
-	var bodydiv = document.getElementById('body');
+	var bodydiv = document.getElementById('page-home');
 	bodydiv.style.overflow = "scroll";
 
 	var childs = bodydiv.childNodes;
