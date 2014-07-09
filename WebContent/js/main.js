@@ -3,10 +3,15 @@ var img; //图片对象
 var which_floor = 15,
 imgIsLoaded, //图片是否加载完成;
 imgX = 0,
-imgY = 40,
+imgY = 0,
 imgScale = 1;
 var is_transit = false;
 var curropIdx;
+var movex = 0;
+var movey = 0;
+
+var CANVAS_OFFSET_X = 65;
+var CANVAS_OFFSET_Y = 61;
 
 var isNav = true;
 
@@ -95,6 +100,10 @@ var toNode = new Array();
 var direction = new Array();
 var forwardGuide = new Array();
 var backwardGuide = new Array();
+
+var navtransdiv = new Array();
+var trans_x = new Array();
+var trans_y = new Array();
 
 function load() {
 	canvas = document.getElementById('canvas');
@@ -227,7 +236,7 @@ function load() {
 
 				var divstr = "div" + i + 1;
 
-				initplace(interest_x[i], interest_y[i], interest_label[i], divstr);
+				initplace(interest_x[i] + CANVAS_OFFSET_X, interest_y[i] + CANVAS_OFFSET_Y, interest_label[i], divstr);
 
 				interest_div.push(divstr);
 
@@ -278,7 +287,7 @@ function load() {
 				nav_floor[id] = data.data[i].mapId;
 
 				var divstr = "divnav" + id + 1;
-				initplaceNav(nav_x[id], nav_y[id], id + 1, divstr);
+				initplaceNav(nav_x[id] + CANVAS_OFFSET_X, nav_y[id] + CANVAS_OFFSET_Y, id + 1, divstr);
 
 				nav_div[id] = divstr;
 
@@ -307,6 +316,10 @@ function load() {
 
 						var pt1 = data.data[i].fromNode;
 						var pt2 = data.data[i].toNode;
+						
+						if (nav_floor[pt1 - 1] != nav_floor[pt2 - 1]) {
+						   continue;
+						}
 
 						var divid = pt1 + "_" + pt2;
 
@@ -319,7 +332,11 @@ function load() {
 						var midx = (x1 + x2) / 2;
 						var midy = (y1 + y2) / 2;
 
-						initplaceLine(midx, midy, divid);
+						initplaceLine(midx + CANVAS_OFFSET_X, midy + CANVAS_OFFSET_Y, divid);
+						navtransdiv.push(divid);
+						trans_x.push(midx);
+					    trans_y.push(midy);
+
 
 					}
 
@@ -330,13 +347,20 @@ function load() {
 							var x2 = nav_x[i];
 							var y2 = nav_y[i];
 
-							initplaceNav(x2, y2 + 60, "换", i + 1 + "_transit");
+							initplaceNav(x2 + CANVAS_OFFSET_X, y2 + 60 + CANVAS_OFFSET_Y, "换", i + 1 + "_transit");
+							navtransdiv.push(i + 1 + "_transit");
+						    trans_x.push(x2);
+						    trans_y.push(y2 + 60);
+
 
 							var trandivId = i + 1 + "_transit";
 							var trandiv = document.getElementById(trandivId);
 							trandiv.style.display = "none";
 
-							initplaceLine(x2, y2 + 30, i + 1 + "_" + "0");
+							initplaceLine(x2 + CANVAS_OFFSET_X, y2 + 30 + CANVAS_OFFSET_Y, i + 1 + "_" + "0");
+							navtransdiv.push(i + 1 + "_" + "0");
+						    trans_x.push(x2);
+						    trans_y.push(y2 + 30);
 
 							var trandivlineId = i + 1 + "_" + "0";
 							var trandivline = document.getElementById(trandivlineId);
@@ -419,6 +443,7 @@ function load() {
 			ismove = true;
 
 			onmove(x, y);
+
 		}
 		canvas.onmouseup = function () {
 			canvas.onmousemove = null;
@@ -441,7 +466,7 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
-				pop_up(pos.x, pos.y, realX, realY, true, null);
+				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
 			} else {
 				canvas.style.zIndex = 1;
 				canvas_upper.style.zIndex = 2;
@@ -579,7 +604,7 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
-				pop_up(pos.x, pos.y, realX, realY, true, null);
+				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
 			} else {
 				canvas.style.zIndex = 1;
 				canvas_upper.style.zIndex = 2;
@@ -692,7 +717,7 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
-				pop_up(pos.x, pos.y, realX, realY, true, null);
+				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
 			} else {
 				canvas.style.zIndex = 1;
 				canvas_upper.style.zIndex = 2;
@@ -743,6 +768,14 @@ function load() {
 
 		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
 		ismove = false;
+		
+		
+
+		if (event.ctrlKey) {
+			ismove = true;
+		}
+
+		//alert(event.ctrlKey);
 
 		//var h1 =document.getElementById('h1');
 		//alert(h1);
@@ -758,7 +791,11 @@ function load() {
 
 		//pop_up(pos.x, pos.y);
 		// alert("X="+event.clientX + "Y=" + event.clientY);
-		canvas.onmousemove = function (event) {
+		canvas_nav.onmousemove = function (event) {
+			if (!ismove) {
+				return;
+			}
+
 			canvas.style.cursor = "move";
 			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
 			var x = pos1.x - pos.x;
@@ -780,9 +817,15 @@ function load() {
 			imgX += x;
 			imgY += y;
 			drawImage();
-			ismove = true;
 
 			onmove(x, y);
+
+			movex = x;
+			movey = y;
+
+			if (isNav) {
+				redrawAll();
+			}
 		}
 		canvas_nav.onmouseup = function () {
 			canvas_nav.onmousemove = null;
@@ -790,6 +833,9 @@ function load() {
 			canvas_nav.style.cursor = "default";
 
 			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+			
+			//alert(event.clientX);
+			//alert(event.clientY);
 			//var h1 =document.getElementById('h1');
 			//alert(h1);
 			//h1.value = "X="+event.clientX + "Y=" + event.clientY;
@@ -807,15 +853,20 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
-				pop_up(pos.x, pos.y, realX, realY, true, null);
+				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
 			} else {
-				canvas.style.zIndex = 1;
-				canvas_upper.style.zIndex = 2;
+				//canvas.style.zIndex = 1;
+				//canvas_upper.style.zIndex = 2;
+
 			}
 		}
 	}
 
 	canvas_nav.onmousewheel = canvas.onwheel = function (event) {
+		if (!event.ctrlKey) {
+			return;
+		}
+
 		canvas.style.zIndex = 2;
 		canvas_upper.style.zIndex = 1;
 
@@ -837,6 +888,10 @@ function load() {
 	}
 
 	canvas_nav.onmousewheel = canvas.onwheel = function (event) {
+		if (!event.ctrlKey) {
+			return;
+		}
+
 		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
 		event.wheelDelta = event.wheelDelta ? event.wheelDelta : (event.deltaY * (-40));
 
@@ -980,7 +1035,7 @@ function initplace(x, y, content, divid) {
 
 		currdiv = div.id;
 
-		pop_up(pos.x, pos.y, realX, realY, false, content);
+		pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, false, content);
 
 		canvas.style.zIndex = 2;
 		canvas_upper.style.zIndex = 1;
@@ -1071,7 +1126,7 @@ function initplaceNav(x, y, content, divid) {
 
 		currdiv = div.id;
 
-		pop_up(pos.x, pos.y, realX, realY, false, content);
+		pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, false, content);
 
 		canvas.style.zIndex = 2;
 		canvas_upper.style.zIndex = 1;
@@ -1160,7 +1215,7 @@ function initplaceLine(x, y, divid) {
 		pt1 = m[0];
 		pt2 = m[1];
 
-		pop_up_line_info(pos.x, pos.y, pt1, pt2);
+		pop_up_line_info(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, pt1, pt2);
 
 		canvas.style.zIndex = 2;
 		canvas_upper.style.zIndex = 1;
@@ -1312,8 +1367,8 @@ function onmove(x, y) {
 		//alert(div);
 
 
-		var xx = imgX + (interest_x[i]) * imgScale + x + offset_x;
-		var yy = imgY + (interest_y[i]) * imgScale + y + offset_y;
+		var xx = imgX + (interest_x[i]) * imgScale + x + offset_x + CANVAS_OFFSET_X;
+		var yy = imgY + (interest_y[i]) * imgScale + y + offset_y + CANVAS_OFFSET_Y;
 
 		div.style.left = xx + "px";
 		div.style.top = yy + "px";
@@ -1332,6 +1387,8 @@ function onmove(x, y) {
 	}
 
 }
+
+function onmovenav(x, y) {}
 
 function del_div(temp) {
 	var bodydiv = document.getElementById('page-home');
@@ -1897,8 +1954,15 @@ function opLine(pt1, pt2) {
 				toNode[i] = pt1;
 				direction[i] = 2;
 				navdiv = document.getElementById(currdiv)
-					navdiv.id = pt2 + "_" + pt1;
+				navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
+				
+				for (var j = 0; j < navtransdiv.length; j++) {
+					if (pt1 + "_" + pt2 == navtransdiv[j]) {
+						navtransdiv[j] = pt2 + "_" + pt1;
+						break;
+					}
+				}
 
 				forwardGuide[i] = mforwardGuide;
 				backwardGuide[i] = mbackwardGuide;
@@ -1957,7 +2021,7 @@ function setPoint(realX, realY) {
 				interest_label[i] = document.forms['loginform']['petName'].value;
 				del_div(currdiv);
 				//alert("vv");
-				initplace(interest_x[i], interest_y[i], document.forms['loginform']['petName'].value, currdiv);
+				initplace(interest_x[i] + CANVAS_OFFSET_X, interest_y[i] + CANVAS_OFFSET_Y, document.forms['loginform']['petName'].value, currdiv);
 
 				del_pop("id_out", "id_in");
 				del_pop("id_out", "id_in");
@@ -1975,7 +2039,7 @@ function setPoint(realX, realY) {
 	realX = parseInt(document.forms['loginform']['xpos'].value);
 	realY = parseInt(document.forms['loginform']['ypos'].value);
 
-	initplace(realX, realY, document.forms['loginform']['petName'].value, divstr);
+	initplace(realX + CANVAS_OFFSET_X, realY + CANVAS_OFFSET_Y, document.forms['loginform']['petName'].value, divstr);
 
 	interest_x.push(realX);
 	interest_y.push(realY);
@@ -2082,8 +2146,8 @@ function setPointNav(realX, realY) {
 				//alert (document.forms['loginform']['selectFloor'].value);
 
 				if (document.forms['loginform']['selectFloor'].value == "2") {
-					var x1 = nav_x[pt1 - 1];
-					var y1 = nav_y[pt1 - 1];
+					var x1 = imgX + nav_x[pt1 - 1] + movex;
+					var y1 = imgY + nav_y[pt1 - 1] + movey;
 
 					var pt2 = document.forms['loginform']['selectNav'].value;
 
@@ -2123,17 +2187,24 @@ function setPointNav(realX, realY) {
 						var x2 = nav_x[pt2 - 1];
 						var y2 = nav_y[pt2 - 1];
 
-						initplaceNav(x2, y2 + 60, "换", pt2 + "_transit");
+						initplaceNav(x2 + CANVAS_OFFSET_X, y2 + 60 + CANVAS_OFFSET_Y, "换", pt2 + "_transit");
+						navtransdiv.push(pt2 + "_transit");
+						trans_x.push(x2);
+						trans_y.push(y2 + 60);
 
 						var trandivId = pt2 + "_transit";
 						var trandiv = document.getElementById(trandivId);
 						trandiv.style.display = "none";
 
-						initplaceLine(x2, y2 + 30, pt2 + "_" + "0");
+						initplaceLine(x2 + CANVAS_OFFSET_X, y2 + 30 + CANVAS_OFFSET_Y, pt2 + "_" + "0");
+						navtransdiv.push(pt2 + "_" + "0");
+						trans_x.push(x2);
+						trans_y.push(y2 + 30);
 
 						var trandivlineId = pt2 + "_" + "0";
 						var trandivline = document.getElementById(trandivlineId);
 						trandivline.style.display = "none";
+
 					}
 
 					if (nav_transit[pt1 - 1]) {
@@ -2186,11 +2257,16 @@ function setPointNav(realX, realY) {
 					canvas_nav.style.zIndex = 2;
 					canvas.style.zIndex = 2;
 
-					initplaceNav(x2, y2 - 20, "换", pt1 + "_transit");
-
+					initplaceNav(x2 + CANVAS_OFFSET_X, y2 - 20 + CANVAS_OFFSET_Y, "换", pt1 + "_transit");
+					navtransdiv.push(pt1 + "_transit");
+					trans_x.push(x2);
+					trans_y.push(y2 - 20);
 					//alert (y2 - 20 - nav_y[pt1 - 1]);
 
-					initplaceLine(x1, y2 - 50, pt1 + "_" + "0");
+					initplaceLine(x1 + CANVAS_OFFSET_X, y2 - 50 + CANVAS_OFFSET_Y, pt1 + "_" + "0");
+					navtransdiv.push(pt1 + "_" + "0");
+					trans_x.push(x1);
+					trans_y.push(y2 - 50);
 
 					return;
 
@@ -2201,14 +2277,17 @@ function setPointNav(realX, realY) {
 				//alert(document.forms['loginform']['selectNavType'].value);
 
 
-				var x1 = nav_x[pt1 - 1];
-				var y1 = nav_y[pt1 - 1];
+				var x1 = imgX + nav_x[pt1 - 1] + movex;
+				var y1 = imgY + nav_y[pt1 - 1] + movey;
 
-				var x2 = nav_x[pt2 - 1];
-				var y2 = nav_y[pt2 - 1];
+				var x2 = imgX + nav_x[pt2 - 1] + movex;
+				var y2 = imgY + nav_y[pt2 - 1] + movey;
 
 				var midx = (x1 + x2) / 2;
 				var midy = (y1 + y2) / 2;
+
+				var realmidx = (nav_x[pt1 - 1] + nav_x[pt2 - 1]) / 2;
+				var realmidy = (nav_y[pt1 - 1] + nav_y[pt2 - 1]) / 2;
 
 				fromNode.push(pt1);
 				toNode.push(pt2);
@@ -2282,7 +2361,10 @@ function setPointNav(realX, realY) {
 
 				var divid = pt1 + "_" + pt2;
 
-				initplaceLine(midx, midy, divid);
+				initplaceLine(realmidx + CANVAS_OFFSET_X, realmidy + CANVAS_OFFSET_Y, divid);
+				navtransdiv.push(divid);
+				trans_x.push(realmidx);
+				trans_y.push(realmidy);
 
 				return;
 			}
@@ -2293,7 +2375,7 @@ function setPointNav(realX, realY) {
 	realY = parseInt(document.forms['loginform']['ypos'].value);
 
 	divstr = "divnav" + nav_div.length + 1;
-	initplaceNav(realX, realY, currNavId, divstr);
+	initplaceNav(realX + 64, realY + 61, currNavId, divstr);
 
 	currNavId++;
 
@@ -2332,13 +2414,13 @@ function setPointNav(realX, realY) {
 
 function setNewPoint(realX, realY) {
 
-	initplace(realX, realY, "新建", "temp");
+	initplace(realX + CANVAS_OFFSET_X, realY + CANVAS_OFFSET_Y, "新建", "temp");
 
 }
 
 function setNewPointNav(realX, realY) {
 
-	initplaceNav(realX, realY, currNavId, "temp");
+	initplaceNav(realX + CANVAS_OFFSET_X, realY + CANVAS_OFFSET_Y, currNavId, "temp");
 
 }
 
@@ -2473,7 +2555,7 @@ function modifyNavPoint(posx, posy, realX, realY) {
 
 	del_pop("id_out", "id_in");
 
-	pop_up(posx, posy, realX, realY, true, "修改节点");
+	pop_up(posx + CANVAS_OFFSET_X, posy + CANVAS_OFFSET_Y, realX, realY, true, "修改节点");
 
 	//
 }
@@ -2701,7 +2783,7 @@ function deleteNavPoint(posx, posy, realX, realY) {
 		if (fromNode[i] == pt || toNode[i] == pt) {
 
 			var deldiv = fromNode[i] + "_" + toNode[i];
-			
+
 			$.post("deletenavipath.action", {
 				fromNode : fromNode[i],
 				toNode : toNode[i],
@@ -2723,7 +2805,7 @@ function deleteNavPoint(posx, posy, realX, realY) {
 
 			//mywait(5000);
 
-			
+
 			i--;
 
 		}
@@ -2780,7 +2862,7 @@ function windowToCanvas(canvas, x, y) {
 	var bbox = canvas.getBoundingClientRect();
 	return {
 		x : x - bbox.left - (bbox.width - canvas.width) / 2,
-		y : y - bbox.top - (bbox.height - canvas.height) / 2 + 40
+		y : y - bbox.top - (bbox.height - canvas.height) / 2
 	};
 }
 
@@ -2900,6 +2982,10 @@ function redrawAll() {
 		}
 
 		if (nav_floor[i] == which_floor) {
+			//alert(movex);
+			//alert(movey);
+			navdiv.style.left = imgX + nav_x[i] + movex - 12 + CANVAS_OFFSET_X + "px";
+			navdiv.style.top = imgY + nav_y[i] + movey - 12 + CANVAS_OFFSET_Y + "px";
 
 			navdiv.style.display = "block";
 
@@ -2908,16 +2994,30 @@ function redrawAll() {
 				trandiv = document.getElementById(trandivId);
 				trandiv.style.display = "block";
 
-				trandivId = (i + 1) + "_transit"
-				trandiv = document.getElementById(trandivId);
-				trandiv.style.display = "block";
+				for (var j = 0; j < navtransdiv.length; j++) {
+					if (trandivId == navtransdiv[j]) {
+						trandiv.style.left = imgX + trans_x[j] + movex - 12 + CANVAS_OFFSET_X + "px";
+						trandiv.style.top = imgY + trans_y[j] + movey - 12 +  CANVAS_OFFSET_Y + "px";
+						break;
+					}
+				}
+
+				
 
 				var trandivlineId = (i + 1) + "_" + "0";
 				var trandivline = document.getElementById(trandivlineId);
 				trandivline.style.display = "block";
+				
+				for (var j = 0; j < navtransdiv.length; j++) {
+					if (trandivlineId == navtransdiv[j]) {
+						trandivline.style.left = imgX + trans_x[j] + movex - 5 + CANVAS_OFFSET_X + "px";
+						trandivline.style.top = imgY + trans_y[j] + movey - 5 +  CANVAS_OFFSET_Y + "px";
+						break;
+					}
+				}
 
-				var x1 = nav_x[i];
-				var y1 = nav_y[i];
+				var x1 = imgX + nav_x[i] + movex;
+				var y1 = imgY + nav_y[i] + movey;
 
 				var x2 = x1;
 				var y2 = y1 + 20;
@@ -2989,14 +3089,22 @@ function redrawAll() {
 		}
 
 		if (divline != null) {
+
+			for (var j = 0; j < navtransdiv.length; j++) {
+				if (divlineId == navtransdiv[j]) {
+					divline.style.left = imgX + trans_x[j] + movex - 5 + CANVAS_OFFSET_X + "px";
+					divline.style.top = imgY + trans_y[j] + movey - 5 + CANVAS_OFFSET_Y + "px";
+					break;
+				}
+			}
 			divline.style.display = "block";
 		}
 
-		var x1 = nav_x[fromNode[i] - 1];
-		var y1 = nav_y[fromNode[i] - 1];
+		var x1 = imgX + nav_x[fromNode[i] - 1] + movex;
+		var y1 = imgY + nav_y[fromNode[i] - 1] + movey;
 
-		var x2 = nav_x[toNode[i] - 1];
-		var y2 = nav_y[toNode[i] - 1];
+		var x2 = imgX + nav_x[toNode[i] - 1] + movex;
+		var y2 = imgY + nav_y[toNode[i] - 1] + movey;
 
 		if (direction[i] == 1) {
 
@@ -3033,6 +3141,11 @@ function redrawAll() {
 }
 
 function selectFloor(floor) {
+    imgX = 0,
+	imgY = 0,
+	imgScale = 1;
+	movex = 0;
+	movey = 0;
 
 	if (floor == "1") {
 		img.src = "images/map.png";
@@ -3049,6 +3162,8 @@ function selectFloor(floor) {
 		clearNavDraw();
 		showInterestDraw();
 	}
+
+	
 
 }
 
@@ -3453,9 +3568,17 @@ function showInterestDraw() {
 
 		if (interest_floor[i] == which_floor) {
 			interestdiv.style.display = "block";
+			
+			var xx = imgX + (interest_x[i]) * imgScale + offset_x + CANVAS_OFFSET_X;
+		    var yy = imgY + (interest_y[i]) * imgScale + offset_y + CANVAS_OFFSET_Y;
+		
+		   interestdiv.style.left = xx + "px";
+		   interestdiv.style.top = yy + "px";
 		} else {
 			interestdiv.style.display = "none";
 		}
+		
+		
 
 	}
 }
