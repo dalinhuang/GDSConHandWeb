@@ -34,6 +34,8 @@
 	src="<s:url value='/js/jquery-1.8.2.min.js' encode='false' includeParams='none'/>"></script>
 <script
 	src="<s:url value='/js/bootstrap.min.js' encode='false' includeParams='none'/>"></script>
+<script
+	src="<s:url value='/js/main.js' encode='false' includeParams='none'/>"></script>
 <script type="text/javascript">
 	$(function() {
 		$('.dropdown-toggle').dropdown();
@@ -176,35 +178,7 @@
 									</s:a></li> -->
 							</ul></li>
 						<!--  <li><s:a value="/interactive/index.jsp">Interactive Demo</s:a></li>  -->
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="楼层" /><b
-								class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><s:url var="url" action="trace" namespace="/emergency" />
-									<s:a href="%{#url}">
-										<s:text name="15  楼" />
-									</s:a></li>
-								<li><s:url var="url" action="urgentNotice"
-										namespace="/emergency" /> <s:a href="%{#url}">
-										<s:text name="5  楼" />
-									</s:a></li>
-								
-							</ul></li>
-							
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="节点" /><b
-								class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><s:url var="url" action="trace" namespace="/emergency" />
-									<s:a href="%{#url}">
-										<s:text name="导航点" />
-									</s:a></li>
-								<li><s:url var="url" action="urgentNotice"
-										namespace="/emergency" /> <s:a href="%{#url}">
-										<s:text name="兴趣点" />
-									</s:a></li>
-								
-							</ul></li>
+						
 					</ul>
 
 					<ul class="nav pull-right">

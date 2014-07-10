@@ -10,10 +10,17 @@ var curropIdx;
 var movex = 0;
 var movey = 0;
 
+var move_finish = true;
+
 var CANVAS_OFFSET_X = 65;
 var CANVAS_OFFSET_Y = 61;
 
-var isNav = true;
+var NO_NAV_INTEREST = 0;
+var ONLY_NAV = 1;
+var ONLY_INTEREST = 2;
+var BOTH_NAV_INTEREST = 3;
+
+var point_type = ONLY_NAV;
 
 var curr_node;
 
@@ -114,6 +121,73 @@ function load() {
 
 	canvas_nav = document.getElementById('nav');
 	ctx_nav = canvas_nav.getContext('2d');
+
+	var floor_ul = document.getElementById('floor_ul');
+	var point_ul = document.getElementById('point_ul');
+
+	floor_ul.style.display = "none";
+	point_ul.style.display = "none";
+	//var floor_menu = document.getElementById("floor");
+	$("#floor").hover(function () {
+		point_ul.style.display = "none";
+		floor_ul.style.display = "block";
+	}, function () {
+		//floor_ul.style.display = "none";
+	});
+
+	//var floor_menu = document.getElementById("floor");
+	$("#point").hover(function () {
+		point_ul.style.display = "block";
+		floor_ul.style.display = "none";
+	}, function () {});
+
+	$("#floor_ul").hover(function () {}, function () {
+		floor_ul.style.display = "none";
+	});
+
+	$("#point_ul").hover(function () {}, function () {
+
+		point_ul.style.display = "none";
+	});
+
+	var floor_ul_1 = document.getElementById('floor_ul_1');
+	var floor_ul_2 = document.getElementById('floor_ul_2');
+
+	floor_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+	floor_ul_2.style.background = "";
+	floor_ul_1.style.backgroundSize = "6px 6px";
+	
+	var point_ul_1 = document.getElementById('point_ul_1');
+	var point_ul_2 = document.getElementById('point_ul_2');
+
+	point_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+	point_ul_2.style.background = "";
+	point_ul_1.style.backgroundSize = "6px 6px";
+	
+	$("#point_ul_1").hover(function () {
+		point_ul_1.style.backgroundColor = "#fc0";
+	}, function () {
+	    point_ul_1.style.backgroundColor = "#F2F2F2";
+	});
+	
+	$("#point_ul_2").hover(function () {
+		point_ul_2.style.backgroundColor = "#fc0";
+	}, function () {
+	    point_ul_2.style.backgroundColor = "#F2F2F2";
+	});
+	
+	$("#floor_ul_1").hover(function () {
+		floor_ul_1.style.backgroundColor = "#fc0";
+	}, function () {
+	    floor_ul_1.style.backgroundColor = "#F2F2F2";
+	});
+	
+	$("#floor_ul_2").hover(function () {
+		floor_ul_2.style.backgroundColor = "#fc0";
+	}, function () {
+	    floor_ul_2.style.backgroundColor = "#F2F2F2";
+	});
+
 
 	/*
 	var user =   {
@@ -316,9 +390,9 @@ function load() {
 
 						var pt1 = data.data[i].fromNode;
 						var pt2 = data.data[i].toNode;
-						
+
 						if (nav_floor[pt1 - 1] != nav_floor[pt2 - 1]) {
-						   continue;
+							continue;
 						}
 
 						var divid = pt1 + "_" + pt2;
@@ -335,8 +409,7 @@ function load() {
 						initplaceLine(midx + CANVAS_OFFSET_X, midy + CANVAS_OFFSET_Y, divid);
 						navtransdiv.push(divid);
 						trans_x.push(midx);
-					    trans_y.push(midy);
-
+						trans_y.push(midy);
 
 					}
 
@@ -349,9 +422,8 @@ function load() {
 
 							initplaceNav(x2 + CANVAS_OFFSET_X, y2 + 60 + CANVAS_OFFSET_Y, "换", i + 1 + "_transit");
 							navtransdiv.push(i + 1 + "_transit");
-						    trans_x.push(x2);
-						    trans_y.push(y2 + 60);
-
+							trans_x.push(x2);
+							trans_y.push(y2 + 60);
 
 							var trandivId = i + 1 + "_transit";
 							var trandiv = document.getElementById(trandivId);
@@ -359,8 +431,8 @@ function load() {
 
 							initplaceLine(x2 + CANVAS_OFFSET_X, y2 + 30 + CANVAS_OFFSET_Y, i + 1 + "_" + "0");
 							navtransdiv.push(i + 1 + "_" + "0");
-						    trans_x.push(x2);
-						    trans_y.push(y2 + 30);
+							trans_x.push(x2);
+							trans_y.push(y2 + 30);
 
 							var trandivlineId = i + 1 + "_" + "0";
 							var trandivline = document.getElementById(trandivlineId);
@@ -768,8 +840,6 @@ function load() {
 
 		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
 		ismove = false;
-		
-		
 
 		if (event.ctrlKey) {
 			ismove = true;
@@ -796,6 +866,12 @@ function load() {
 				return;
 			}
 
+			if (!move_finish) {
+				return;
+			}
+
+			move_finish = false;
+
 			canvas.style.cursor = "move";
 			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
 			var x = pos1.x - pos.x;
@@ -816,16 +892,19 @@ function load() {
 			pos = pos1;
 			imgX += x;
 			imgY += y;
-			drawImage();
 
 			onmove(x, y);
 
 			movex = x;
 			movey = y;
 
-			if (isNav) {
+			if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
 				redrawAll();
 			}
+
+			drawImage();
+
+			move_finish = true;
 		}
 		canvas_nav.onmouseup = function () {
 			canvas_nav.onmousemove = null;
@@ -833,7 +912,7 @@ function load() {
 			canvas_nav.style.cursor = "default";
 
 			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
-			
+
 			//alert(event.clientX);
 			//alert(event.clientY);
 			//var h1 =document.getElementById('h1');
@@ -1234,21 +1313,21 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 	}
 
 	if (isInput) {
-		if (isNav) {
+		if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
 			login = new createLoginNav(realX, realY, posx, posy, content);
 			if (content == null) {
 				setNewPointNav(realX, realY);
 			}
-		} else {
+		} else if (point_type == ONLY_INTEREST) {
 			login = new createLogin(realX, realY, posx, posy, content);
 			if (content == null) {
 				setNewPoint(realX, realY);
 			}
 		}
 	} else {
-		if (isNav) {
+		if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
 			login = new createInfoNav(posx, posy, realX, realY, content);
-		} else {
+		} else if (point_type == ONLY_INTEREST) {
 			login = new createInfo(posx, posy, realX, realY, content);
 		}
 	}
@@ -1954,9 +2033,9 @@ function opLine(pt1, pt2) {
 				toNode[i] = pt1;
 				direction[i] = 2;
 				navdiv = document.getElementById(currdiv)
-				navdiv.id = pt2 + "_" + pt1;
+					navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
-				
+
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (pt1 + "_" + pt2 == navtransdiv[j]) {
 						navtransdiv[j] = pt2 + "_" + pt1;
@@ -2997,21 +3076,19 @@ function redrawAll() {
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (trandivId == navtransdiv[j]) {
 						trandiv.style.left = imgX + trans_x[j] + movex - 12 + CANVAS_OFFSET_X + "px";
-						trandiv.style.top = imgY + trans_y[j] + movey - 12 +  CANVAS_OFFSET_Y + "px";
+						trandiv.style.top = imgY + trans_y[j] + movey - 12 + CANVAS_OFFSET_Y + "px";
 						break;
 					}
 				}
 
-				
-
 				var trandivlineId = (i + 1) + "_" + "0";
 				var trandivline = document.getElementById(trandivlineId);
 				trandivline.style.display = "block";
-				
+
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (trandivlineId == navtransdiv[j]) {
 						trandivline.style.left = imgX + trans_x[j] + movex - 5 + CANVAS_OFFSET_X + "px";
-						trandivline.style.top = imgY + trans_y[j] + movey - 5 +  CANVAS_OFFSET_Y + "px";
+						trandivline.style.top = imgY + trans_y[j] + movey - 5 + CANVAS_OFFSET_Y + "px";
 						break;
 					}
 				}
@@ -3141,29 +3218,53 @@ function redrawAll() {
 }
 
 function selectFloor(floor) {
-    imgX = 0,
+	if (floor == which_floor) {
+		return;
+	}
+
+	imgX = 0,
 	imgY = 0,
 	imgScale = 1;
 	movex = 0;
 	movey = 0;
 
-	if (floor == "1") {
+	var floor_ul_1 = document.getElementById('floor_ul_1');
+	var floor_ul_2 = document.getElementById('floor_ul_2');
+
+	if (floor == 15) {
 		img.src = "images/map.png";
+		floor_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		floor_ul_2.style.background = "";
+		floor_ul_1.style.backgroundSize = "6px 6px";
 		which_floor = 15;
 	} else {
 		img.src = "images/map2.png";
+		floor_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		floor_ul_1.style.background = "";
+		floor_ul_2.style.backgroundSize = "6px 6px";
 		which_floor = 5;
 	}
 
-	if (isNav) {
-		clearInterestDraw();
+	clearInterestDraw();
+	clearNavDraw();
+
+	if (point_type == ONLY_NAV) {
 		redrawAll();
-	} else {
-		clearNavDraw();
+	} else if (point_type == ONLY_INTEREST) {
+		showInterestDraw();
+	} else if (point_type == BOTH_NAV_INTEREST) {
+		redrawAll();
 		showInterestDraw();
 	}
 
-	
+	var floor_ul = document.getElementById('floor_ul');
+
+	floor_ul.style.display = "none";
+
+	//#floor_ul_1 {
+	//background:url(images/circle.gif) no-repeat 5px 8px;
+	//background-size:6px 6px;
+
 
 }
 
@@ -3306,15 +3407,97 @@ function changeTransit(to_node) {
 }
 
 function selectInterestNav(value) {
-	if (value == 1) {
-		isNav = true;
-		clearInterestDraw();
-		redrawAll();
+	var point_ul_1 = document.getElementById('point_ul_1');
+	var point_ul_2 = document.getElementById('point_ul_2');
+
+	if (floor == 15) {
+		img.src = "images/map.png";
+		floor_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		floor_ul_2.style.background = "";
+		floor_ul_1.style.backgroundSize = "6px 6px";
+		which_floor = 15;
 	} else {
-		isNav = false;
-		clearNavDraw();
+		img.src = "images/map2.png";
+		floor_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		floor_ul_1.style.background = "";
+		floor_ul_2.style.backgroundSize = "6px 6px";
+		which_floor = 5;
+	}
+
+	if (value == 1) {
+		switch (point_type) {
+		case NO_NAV_INTEREST:
+			point_type = ONLY_NAV;
+			break;
+		case ONLY_NAV:
+			point_type = NO_NAV_INTEREST;
+			break;
+		case ONLY_INTEREST:
+			point_type = BOTH_NAV_INTEREST;
+			break;
+		case BOTH_NAV_INTEREST:
+			point_type = ONLY_INTEREST;
+		default:
+			break;
+		}
+	} else {
+		switch (point_type) {
+		case NO_NAV_INTEREST:
+			point_type = ONLY_INTEREST;
+			break;
+		case ONLY_NAV:
+			point_type = BOTH_NAV_INTEREST;
+			break;
+		case ONLY_INTEREST:
+			point_type = NO_NAV_INTEREST;
+			break;
+		case BOTH_NAV_INTEREST:
+			point_type = ONLY_NAV;
+		default:
+			break;
+		}
+	}
+
+	switch (point_type) {
+	case NO_NAV_INTEREST:
+		point_ul_2.style.background = "";
+		point_ul_1.style.background = "";
+		break;
+	case ONLY_NAV:
+		point_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		point_ul_2.style.background = "";
+		point_ul_1.style.backgroundSize = "6px 6px";
+		break;
+	case ONLY_INTEREST:
+		point_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		point_ul_1.style.background = "";
+		point_ul_2.style.backgroundSize = "6px 6px";
+		break;
+	case BOTH_NAV_INTEREST:
+		point_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		point_ul_2.style.backgroundSize = "6px 6px";
+	    point_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
+		point_ul_1.style.backgroundSize = "6px 6px";
+	default:
+		break;
+	}
+
+	clearInterestDraw();
+	clearNavDraw();
+
+	if (point_type == ONLY_NAV) {
+		redrawAll();
+	} else if (point_type == ONLY_INTEREST) {
+		showInterestDraw();
+	} else if (point_type == BOTH_NAV_INTEREST) {
+		redrawAll();
 		showInterestDraw();
 	}
+
+	var point_ul = document.getElementById('point_ul');
+
+	point_ul.style.display = "none";
+
 }
 
 function submitPoiDetailInfo() {
@@ -3568,17 +3751,15 @@ function showInterestDraw() {
 
 		if (interest_floor[i] == which_floor) {
 			interestdiv.style.display = "block";
-			
+
 			var xx = imgX + (interest_x[i]) * imgScale + offset_x + CANVAS_OFFSET_X;
-		    var yy = imgY + (interest_y[i]) * imgScale + offset_y + CANVAS_OFFSET_Y;
-		
-		   interestdiv.style.left = xx + "px";
-		   interestdiv.style.top = yy + "px";
+			var yy = imgY + (interest_y[i]) * imgScale + offset_y + CANVAS_OFFSET_Y;
+
+			interestdiv.style.left = xx + "px";
+			interestdiv.style.top = yy + "px";
 		} else {
 			interestdiv.style.display = "none";
 		}
-		
-		
 
 	}
 }

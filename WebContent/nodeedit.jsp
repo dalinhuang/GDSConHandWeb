@@ -145,6 +145,104 @@ tr:nth-child(even) {
  background-color:#f5fafe;
 }
 
+#floor {
+	width:70px;
+	height:30px;
+
+
+	
+	cursor:pointer;
+	position:absolute;
+	top:10px;
+	
+	left:1050px;
+	background:url(images/arrow.png) no-repeat 35px 8px;
+	cursor:pointer;
+	z-index:4;
+}
+
+#point {
+	width:70px;
+	height:30px;
+
+
+	
+	cursor:pointer;
+	position:absolute;
+	top:10px;
+	left:1120px;
+	background:url(images/arrow.png) no-repeat 35px 8px;
+	cursor:pointer;
+	z-index:4;
+}
+
+#floor_ul {
+	position:absolute;
+	top:75px;
+	left:1020px;
+	background:#F2F2F2;
+	width:80px;
+	height:55px;
+	border:1px solid #999;
+
+	padding:10px 0 0 0;
+	display:none;
+	z-index:5;
+}
+
+#floor_ul_1, #floor_ul_2 {
+	height:25px;
+	line-height:25px;
+	text-indent:20px;
+	letter-spacing:1px;
+	font-size:14px;
+}
+#floor_ul_1 a, #floor_ul_2 a {
+	display:block;
+	text-decoration:none;
+	color:#333;
+	
+}
+
+
+
+
+
+
+
+#point_ul {
+	position:absolute;
+	top:75px;
+	left:1090px;
+	background:#F2F2F2;
+	width:100px;
+	height:55px;
+	border:1px solid #999;
+
+	padding:10px 0 0 0;
+	display:none;
+	z-index:5;
+}
+
+#point_ul_1, #point_ul_2 {
+	height:25px;
+	line-height:25px;
+	text-indent:20px;
+	letter-spacing:1px;
+	font-size:14px;
+}
+#point_ul_1 a, #point_ul_2 a {
+	display:block;
+	text-decoration:none;
+	color:#333;
+	
+}
+
+
+
+
+
+
 /* button 
 ---------------------------------------------- */
 .button1 {
@@ -235,13 +333,34 @@ tr:nth-child(even) {
 					<div id="parentId" class="layout-container">
 					
 					
-							<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:40px;z-index:1;overflow:auto"></canvas>
+		
+		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;alpha(opacity=90); opacity: 0.9;">
+	
+	     <div id="floor" style="width:100px">楼层
+		 
+		
+	     </div>
+		  <div id="point" style="width:100px">节点
+		
+	     </div>
+         </div>
+	
+	     <ul id="floor_ul" style="list-style-type:none;">
+			<li id="floor_ul_1"><a href="javascript:selectFloor(15)">15   楼</a></li>
+			<li id="floor_ul_2"><a href="javascript:selectFloor(5)">&nbsp;&nbsp;5  楼</a></li>						
+		</ul>
+		
+		 <ul id="point_ul" style="list-style-type:none;">
+			<li id="point_ul_1"><a href="javascript:selectInterestNav(1)">导 航 点</a></li>
+			<li id="point_ul_2"><a href="javascript:selectInterestNav(2)">兴 趣 点</a></li>						
+		</ul>
+		
+		      
+		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:40px;z-index:1;overflow:auto"></canvas>
 		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:2;overflow:auto"></canvas>
 		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:3;overflow:auto"></canvas>
 		
-		 <select name='Floor' id='Floor' onchange="selectFloor(this.options[this.options.selectedIndex].value)" style="position:absolute;left:20px;top:0px;"><option value='1' >F15</option><option value='2'>F5</option></select>
-		
-		 <select name='InterestNav' id='InterestNav' onchange="selectInterestNav(this.options[this.options.selectedIndex].value)" style="position:absolute;left:120px;top:0px;"><option value='1' >导航点</option><option value='2'>兴趣点</option></select>
+	
 		
 
 		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;top:15px;display:none">
