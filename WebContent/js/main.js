@@ -1323,12 +1323,16 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 			if (content == null) {
 				setNewPoint(realX, realY);
 			}
+		} else {
+		   return;
 		}
 	} else {
 		if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
 			login = new createInfoNav(posx, posy, realX, realY, content);
 		} else if (point_type == ONLY_INTEREST) {
 			login = new createInfo(posx, posy, realX, realY, content);
+		} else {
+		  return;
 		}
 	}
 
@@ -1342,7 +1346,7 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 	div_in.style.backgroundColor = "#CCCCCC";
 	div_in.style.zIndex = 10000;
 
-	login.zIndex = 10000;
+
 	login.style.position = "absolute";
 	div_in.appendChild(login);
 
@@ -1557,16 +1561,20 @@ function createLoginNav(realX, realY, posx, posy, content) {
 			}
 		}
 	}
+	
+
 
 	if (first) {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
 			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='检票口' value=" + nav_name + "></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:60px' type=text placeholder='检票口' value=" + nav_name + "></div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
+			
+	
 	} else {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
@@ -1579,6 +1587,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
+		
 
 		first = true;
 	}
@@ -3410,19 +3419,7 @@ function selectInterestNav(value) {
 	var point_ul_1 = document.getElementById('point_ul_1');
 	var point_ul_2 = document.getElementById('point_ul_2');
 
-	if (floor == 15) {
-		img.src = "images/map.png";
-		floor_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
-		floor_ul_2.style.background = "";
-		floor_ul_1.style.backgroundSize = "6px 6px";
-		which_floor = 15;
-	} else {
-		img.src = "images/map2.png";
-		floor_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
-		floor_ul_1.style.background = "";
-		floor_ul_2.style.backgroundSize = "6px 6px";
-		which_floor = 5;
-	}
+	
 
 	if (value == 1) {
 		switch (point_type) {
