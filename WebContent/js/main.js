@@ -125,6 +125,7 @@ function load() {
 	var floor_ul = document.getElementById('floor_ul');
 	var point_ul = document.getElementById('point_ul');
 
+
 	floor_ul.style.display = "none";
 	point_ul.style.display = "none";
 	//var floor_menu = document.getElementById("floor");
@@ -1529,16 +1530,18 @@ function createLogin(realX, realY, posx, posy, content) {
 
 	//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 	login.innerHTML = "<form name = 'loginform'>" +
-		"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  value=" + realY + "></div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='兴趣点' value=" + interest_name + "></div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>节点类型&nbsp</b></label>  <select name='selectInterest' id='selectInterest'><option value='0' >展馆</option><option value='3'>公交站</option><option value='4' >影院</option><option value='5'>剧场</option><option value='6'>餐饮</option></select></div>" +
+		"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;white-space:nowrap;float:left;'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'    type=text  style='width:50px;height:15px' value=" + realX + "></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  style='width:50px;height:15px' value=" + realY + "></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='兴趣点' style='width:100px;height:15px' value=" + interest_name + "></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>节点类型&nbsp</b></label>  <select name='selectInterest' style='width:100px;height:25px;' id='selectInterest'><option value='0' >展馆</option><option value='3'>公交站</option><option value='4' >影院</option><option value='5'>剧场</option><option value='6'>餐饮</option></select></div>" +
 
-		"<div style='width:300px;height:120px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><label for=name style='font:color:green'><b>简要描述&nbsp</b></label> <br><br>&nbsp;&nbsp;<textarea name='content' cols='30' rows='4' placeholder='请输入具体信息' with='180px'></textarea></div>" +
+		"<div style='width:300px;height:120px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><label for=name style='font:color:green'><b>简要描述&nbsp</b></label> &nbsp;&nbsp;<textarea name='content' cols='30' rows='3' placeholder='请输入简要信息' with='180px'></textarea></div>" +
 
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPoint(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 		"</form>";
+		
+		
 
 	return login;
 }
@@ -1569,7 +1572,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 		login.innerHTML = "<form name = 'loginform'>" +
 			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:60px' type=text placeholder='检票口' value=" + nav_name + "></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:100px;height:15px' type=text placeholder='检票口' value=" + nav_name + "></div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
@@ -1580,10 +1583,10 @@ function createLoginNav(realX, realY, posx, posy, content) {
 		login.innerHTML = "<form name = 'loginform'>" +
 			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='检票口' value=" + nav_name + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' id='selectFloor'><option value='1'>F15</option><option value='2'>F5</option></select> </div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>连通点&nbsp;&nbsp;&nbsp;&nbsp</b></label><select name='selectNav' id='selectNav'><option value='1'>1</option><option value='2'>2</option></option><option value='3'>3</option></option><option value='4'>4</option></option><option value='5'>5</option></select></div>" +
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>连通类型&nbsp</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text style='width:100px;height:15px' placeholder='检票口' value=" + nav_name + "></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' style='width:50px;height:25px' id='selectFloor'><option value='1'>F15</option><option value='2'>F5</option></select> </div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>连通点&nbsp;&nbsp;&nbsp;&nbsp</b></label><select name='selectNav' style='width:50px;height:25px' id='selectNav'><option value='1'>1</option><option value='2'>2</option></option><option value='3'>3</option></option><option value='4'>4</option></option><option value='5'>5</option></select></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>连通类型&nbsp</b></label>  <select name='selectNavType' style='width:50px;height:25px' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
@@ -1648,11 +1651,11 @@ function createLoginNav(realX, realY, posx, posy, content) {
 	if (first) {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
+			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp;" + which_floor + "F" + "</div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='检票口' value=" + nav_name + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  type=text  value=" + realX + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  type=text  value=" + realY + "></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:100px;height:15px' type=text placeholder='检票口' value=" + nav_name + "></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  style='width:50px;height:15px' type=text  value=" + realX + "></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  style='width:50px;height:15px' type=text  value=" + realY + "></div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
@@ -1702,16 +1705,16 @@ function createLoginNav(realX, realY, posx, posy, content) {
 
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
+			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text placeholder='导航点' value=" + nav_name + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' id='selectFloor' onchange='changeFloor(this.options[this.options.selectedIndex].value)'>" + floorStr + "</select></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>连通点&nbsp;&nbsp;&nbsp;&nbsp</b></label><select name='selectNav' id='selectNav'>" + optStr + "</select></div>" +
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>连通类型&nbsp</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口'></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室'></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:100px;height:15px' type=text placeholder='导航点' value=" + nav_name + "></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' style='width:80px;height:25px' id='selectFloor' onchange='changeFloor(this.options[this.options.selectedIndex].value)'>" + floorStr + "</select></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>连通点&nbsp;&nbsp;&nbsp;</b></label><select name='selectNav' style='width:80px;height:25px' id='selectNav'>" + optStr + "</select></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;'><label for=name style='font:color:green;float:left'><b>连通类型&nbsp</b></label>  <select name='selectNavType' style='width:80px;height:25px' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  style='width:100px;height:15px' type=text placeholder='办公室到门口'></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  style='width:100px;height:15px' type=text placeholder='门口到办公室'></div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
 
 		first = true;
@@ -1819,14 +1822,14 @@ function createLineInfo(pt1, pt2) {
 
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息</div>" +
-			"<div id = 'pathInfo' style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>" +
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavTerm' id='selectNavTerm' onchange='changeTransit(this.options[this.options.selectedIndex].value)'>" + conn + "</select>  </div>" +
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
+			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px;float:left;'>&nbsp;路径信息</div>" +
+			"<div id = 'pathInfo' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>选择节点&nbsp;&nbsp;</b></label>  <select name='selectNavTerm' style= 'width:100px;height:25px;' id='selectNavTerm' onchange='changeTransit(this.options[this.options.selectedIndex].value)'>" + conn + "</select>  </div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>操作&nbsp;&nbsp;&nbsp;&nbsp;&emsp;</b></label>  <select name='selectNavType' style= 'width:80px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口'></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室'></div>" +
-			"<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp;&nbsp;</b></label> <input id='forward' name='forward'  style= 'width:100px;height:15px;' type=text placeholder='办公室到门口'></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp;&nbsp;</b></label> <input id='backward' name='backward'  style= 'width:100px;height:15px;'type=text placeholder='门口到办公室'></div>" +
+			"<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left;float:left;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>" +
 
 			"</form>";
 
@@ -1858,13 +1861,13 @@ function createLineInfo(pt1, pt2) {
 
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息</div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>&nbsp;" + pathInfo + "</b></div>" +
+			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息</div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green'><b>&nbsp;操作&nbsp;&nbsp;;&nbsp;</b></label>  <select name='selectNavType' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left;'><b>操作&nbsp;&nbsp;&nbsp;&nbsp;&emsp;</b></label>  <select name='selectNavType' style='width:80px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
 
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  type=text placeholder='办公室到门口' value=" + mforwardGuide + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  type=text placeholder='门口到办公室' value=" + mbackwardGuide + "></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp;&nbsp</b></label> <input id='forward' name='forward'  style='width:100px;height:15px;' type=text placeholder='办公室到门口' value=" + mforwardGuide + "></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp;&nbsp</b></label> <input id='backward' name='backward'  style='width:100px;height:15px;' type=text placeholder='门口到办公室' value=" + mbackwardGuide + "></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opLine(" + pt1 + "," + pt2 + ")'" + ">提交</button></div>" +
 
 			"</form>";
