@@ -501,6 +501,8 @@ function load() {
 
 		if (event.ctrlKey) {
 			ismove = true;
+		} else {
+			return;
 		}
 
 		//alert(event.ctrlKey);
@@ -566,9 +568,15 @@ function load() {
 			move_finish = true;
 		}
 		canvas_nav.onmouseup = function () {
+		    
+			
 			canvas_nav.onmousemove = null;
 			canvas_nav.onmouseup = null;
 			canvas_nav.style.cursor = "default";
+			
+			if (!event.ctrlKey) {
+				return;
+			}
 
 			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
 
@@ -3434,3 +3442,5 @@ function zoomOut() {
 
 	}
 }
+
+function isOutOfBoundary() {}
