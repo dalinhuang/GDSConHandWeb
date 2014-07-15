@@ -9,6 +9,7 @@ var is_transit = false;
 var curropIdx;
 
 var move_finish = true;
+var is_source_nav = true;
 
 var CANVAS_OFFSET_X = 65;
 var CANVAS_OFFSET_Y = 61;
@@ -725,6 +726,8 @@ function initplace(x, y, content, divid) {
 		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
 
 		currdiv = div.id;
+		
+		is_source_nav = false;
 
 		pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, false, content);
 
@@ -816,6 +819,8 @@ function initplaceNav(x, y, content, divid) {
 		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
 
 		currdiv = div.id;
+		
+		is_source_nav = true;
 
 		pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, false, content);
 
@@ -935,12 +940,10 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 			return;
 		}
 	} else {
-		if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
+		if (is_source_nav) {
 			login = new createInfoNav(posx, posy, realX, realY, content);
-		} else if (point_type == ONLY_INTEREST) {
-			login = new createInfo(posx, posy, realX, realY, content);
 		} else {
-			return;
+			login = new createInfo(posx, posy, realX, realY, content);
 		}
 	}
 
@@ -2243,7 +2246,7 @@ function modifyNavPoint(posx, posy, realX, realY) {
 
 	del_pop("id_out", "id_in");
 
-	pop_up(posx + CANVAS_OFFSET_X, posy + CANVAS_OFFSET_Y, realX, realY, true, "修改节点");
+	pop_up(posx , posy , realX, realY, true, "修改节点");
 
 	//
 }
