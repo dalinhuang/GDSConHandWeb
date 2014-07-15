@@ -145,6 +145,52 @@ tr:nth-child(even) {
  background-color:#f5fafe;
 }
 
+
+#zoom {
+	width:70px;
+	height:30px;
+
+
+	
+	cursor:pointer;
+	position:absolute;
+	top:10px;
+	
+	left:980px;
+	background:url(images/arrow.png) no-repeat 35px 8px;
+	cursor:pointer;
+	z-index:4;
+}
+
+
+#zoom_ul {
+	position:absolute;
+	top:75px;
+	left:950px;
+	background:#F2F2F2;
+	width:80px;
+	height:55px;
+	border:1px solid #999;
+
+	padding:10px 0 0 0;
+	display:none;
+	z-index:5;
+}
+
+#zoom_ul_1, #zoom_ul_2 {
+	height:25px;
+	line-height:25px;
+	text-indent:20px;
+	letter-spacing:1px;
+	font-size:14px;
+}
+#zoom_ul_1 a, #zoom_ul_2 a {
+	display:block;
+	text-decoration:none;
+	color:#333;
+	
+}
+
 #floor {
 	width:70px;
 	height:30px;
@@ -336,7 +382,13 @@ tr:nth-child(even) {
 		
 		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;alpha(opacity=90); opacity: 0.9;">
 	
-	     <div id="floor" style="width:100px">楼层
+	     
+		 <div id="zoom" style="width:100px">缩放
+		 
+		
+	     </div>
+		 
+		 <div id="floor" style="width:100px">楼层
 		 
 		
 	     </div>
@@ -344,6 +396,11 @@ tr:nth-child(even) {
 		
 	     </div>
          </div>
+		 
+		 <ul id="zoom_ul" style="list-style-type:none;">
+			<li id="zoom_ul_1"><a href="javascript:zoomIn()">放  大</a></li>
+			<li id="zoom_ul_2"><a href="javascript:zoomOut()">缩   小</a></li>						
+		</ul>
 	
 	     <ul id="floor_ul" style="list-style-type:none;">
 			<li id="floor_ul_1"><a href="javascript:selectFloor(15)">15   楼</a></li>
@@ -363,75 +420,78 @@ tr:nth-child(even) {
 	
 		
 
-		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;top:15px;display:none">
-        <form id="form1" name="form1" method="post" style="position:absolute;left:1215px;top:15px;border:solid 2px #b7ddf2;background:#ebf4fb; width:400px;" action="" >
+		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;left:215px;top:90px;display:none;z-index:6;width:600px;overflow:auto;">
+        <form id="form1" name="form1" method="post" style="position:absolute;left:215px;top:90px;border:solid 2px #b7ddf2;background:#ebf4fb; width:600px;z-index:6;overflow:auto;" action="" >
        
         <p>兴趣点信息填写</p>
         <label>名称 <span class="small"></span> </label>
-        <input type="text" name="poilabel" id="textfield" /><br/><br/><br/>
-        <label>楼层 <span class="small"></span> </label>
-        <input type="text" name="floor" id="textfield" disabled="true" style="width:40px"/>&nbsp;&nbsp;
-		<label>X坐标 <span class="small"></span> </label>
-        <input type="text" name="xpos" id="textfield" disabled="true" style="width:40px"/>&nbsp;&nbsp;
-		<label>Y坐标 <span class="small"></span> </label>
+        <input type="text" name="poilabel" id="textfield" /> 
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;类型 <span class="small"></span> </label>
+        <select name="selectInterest" id="textfield" style="width:100px"><option value='0' >展馆</option><option value='3'>公交站</option><option value='4' >影院</option><option value='5'>剧场</option><option value='6'>餐饮</option></select><br><br>	
+        <label style="width:70px">楼层 <span class="small"></span> </label>
+        <input type="text" name="floor" id="textfield" disabled="true" style="width:40px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<label style="width:70px">X坐标 <span class="small"></span> </label>
+        <input type="text" name="xpos" id="textfield" disabled="true" style="width:40px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<label style="width:70px">Y坐标 <span class="small"></span> </label>
         <input type="text" name="ypos" id="textfield" disabled="true" style="width:40px"/><br/><br/><br/>
-		 <label>类型 <span class="small"></span> </label>
-        <select name="selectInterest" id="textfield"><option value='0' >展馆</option><option value='3'>公交站</option><option value='4' >影院</option><option value='5'>剧场</option><option value='6'>餐饮</option></select><br><br>				
+					
         <label style="width:70px">简要描述<span class="small" ></span> </label><br/><br/>
-        <textarea name="generaldesc" id="textfield" cols='40' rows='2'></textarea> <br/><br/><br/><br/>
+        <textarea name="generaldesc" id="textfield" cols='120' rows='1'></textarea> <br/><br/><br/>
 		 <label style="width:70px">详细描述<span class="small" ></span> </label><br/><br/>
-         <textarea name="detaileddesc" id="textfield" cols='40' rows='4'></textarea> <br/><br/><br/>
+         <textarea name="detaileddesc" id="textfield" cols='120' rows='2'></textarea> <br/><br/>
         <br/>
 		<br/>
-		<br/>
+		
 		
 		 
 		
 		<label style="width:70px">大堂编号 <span class="small"></span> </label>
-        <input type="text" name="hallid" id="textfield" style="width:40px"/>&nbsp;&nbsp;
+        <input type="text" name="hallid" id="textfield" style="width:40px"/>
 		<label style="width:70px">TTS编号 <span class="small"></span> </label>
-         <input type="text" name="ttsid" id="textfield" style="width:40px"/><br/><br/><br/>
-		<label style="width:70px">最近导航点 <span class="small"></span> </label>
+         <input type="text" name="ttsid" id="textfield" style="width:40px"/>
+		 <label >缩放 <span class="small"></span> </label>
+        <input type="text" name="scale" id="textfield" style="width:40px"/>
+		<label>透明度 <span class="small"></span> </label>
+        <input type="text" name="alpha" id="textfield" style="width:40px"/><br/><br/><br/>
+		<label>旋转 <span class="small"></span> </label>
+        <input type="text" name="rotation" id="textfield" style="width:30px"/>
+		<label style="width:70px">最小缩放 <span class="small"></span> </label>&nbsp;&nbsp;
+        <input type="text" name="minzoomfactor" id="textfield" style="width:40px"/>&nbsp;&nbsp;
+		<label style="width:70px">最大缩放  <span class="small"></span> </label>
+        <input type="text" name="maxzoomfactor" id="textfield" style="width:40px"/>
+		<label style="width:78px">最近导航点 <span class="small"></span> </label>
          <input type="text" name="nearnavid" id="textfield" style="width:40px"/><br/><br/><br/>
 		
-		<label style="width:70px">缩放比例 <span class="small"></span> </label>
-        <input type="text" name="scale" id="textfield" style="width:40px"/>&nbsp;&nbsp;
-		<label>透明度 <span class="small"></span> </label>
-        <input type="text" name="alpha" id="textfield" style="width:40px"/>&nbsp;&nbsp;
-		<label >旋转 <span class="small"></span> </label>
-    <input type="text" name="rotation" id="textfield" style="width:30px"/><br/><br/><br/>
 		
-		<label style="width:80px">最小缩放比例 <span class="small"></span> </label>&nbsp;&nbsp;
-        <input type="text" name="minzoomfactor" id="textfield" style="width:40px"/>&nbsp;&nbsp;
-		<label style="width:80px">最大缩放比例  <span class="small"></span> </label>
-        <input type="text" name="maxzoomfactor" id="textfield" style="width:40px"/><br/><br/><br/>
+		
+		
 		 
-		&nbsp;&nbsp;<select name="reachable" id="textfield"><option value='1' >可达</option><option value='2'>不可达</option></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select name="readable" id="textfield"><option value='1' >可读</option><option value='2'>不可读</option></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select name="shareble" id="textfield"><option value='1' >可分享</option><option value='2'>不可分享</option></select><br><br>	
+		&nbsp;&nbsp;<select name="reachable" id="textfield" style="width:100px"><option value='1' >可达</option><option value='2'>不可达</option></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select name="readable" id="textfield" style="width:100px"><option value='1'>可读</option><option value='2'>不可读</option></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select name="shareble" id="textfield" style="width:100px"><option value='1'>可分享</option><option value='2'>不可分享</option></select><br><br>	
 
         <label style="width:70px">关联网页<span class="small"></span> </label>
-        <input type="text" name="weburl" id="textfield" /><br/><br/><br/>	
+        <input type="text" name="weburl" id="textfield" style="width:140px"/>	
 
         <label style="width:70px">图标路径<span class="small"></span> </label>
-        <input type="text" name="iconurl" id="textfield" /><br/><br/><br/>
+        <input type="text" name="iconurl" id="textfield" style="width:140px"/><br/><br/><br/>
 
          <label style="width:70px">图片路径<span class="small"></span> </label>
-         <input type="text" name="picurl" id="textfield" /><br/><br/><br/>
+         <input type="text" name="picurl" id="textfield" style="width:140px"/>
 
          <label style="width:70px">音频路径<span class="small"></span> </label>
-         <input type="text" name="audiourl" id="textfield" /><br/><br/><br/>		
+         <input type="text" name="audiourl" id="textfield" style="width:140px"/><br/><br/><br/>		
 		
 
 		
-        <button  type="button" onclick="submitPoiDetailInfo()" style="font:bold 14px 宋体;color:white">提&nbsp;交</button>
-		<button  type="button" onclick="cancelPoiDetailInfo()" style="font:bold 14px 宋体;color:white">取&nbsp;消</button>
+        <button  type="button" onclick="submitPoiDetailInfo()" style="margin-left:140px;font:bold 14px 宋体;color:white">提&nbsp;交</button>
+		<button  type="button" onclick="cancelPoiDetailInfo()" style="font:bold 14px 宋体;color:white">取&nbsp;消</button><br/><br/>	
         <div class="spacer"></div>
     </form>
 </div>
 
 	
-				<button  type="button" onclick="load()" style="font:bold 14px 宋体;color:white">取&nbsp;消</button>
+				
 		
  
 	<script type="text/javascript" src="js/main.js"></script>
