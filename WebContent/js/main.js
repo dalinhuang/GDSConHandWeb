@@ -501,8 +501,6 @@ function load() {
 
 		if (event.ctrlKey) {
 			ismove = true;
-		} else {
-			return;
 		}
 
 		//alert(event.ctrlKey);
@@ -557,9 +555,7 @@ function load() {
 			imgX += x;
 			imgY += y;
 
-			if (point_type == ONLY_INTEREST || point_type == BOTH_NAV_INTEREST) {
-				showInterestDraw();
-			}
+			onmove(x, y);
 
 			if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
 				redrawAll();
@@ -570,14 +566,9 @@ function load() {
 			move_finish = true;
 		}
 		canvas_nav.onmouseup = function () {
-
 			canvas_nav.onmousemove = null;
 			canvas_nav.onmouseup = null;
 			canvas_nav.style.cursor = "default";
-
-			if (!event.ctrlKey) {
-				return;
-			}
 
 			var pos = windowToCanvas(canvas, event.clientX, event.clientY);
 
@@ -928,11 +919,6 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 
 	var login;
 
-	if (posy > 1500) {
-		posy = posy - 260;
-		posx = posx + 30;
-	}
-
 	if (isInput) {
 		if (point_type == ONLY_NAV || point_type == BOTH_NAV_INTEREST) {
 			login = new createLoginNav(realX, realY, posx, posy, content);
@@ -942,6 +928,7 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 		} else if (point_type == ONLY_INTEREST) {
 			login = new createLogin(realX, realY, posx, posy, content);
 			if (content == null) {
+
 				setNewPoint(realX, realY);
 			}
 		} else {
@@ -2674,7 +2661,7 @@ function judgeTransitPt(pt) {
 
 function redrawAll() {
 	ctx_nav.clearRect(0, 0, WIDTH, HEIGHT);
-	
+
 	var mleft = 0;
 	var mtop = 0;
 
@@ -2684,17 +2671,15 @@ function redrawAll() {
 		if (!nav_flag[i]) {
 			continue;
 		}
-		
-	
 
 		if (nav_floor[i] == which_floor) {
 			//alert(movex);
 			//alert(movey);
 			navdiv.style.left = imgX + nav_x[i] * imgScale - 12 + CANVAS_OFFSET_X + "px";
 			navdiv.style.top = imgY + nav_y[i] * imgScale - 12 + CANVAS_OFFSET_Y + "px";
-			
+
 			mleft = imgX + nav_x[i] * imgScale - 12 + CANVAS_OFFSET_X;
-			mtop= imgY + nav_y[i] * imgScale - 12 + CANVAS_OFFSET_Y;
+			mtop = imgY + nav_y[i] * imgScale - 12 + CANVAS_OFFSET_Y;
 
 			navdiv.style.display = "block";
 
@@ -2705,42 +2690,38 @@ function redrawAll() {
 			if (nav_transit[i]) {
 				trandivId = (i + 1) + "_transit"
 				trandiv = document.getElementById(trandivId);
-				
-				
-				
 
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (trandivId == navtransdiv[j]) {
 						trandiv.style.left = imgX + trans_x[j] * imgScale - 12 + CANVAS_OFFSET_X + "px";
 						trandiv.style.top = imgY + trans_y[j] * imgScale - 12 + CANVAS_OFFSET_Y + "px";
-						
-						mleft = imgX + trans_x[j] * imgScale - 12 + CANVAS_OFFSET_X ;
+
+						mleft = imgX + trans_x[j] * imgScale - 12 + CANVAS_OFFSET_X;
 						mtop = imgY + trans_y[j] * imgScale - 12 + CANVAS_OFFSET_Y;
 						break;
 					}
 				}
-				
+
 				trandiv.style.display = "block";
-				
+
 				if (isOutOfBoundary(mleft, mtop)) {
-				  trandiv.style.display = "none";
-			    }
+					trandiv.style.display = "none";
+				}
 
 				var trandivlineId = (i + 1) + "_" + "0";
 				var trandivline = document.getElementById(trandivlineId);
-				
 
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (trandivlineId == navtransdiv[j]) {
 						trandivline.style.left = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X + "px";
 						trandivline.style.top = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
-						
-						mleft = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X ;
+
+						mleft = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X;
 						mtop = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y;
 						break;
 					}
 				}
-				
+
 				trandivline.style.display = "block";
 
 				if (isOutOfBoundary(mleft, mtop)) {
@@ -2825,8 +2806,8 @@ function redrawAll() {
 				if (divlineId == navtransdiv[j]) {
 					divline.style.left = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X + "px";
 					divline.style.top = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
-					
-					mleft =  imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X ;
+
+					mleft = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X;
 					mtop = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
 					break;
 				}
@@ -2834,7 +2815,7 @@ function redrawAll() {
 			divline.style.display = "block";
 
 			if (isOutOfBoundary(mleft, mtop)) {
-				divline.style.display  = "none";
+				divline.style.display = "none";
 			}
 
 		}
@@ -3400,10 +3381,10 @@ function showInterestDraw() {
 
 			var xx = imgX + (interest_x[i]) * imgScale + offset_x + CANVAS_OFFSET_X;
 			var yy = imgY + (interest_y[i]) * imgScale + offset_y + CANVAS_OFFSET_Y;
-			
+
 			if (isOutOfBoundary(xx, yy)) {
-			   interestdiv.style.display = "none";
-			} 
+				interestdiv.style.display = "none";
+			}
 
 			interestdiv.style.left = xx + "px";
 			interestdiv.style.top = yy + "px";
@@ -3490,7 +3471,6 @@ function zoomOut() {
 
 function isOutOfBoundary(x, y) {
 
-	
 	if (x >= CANVAS_OFFSET_X + WIDTH || x <= CANVAS_OFFSET_X) {
 		return true;
 	}
