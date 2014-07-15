@@ -179,6 +179,21 @@
 							</ul></li>
 						<!--  <li><s:a value="/interactive/index.jsp">Interactive Demo</s:a></li>  -->
 						
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"><s:text name="地图选择" /><b
+								class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><s:url var="url" action="index" namespace="/user" />
+										<s:a href="../nodeedit.jsp">
+											<s:text name="信息港A栋" />
+										</s:a></li>
+								<!--  <li><s:a value="/user/index.jsp">User Management</s:a></li> -->
+								<!-- <li><s:a value="/user/user.jsp">
+										<s:text name="menu.system.settings" />
+									</s:a></li> -->
+							</ul></li>
+						<!--  <li><s:a value="/interactive/index.jsp">Interactive Demo</s:a></li>  -->
+						
 					</ul>
 
 					<ul class="nav pull-right">

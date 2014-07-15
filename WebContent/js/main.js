@@ -592,6 +592,7 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
+				
 				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
 			} else {
 				//canvas.style.zIndex = 1;
