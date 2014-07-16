@@ -146,6 +146,74 @@ tr:nth-child(even) {
 }
 
 
+#floornum {
+	width:70px;
+	height:30px;
+	
+	position:absolute;
+	top:10px;
+	
+	left:20px;
+
+
+	z-index:4;
+	color:#0000FF;
+	font-weight:bold;
+}
+
+
+#pointtype {
+	width:160px;
+	height:30px;
+	
+	position:absolute;
+	top:10px;
+	
+	left:100px;
+
+
+	z-index:4;
+	color:#228B22;
+	font-weight:bold;
+}
+
+
+#coord {
+	width:120px;
+	height:30px;
+	
+	position:absolute;
+	top:10px;
+	
+	left:290px;
+
+
+	z-index:4;
+	color:#082E54;
+	font-weight:bold;
+}
+
+
+#zoomlimit {
+	width:180px;
+	height:30px;
+	
+	position:absolute;
+	top:10px;
+	
+	left:490px;
+
+
+	z-index:4;
+	color:#B0171F;
+	font-weight:bold;
+}
+
+
+
+
+
+
 #zoom {
 	width:70px;
 	height:30px;
@@ -382,7 +450,29 @@ tr:nth-child(even) {
 		
 		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;alpha(opacity=90); opacity: 0.9;">
 	
-	     
+	     <div id="floornum"><p id="floortext">15F</p>
+		 
+		
+	     </div>
+		 
+		  <div id="pointtype"><p id="pointtypetext">仅显示导航点</p>
+		 
+		
+	     </div>
+		 
+		 
+		 <div id="coord"><p id="coordtext">X=0&nbsp;&nbsp;&nbsp;&nbsp;Y=0</p>
+		 
+		
+	     </div>
+		 
+		 
+		 <div id="zoomlimit"><p id="zoomtext">原图尺寸</p>
+		 
+		
+	     </div>
+		 
+		 
 		 <div id="zoom" style="width:100px">缩放
 		 
 		

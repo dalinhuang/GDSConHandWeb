@@ -1,6 +1,7 @@
 var canvas, context, canvas_upper, ctx_up, canvas_nav, ctx_nav;
 var img; //图片对象
 var which_floor = 15,
+scaleLevel = 3,
 imgIsLoaded, //图片是否加载完成;
 imgX = 0,
 imgY = 0,
@@ -495,6 +496,17 @@ function load() {
 		error : function (text) {}
 	});
 
+	canvas_nav.onmousemove = function (event) {
+		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
+
+		realX = Math.floor((pos.x - imgX) / imgScale);
+		realY = Math.floor((pos.y - imgY) / imgScale);
+
+		var str = "X=" + realX + "&nbsp;&nbsp;&nbsp;&nbsp;Y=" + realY;
+
+		document.getElementById('coordtext').innerHTML = str;
+	}
+
 	canvas_nav.onmousedown = function (event) {
 
 		var pos = windowToCanvas(canvas, event.clientX, event.clientY);
@@ -521,6 +533,15 @@ function load() {
 		//pop_up(pos.x, pos.y);
 		// alert("X="+event.clientX + "Y=" + event.clientY);
 		canvas_nav.onmousemove = function (event) {
+			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
+
+			realX = Math.floor((pos1.x - imgX) / imgScale);
+			realY = Math.floor((pos1.y - imgY) / imgScale);
+
+			var str = "X=" + realX + "&nbsp;&nbsp;&nbsp;&nbsp;Y=" + realY;
+
+			document.getElementById('coordtext').innerHTML = str;
+
 			if (!ismove) {
 				return;
 			}
@@ -528,15 +549,18 @@ function load() {
 			if (!move_finish) {
 				return;
 			}
+			
+			
 
 			if (!event.ctrlKey) {
+			    
 				return;
 			}
 
 			move_finish = false;
 
 			canvas.style.cursor = "move";
-			var pos1 = windowToCanvas(canvas, event.clientX, event.clientY);
+			
 			var x = pos1.x - pos.x;
 
 			//ctx_up.strokeStyle='red';
@@ -567,7 +591,7 @@ function load() {
 			move_finish = true;
 		}
 		canvas_nav.onmouseup = function () {
-			canvas_nav.onmousemove = null;
+			//canvas_nav.onmousemove = null;
 			canvas_nav.onmouseup = null;
 			canvas_nav.style.cursor = "default";
 
@@ -592,13 +616,15 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
-				
+
 				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
 			} else {
 				//canvas.style.zIndex = 1;
 				//canvas_upper.style.zIndex = 2;
 
 			}
+			
+			ismove = false;
 		}
 	}
 
@@ -727,7 +753,7 @@ function initplace(x, y, content, divid) {
 		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
 
 		currdiv = div.id;
-		
+
 		is_source_nav = false;
 
 		pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, false, content);
@@ -775,14 +801,17 @@ function initplaceNav(x, y, content, divid) {
 	div.style.height = "24px";
 	div.style.width = "24px";
 
-	div.style.lineHeight = "12px";
 	//div.style.whiteSpace = "nowrap";
 	div.style.MozUserSelect = "none";
 	div.style.fontSize = "16px";
 	div.style.textAlign = "center";
-	div.style.lineHeight = "20px";
+	//div.style.paddingTop = "3px";
+	div.style.marginLeft = "auto";
+	div.style.marginRight = "auto";
+	div.style.lineHeight = "24px";
+
 	div.style.zIndex = 3;
-	div.style.verticalAlign = "bottom";
+
 	div.style.fontWeight = "bolder";
 	//div.style.fontColor = "#FFFF00";
 
@@ -820,7 +849,7 @@ function initplaceNav(x, y, content, divid) {
 		//h2.innerHTML="真实X=" + realX + "  真实Y=" + realY;
 
 		currdiv = div.id;
-		
+
 		is_source_nav = true;
 
 		pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, false, content);
@@ -2247,7 +2276,7 @@ function modifyNavPoint(posx, posy, realX, realY) {
 
 	del_pop("id_out", "id_in");
 
-	pop_up(posx , posy , realX, realY, true, "修改节点");
+	pop_up(posx, posy, realX, realY, true, "修改节点");
 
 	//
 }
@@ -2882,12 +2911,16 @@ function selectFloor(floor) {
 		floor_ul_2.style.background = "";
 		floor_ul_1.style.backgroundSize = "6px 6px";
 		which_floor = 15;
+		document.getElementById('floortext').innerHTML = '15F';
+		scaleLevel = 3;
 	} else {
 		img.src = "images/map2.png";
 		floor_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		floor_ul_1.style.background = "";
 		floor_ul_2.style.backgroundSize = "6px 6px";
 		which_floor = 5;
+		document.getElementById('floortext').innerHTML = '5F';
+		scaleLevel = 3;
 	}
 
 	clearInterestDraw();
@@ -3093,22 +3126,26 @@ function selectInterestNav(value) {
 	case NO_NAV_INTEREST:
 		point_ul_2.style.background = "";
 		point_ul_1.style.background = "";
+		document.getElementById('pointtypetext').innerHTML = '仅显示地图';
 		break;
 	case ONLY_NAV:
 		point_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		point_ul_2.style.background = "";
 		point_ul_1.style.backgroundSize = "6px 6px";
+		document.getElementById('pointtypetext').innerHTML = '仅显示导航点';
 		break;
 	case ONLY_INTEREST:
 		point_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		point_ul_1.style.background = "";
 		point_ul_2.style.backgroundSize = "6px 6px";
+		document.getElementById('pointtypetext').innerHTML = '仅显示兴趣点';
 		break;
 	case BOTH_NAV_INTEREST:
 		point_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		point_ul_2.style.backgroundSize = "6px 6px";
 		point_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		point_ul_1.style.backgroundSize = "6px 6px";
+		document.getElementById('pointtypetext').innerHTML = '导航点与兴趣点均显示';
 	default:
 		break;
 	}
@@ -3405,9 +3442,13 @@ function zoomIn() {
 	zoom_ul.style.display = "none";
 
 	if (imgScale >= 1.4) {
-		alert("已经放至最大,  不能再放大");
+
 		return;
 	}
+
+	scaleLevel++;
+
+	displayScale();
 
 	canvas.style.zIndex = 2;
 	canvas_upper.style.zIndex = 1;
@@ -3442,9 +3483,12 @@ function zoomOut() {
 	zoom_ul.style.display = "none";
 
 	if (imgScale <= 1 / 1.4) {
-		alert("已经缩至最小,  不能再缩小");
 		return;
 	}
+
+	scaleLevel--;
+
+	displayScale();
 
 	canvas.style.zIndex = 2;
 	canvas_upper.style.zIndex = 1;
@@ -3485,4 +3529,25 @@ function isOutOfBoundary(x, y) {
 
 	return false;
 
+}
+
+function displayScale() {
+	switch (scaleLevel) {
+	case 1:
+		document.getElementById('zoomtext').innerHTML = '原图比例69%(最小尺寸)';
+		break;
+	case 2:
+		document.getElementById('zoomtext').innerHTML = '原图比例83%';
+		break;
+	case 3:
+		document.getElementById('zoomtext').innerHTML = '原图比例';
+		break;
+	case 4:
+		document.getElementById('zoomtext').innerHTML = '原图比例120%';
+		break;
+	case 5:
+		document.getElementById('zoomtext').innerHTML = '原图比例144%(最大尺寸)';
+		break;
+
+	}
 }
