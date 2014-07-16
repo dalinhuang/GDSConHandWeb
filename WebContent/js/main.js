@@ -12,8 +12,8 @@ var curropIdx;
 var move_finish = true;
 var is_source_nav = true;
 
-var CANVAS_OFFSET_X = 65;
-var CANVAS_OFFSET_Y = 61;
+var CANVAS_OFFSET_X = 0;
+var CANVAS_OFFSET_Y = 0;
 
 var NO_NAV_INTEREST = 0;
 var ONLY_NAV = 1;
@@ -129,6 +129,31 @@ function load() {
 	floor_ul.style.display = "none";
 	point_ul.style.display = "none";
 	zoom_ul.style.display = "none";
+/*	
+	var     s   =   "";     
+  s   +=   " 网页可见区域宽："+   document.body.clientWidth;     
+  s   +=   " 网页可见区域高："+   document.body.clientHeight;     
+  s   +=   " 网页可见区域宽："+   document.body.offsetWidth     +"   (包括边线和滚动条的宽)";     
+  s   +=   " 网页可见区域高："+   document.body.offsetHeight   +"   (包括边线的宽)";     
+  s   +=   " 网页正文全文宽："+   document.body.scrollWidth;     
+  s   +=   " 网页正文全文高："+   document.body.scrollHeight;     
+  s   +=   " 网页被卷去的高："+   document.body.scrollTop;     
+  s   +=   " 网页被卷去的左："+   document.body.scrollLeft;     
+  s   +=   " 网页正文部分上："+   window.screenTop;     
+  s   +=   " 网页正文部分左："+   window.screenLeft;     
+  s   +=   " 屏幕分辨率的高："+   window.screen.height;     
+  s   +=   " 屏幕分辨率的宽："+   window.screen.width;     
+  s   +=   " 屏幕可用工作区高度："+   window.screen.availHeight;     
+  s   +=   " 屏幕可用工作区宽度："+   window.screen.availWidth;     
+  s   +=   " 你的屏幕设置是   "+   window.screen.colorDepth   +"   位彩色";     
+  s   +=   " 你的屏幕设置   "+   window.screen.deviceXDPI   +"   像素/英寸";     
+  alert(s);
+
+alert (window.screen.height * window.screen.width); 
+
+// 
+	
+	*/
 
 	$("#zoom").hover(function () {
 		point_ul.style.display = "none";
@@ -240,6 +265,10 @@ function load() {
 	 */
 
 	loadImg();
+	
+	//document.getElementsByTagName('body').style.overflow = 'auto';
+	
+	
 
 	$.ajax({
 		type : 'post',
@@ -616,8 +645,10 @@ function load() {
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
+				
+				
 
-				pop_up(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, realX, realY, true, null);
+				pop_up(pos.x, pos.y, realX, realY, true, null);
 			} else {
 				//canvas.style.zIndex = 1;
 				//canvas_upper.style.zIndex = 2;
@@ -705,7 +736,7 @@ function initplace(x, y, content, divid) {
 	arrow.style.height = "12px";
 	arrow.style.top = "19px";
 	arrow.style.left = "0px";
-	arrow.style.overflow = "hidden";
+	//arrow.style.overflow = "hidden";
 	div.appendChild(arrow);
 
 	var leftBar = this._leftBar = document.createElement("div");
@@ -715,7 +746,7 @@ function initplace(x, y, content, divid) {
 	leftBar.style.height = "24px";
 	leftBar.style.top = "0px";
 	leftBar.style.left = "-10px";
-	leftBar.style.overflow = "hidden";
+	//leftBar.style.overflow = "hidden";
 	div.appendChild(leftBar);
 
 	var rightBar = document.createElement("div");
@@ -725,10 +756,12 @@ function initplace(x, y, content, divid) {
 	rightBar.style.height = "24px";
 	rightBar.style.top = "0px";
 	rightBar.style.right = "-10px";
-	rightBar.style.overflow = "hidden";
+	//rightBar.style.overflow = "hidden";
 	div.appendChild(rightBar);
 
-	var bodydiv = document.getElementById("page-home");
+	var bodydiv = document.getElementById("canvasdiv");
+	
+	div.style.visibility="visible";
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
@@ -789,17 +822,25 @@ function initplaceNav(x, y, content, divid) {
 	//创建div元素，作为自定义覆盖物的容器
 	var div = document.createElement("div");
 	div.id = divid;
+	div.className = "divclass";
 	div.style.position = "absolute";
 
 	div.style.color = "yellow";
 	if (content != "换") {
 		div.style.background = "red";
+		
 	} else {
 		div.style.background = "green";
+		
+		
 	}
+	//div.style.opacity = 1;
+	//alert(div.style.opacity);
 	div.style.borderRadius = "15px";
 	div.style.height = "24px";
 	div.style.width = "24px";
+	
+	div.style.visibility="visible";
 
 	//div.style.whiteSpace = "nowrap";
 	div.style.MozUserSelect = "none";
@@ -810,7 +851,7 @@ function initplaceNav(x, y, content, divid) {
 	div.style.marginRight = "auto";
 	div.style.lineHeight = "24px";
 
-	div.style.zIndex = 3;
+	div.style.zIndex = 6;
 
 	div.style.fontWeight = "bolder";
 	//div.style.fontColor = "#FFFF00";
@@ -824,8 +865,12 @@ function initplaceNav(x, y, content, divid) {
 
 	div.innerHTML = content;
 
-	var bodydiv = document.getElementById("page-home");
-
+	var bodydiv = document.getElementById("canvasdiv");
+	
+	//alert(bodydiv);
+	
+	
+    div.style.zIndex = 3;
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
 	//bodydiv.style.zIndex = 0;
@@ -900,7 +945,7 @@ function initplaceLine(x, y, divid) {
 	div.style.fontSize = "16px";
 	div.style.textAlign = "center";
 	div.style.lineHeight = "20px";
-	div.style.zIndex = 3;
+	div.style.zIndex = 5;
 	div.style.verticalAlign = "bottom";
 	div.style.fontWeight = "bolder";
 	//div.style.fontColor = "#FFFF00";
@@ -911,8 +956,10 @@ function initplaceLine(x, y, divid) {
 
 	div.style.left = x + "px";
 	div.style.top = y + "px";
+	
+	div.style.visibility="visible";
 
-	var bodydiv = document.getElementById("page-home");
+	var bodydiv = document.getElementById("canvasdiv");
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
@@ -940,6 +987,8 @@ function initplaceLine(x, y, divid) {
 		var m = currdiv.split("_");
 		pt1 = m[0];
 		pt2 = m[1];
+		
+		
 
 		pop_up_line_info(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, pt1, pt2);
 
@@ -952,6 +1001,8 @@ function initplaceLine(x, y, divid) {
 }
 function pop_up(posx, posy, realX, realY, isInput, content) {
 
+
+	
 	var login;
 
 	if (isInput) {
@@ -1002,15 +1053,19 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 		canvas_upper.style.zIndex = 2;
 		first = true;
 	}
+	
+	div_in.style.position = "absolute";
 
 	login.appendChild(x);
+	
+	div_in.style.visibility="visible";
 
-	var bodydiv = document.getElementById("page-home");
+	var bodydiv = document.getElementById("canvasdiv");
 
 	bodydiv.appendChild(div_in);
-	bodydiv.style.overflow = "scroll";
-	bodydiv.style.zIndex = 10000;
-	//bodydiv.style.overflow = "hidden";
+	//bodydiv.style.overflow = "scroll";
+	
+	bodydiv.style.overflow = "hidden";
 
 }
 
@@ -1034,8 +1089,9 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 	div_in.style.padding = 3 + "px";
 	div_in.style.backgroundColor = "#CCCCCC";
 	div_in.style.zIndex = 10000;
-
-	login.zIndex = 10000;
+	
+   
+	
 	login.style.position = "absolute";
 	div_in.appendChild(login);
 
@@ -1052,19 +1108,21 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 	}
 
 	login.appendChild(x);
+	
+	div_in.style.visibility="visible";
 
-	var bodydiv = document.getElementById("page-home");
+	var bodydiv = document.getElementById("canvasdiv");
 
 	bodydiv.appendChild(div_in);
-	bodydiv.style.overflow = "scroll";
-	bodydiv.style.zIndex = 10000;
-	//bodydiv.style.overflow = "hidden";
+	//bodydiv.style.overflow = "scroll";
+	
+	bodydiv.style.overflow = "hidden";
 
 }
 
 function del_pop(id_out, id_in) {
-	var bodydiv = document.getElementById('page-home');
-	bodydiv.style.overflow = "scroll";
+	var bodydiv = document.getElementById('canvasdiv');
+	//bodydiv.style.overflow = "scroll";
 
 	var childs = bodydiv.childNodes;
 	for (var i = 0; i < childs.length; i++) {
@@ -1114,8 +1172,8 @@ function onmove(x, y) {
 function onmovenav(x, y) {}
 
 function del_div(temp) {
-	var bodydiv = document.getElementById('page-home');
-	bodydiv.style.overflow = "scroll";
+	var bodydiv = document.getElementById('canvasdiv');
+	//bodydiv.style.overflow = "scroll";
 
 	var childs = bodydiv.childNodes;
 	for (var i = 0; i < childs.length; i++) {

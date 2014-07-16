@@ -357,6 +357,8 @@ tr:nth-child(even) {
 
 
 
+
+
 /* button 
 ---------------------------------------------- */
 .button1 {
@@ -437,7 +439,7 @@ tr:nth-child(even) {
 		
 		
 	</head>
-	<body >
+	<body style="overflow:auto">
 	
 		<div class="container-fluid1">
 		<div class="row-fluid">
@@ -448,7 +450,7 @@ tr:nth-child(even) {
 					
 					
 		
-		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;alpha(opacity=90); opacity: 0.9;">
+		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;">
 	
 	     <div id="floornum"><p id="floortext">15F</p>
 		 
@@ -502,16 +504,16 @@ tr:nth-child(even) {
 			<li id="point_ul_2"><a href="javascript:selectInterestNav(2)">兴 趣 点</a></li>						
 		</ul>
 		
-		      
-		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:40px;z-index:1;overflow:auto"></canvas>
-		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:2;overflow:auto"></canvas>
-		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:40px;z-index:3;overflow:auto"></canvas>
-		
+		 <div id="canvasdiv" style="position:absolute;left:0px;top:40px;z-index:2;overflow:hidden;width:1500px;height:1200px;z-index:0;background:#f3f3f3;visibility:hidden">    
+		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:0px;z-index:1;overflow:hidden;visibility:visible"></canvas>
+		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:0px;z-index:2;overflow:hidden;visibility:visible"></canvas>
+		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:0px;z-index:3;overflow:hidden;visibility:visible"></canvas>
+		 
 	
 		
 
-		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;left:215px;top:90px;display:none;z-index:6;width:600px;overflow:auto;">
-        <form id="form1" name="form1" method="post" style="position:absolute;left:215px;top:90px;border:solid 2px #b7ddf2;background:#ebf4fb; width:600px;z-index:6;overflow:auto;" action="" >
+		<div id="stylized" class="myform" style="border:solid 2px #b7ddf2;background:#ebf4fb;left:175px;top:63px;display:none;z-index:10;width:600px;overflow:hidden;visibility:visible">
+        <form id="form1" name="form1" method="post" style="position:absolute;left:175px;top:63px;border:solid 2px #b7ddf2;background:#ebf4fb; width:600px;z-index:10;overflow:hidden;visibility:visible" action="" >
        
         <p>兴趣点信息填写</p>
         <label>名称 <span class="small"></span> </label>
@@ -578,6 +580,7 @@ tr:nth-child(even) {
 		<button  type="button" onclick="cancelPoiDetailInfo()" style="font:bold 14px 宋体;color:white">取&nbsp;消</button><br/><br/>	
         <div class="spacer"></div>
     </form>
+</div>
 </div>
 
 	

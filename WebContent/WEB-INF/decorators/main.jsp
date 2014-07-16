@@ -105,7 +105,7 @@
 									</s:a></li>
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="menu.nav" /><b
+							data-toggle="dropdown"><s:text name="Nav" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="neighbor" namespace="/nav" />
@@ -139,7 +139,7 @@
 									</s:a></li>
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="menu.public" /><b
+							data-toggle="dropdown"><s:text name="Transport" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="bus" namespace="/public" /> <s:a
@@ -152,7 +152,7 @@
 									</s:a></li>
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="menu.ad" /><b
+							data-toggle="dropdown"><s:text name="Ad" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="index" namespace="/ad" /> <s:a
