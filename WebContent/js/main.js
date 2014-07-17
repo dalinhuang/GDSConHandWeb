@@ -534,6 +534,14 @@ function load() {
 
 		document.getElementById('coordtext').innerHTML = str;
 	}
+	
+	canvas_nav.onmouseout = function (event) {
+
+
+		var str = "X=" + 0 + "&nbsp;&nbsp;&nbsp;&nbsp;Y=" + 0;
+
+		document.getElementById('coordtext').innerHTML = str;
+	}
 
 	canvas_nav.onmousedown = function (event) {
 
@@ -982,7 +990,7 @@ function initplaceLine(x, y, divid) {
 		pt1 = m[0];
 		pt2 = m[1];
 
-		pop_up_line_info(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, pt1, pt2);
+		pop_up_line_info_fix(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, pt1, pt2);
 
 		canvas.style.zIndex = 2;
 		canvas_upper.style.zIndex = 1;
@@ -1059,6 +1067,57 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 
 }
 
+function pop_up_line_info_fix(posx, posy, pt1, pt2) {
+
+	var login;
+
+	if (posy > 1500) {
+		posy = posy - 260;
+		posx = posx + 30;
+	}
+
+	login = new createLineInfoFix(posx, posy, pt1, pt2);
+
+	var div_in = document.createElement("div");
+	div_in.id = "id_in";
+	div_in.style.width = "300px";
+	div_in.style.position = "absolute";
+	div_in.style.left = posx + 8 + "px";
+	div_in.style.top = posy + 8 + "px";
+	div_in.style.padding = 3 + "px";
+	div_in.style.backgroundColor = "#CCCCCC";
+	div_in.style.zIndex = 10000;
+
+	login.style.position = "absolute";
+	div_in.appendChild(login);
+
+	var x = document.createElement('div');
+	x.innerHTML = "<img src='images/close.jpg' title='关闭窗口'>";
+	x.style.position = "absolute";
+	x.style.right = "10px";
+	x.style.top = "5px";
+	x.style.cursor = "pointer";
+	x.onclick = function () {
+		del_pop("id_out", "id_in");
+		canvas.style.zIndex = 1;
+		canvas_upper.style.zIndex = 2;
+	}
+
+	login.appendChild(x);
+
+	div_in.style.visibility = "visible";
+
+	var bodydiv = document.getElementById("canvasdiv");
+
+	bodydiv.appendChild(div_in);
+	//bodydiv.style.overflow = "scroll";
+
+	bodydiv.style.overflow = "hidden";
+
+}
+
+
+
 function pop_up_line_info(posx, posy, pt1, pt2) {
 
 	var login;
@@ -1107,6 +1166,8 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 	bodydiv.style.overflow = "hidden";
 
 }
+
+
 
 function del_pop(id_out, id_in) {
 	var bodydiv = document.getElementById('canvasdiv');
@@ -1406,6 +1467,174 @@ function mdist(x1, y1, x2, y2) {
 
 	return d;
 }
+
+
+function createLineInfoFix(posx, posy, pt1, pt2) {
+	var login = document.createElement('DIV');
+	var conn = "";
+	var to_node;
+	var flag = false;
+
+	var mbackwardGuide = "";
+	var mforwardGuide = "";
+
+	curr_node = pt1;
+
+	//<option value='1'>双向 </option><option value='2'>
+
+	if (pt2 == 0) {
+
+		for (var i = 0; i < fromNode.length; i++) {
+
+			if (fromNode[i] == pt1) {
+				if (nav_floor[toNode[i] - 1] != which_floor) {
+					if (!flag) {
+						flag = true;
+						to_node = toNode[i];
+
+					}
+
+					conn += "<option value=" + toNode[i] + ">";
+					conn += "F" + nav_floor[toNode[i] - 1] + " 节点" + toNode[i];
+					conn += "</option>";
+
+				}
+
+			}
+		}
+
+		for (var i = 0; i < toNode.length; i++) {
+
+			if (toNode[i] == pt1) {
+				if (nav_floor[fromNode[i] - 1] != which_floor) {
+					if (!flag) {
+						flag = true;
+						to_node = fromNode[i];
+					}
+
+					conn += "<option value=" + fromNode[i] + ">";
+					conn += "F" + nav_floor[fromNode[i] - 1] + " 节点" + fromNode[i];
+					conn += "</option>";
+
+				}
+
+			}
+		}
+
+		var pathInfo = " 该导航线连接导航节点" + pt1 + "与" + to_node;
+		var op1 = pt1 + " 到 " + to_node;
+		var op2 = to_node + " 到 " + pt1;
+		var op3 = "";
+
+		for (var i = 0; i < fromNode.length; i++) {
+
+			if (fromNode[i] == pt1 && toNode[i] == to_node) {
+				if (direction[i] == 1) {
+					op3 = "(双向)";
+				} else {
+					op3 = "(" + pt1 + "->" + to_node + ")";
+				}
+
+				curr_from_node = pt1;
+				curr_to_node = to_node;
+				break;
+			}
+
+			if (toNode[i] == pt1 && fromNode[i] == to_node) {
+				if (direction[i] == 1) {
+					op3 = "(双向)";
+				} else {
+					op3 = "(" + to_node + "->" + pt1 + ")";
+				}
+
+				var op2 = curr_node + " 到 " + to_node;
+				var op1 = to_node + " 到 " + pt1;
+
+				curr_from_node = to_node;
+				curr_to_node = pt1;
+
+				break;
+			}
+		}
+
+		pathInfo += op3;
+
+		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
+		login.innerHTML = "<form name = 'loginform'>" +
+			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px;float:left;'>&nbsp;路径信息</div>" +
+			"<div id = 'pathInfo' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>选择节点&nbsp;&nbsp;</b></label>  <select name='selectNavTerm' style= 'width:100px;height:25px;' id='selectNavTerm' onchange='changeTransit(this.options[this.options.selectedIndex].value)'>" + conn + "</select>  </div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>选择方向&nbsp;&nbsp;</b></label>  <select name='selectNavType' style= 'width:100px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option></select>  </div>" +
+
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp;&nbsp;</b></label> <input id='forward' name='forward'  style= 'width:100px;height:15px;' type=text placeholder='办公室到门口'></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp;&nbsp;</b></label> <input id='backward' name='backward'  style= 'width:100px;height:15px;'type=text placeholder='门口到办公室'></div>" +
+			"<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left;float:left;'><center><button type='button' class = 'blue',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' class = 'red',  onClick= 'deleteTransitNavLine(" + curr_from_node + "," + curr_to_node + ")'" + ">删除</button></div>" +
+
+			"</form>";
+
+	} else {
+	   
+
+		var pathInfo = "该导航线连接导航节点" + pt1 + "与" + pt2;
+		var op1 = pt1 + " 到 " + pt2;
+		var op2 = pt2 + " 到 " + pt1;
+		var op3 = "";
+		var mbackwardGuide = "";
+		var mforwardGuide = "";
+
+		for (var i = 0; i < fromNode.length; i++) {
+
+			if (fromNode[i] == pt1 && toNode[i] == pt2) {
+				if (direction[i] == 1) {
+					op3 = "双向导通";
+				} else {
+					op3 = "单向导通";
+				}
+
+				mforwardGuide = forwardGuide[i];
+				mbackwardGuide = backwardGuide[i];
+				break;
+			}
+		}
+		
+		if (mforwardGuide == null || mforwardGuide == "") {
+		   mforwardGuide = "无"
+		} 
+		
+		if (mbackwardGuide == null || mbackwardGuide == "") {
+		   mbackwardGuide = "无"
+		} 
+
+		pathInfo += op3;
+
+		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
+		
+			
+			
+	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息&nbsp" +  "<img src='images/edit.jpg' title='编辑' onClick= 'modifyLineInfo(" + posx + "," + posy + "," + pt1 + "," + pt2 + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavLine(" + pt1 + "," + pt2 + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
+		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 起始节点      " + pt1 + "<br></div>" +
+		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 终止节点      " + pt2 + "<br></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 方向信息      " + op3 + "<br></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 正向信息      " + mforwardGuide + "<br></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 反向信息      " + mbackwardGuide + "<br></div>";
+
+	}
+
+	return login;
+}
+
+
+function modifyLineInfo(posx, posy, pt1, pt2) {
+
+	//alert ("cc");
+
+	del_pop("id_out", "id_in");
+
+	pop_up_line_info(posx, posy, pt1, pt2);
+
+	//
+}
+
 
 function createLineInfo(pt1, pt2) {
 	var login = document.createElement('DIV');
@@ -3621,6 +3850,8 @@ function zoomIn() {
 
 	clearInterestDraw();
 	clearNavDraw();
+	
+
 
 	if (point_type == ONLY_NAV) {
 		redrawAll();
@@ -3652,6 +3883,8 @@ function zoomOut() {
 	canvas_upper.style.zIndex = 1;
 
 	var pos = windowToCanvas(canvas, 200, 200);
+	
+	
 
 	imgScale /= 1.2;
 	imgX = imgX / 1.2 + pos.x / 1.2;
@@ -3659,6 +3892,8 @@ function zoomOut() {
 	onscale(1 / 1.2, pos.x / 1.2, pos.y / 1.2);
 
 	drawImage();
+	
+
 
 	clearInterestDraw();
 	clearNavDraw();

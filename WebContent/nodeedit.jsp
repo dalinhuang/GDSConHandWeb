@@ -459,7 +459,7 @@ tr:nth-child(even) {
 					
 					
 		
-		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;">
+		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;opacity:0.9">
 	
 	     <div id="floornum"><p id="floortext">15F</p>
 		 
