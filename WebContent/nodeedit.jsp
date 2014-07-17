@@ -14,29 +14,7 @@
 			canvas{
 				border: 1px solid #000;
 			}
-			/*----------------------------*/
-           button{
-	           background :  #428739;
-	           ackground : -webkit-gradient(linear, left top, left bottom, from( #c8dd95), to( #428739));
-	           background : -moz-linear-gradient(-90deg,  #c8dd95,  #428739);
-	           filter : progid : DXImageTransform.Microsoft.Gradient(GradientType = 0, StartColorStr = '#c8dd95', EndColorStr = '#428739');
-           }
-           button : hover {
-	           background :  #c8dd95;
-	           background : -webkit-gradient(linear, left top, left bottom, from( #428739), to( #c8dd95));
-	           background : -moz-linear-gradient(-90deg,  #428739,  #c8dd95);
-	          filter : progid : DXImageTransform.Microsoft.Gradient(GradientType = 0, StartColorStr = '#428739', EndColorStr = '#c8dd95');
-            }
-           button  : active {
-	            background :  #428739;
-           }
-		   
-		   .triangle{
-             border-top:10px solid #FFFFCC;
-             border-left:10px solid #FF3300;
-             border-bottom:10px solid #FFFFCC;
-             border-right:10px solid #FF3300;
-           }
+			
 		   
 		   
 		   p, h1, form, button {
@@ -104,8 +82,8 @@
 }
 #stylized button {
     clear:both;
-    margin-left:50px;
-    width:125px;
+    margin-left:30px;
+    width:75px;
     height:31px;
     background:#666666;
     text-align:center;
@@ -393,49 +371,80 @@ tr:nth-child(even) {
 /* color styles 
 ---------------------------------------------- */
 
-/* orange */
-.orange {
-    color: #fef4e9;
-    border: solid 1px #da7c0c;
-    background: #f78d1d;
-    background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-    background: -moz-linear-gradient(top, #faa51a, #f47a20);
- filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+
+
+
+ 
+ /* blue */
+.blue {
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    padding: .3em 1em .35em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    color: #d9eef7;
+    border: solid 1px #0076a3;
+    background: #0095cd;
+    background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+    background: -moz-linear-gradient(top, #00adee, #0078a5);
+ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
 }
-.orange:hover {
-    background: #f47c20;
-    background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-    background: -moz-linear-gradient(top, #f88e11, #f06015);
- filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+.blue:hover {
+    background: #007ead;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+    background: -moz-linear-gradient(top, #0095cc, #00678e);
+ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
 }
-.orange:active {
-    color: #fcd3a5;
-    background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-    background: -moz-linear-gradient(top, #f47a20, #faa51a);
- filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+.blue:active {
+    color: #80bed6;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+    background: -moz-linear-gradient(top, #0078a5, #00adee);
+ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 
-/* green */
-.green {
-    color: #e8f0de;
-    border: solid 1px #538312;
-    background: #64991e;
-    background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
-    background: -moz-linear-gradient(top, #7db72f, #4e7d0e);
- filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+/* red */
+.red {
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    padding: .3em 1em .35em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    color: #faddde;
+    border: solid 1px #980c10;
+    background: #d81b21;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ed1c24), to(#aa1317));
+    background: -moz-linear-gradient(top, #ed1c24, #aa1317);
+ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
 }
-.green:hover {
-    background: #538018;
-    background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));
-    background: -moz-linear-gradient(top, #6b9d28, #436b0c);
- filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');
+.red:hover {
+    background: #b61318;
+    background: -webkit-gradient(linear, left top, left bottom, from(#c9151b), to(#a11115));
+    background: -moz-linear-gradient(top, #c9151b, #a11115);
+ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9151b', endColorstr='#a11115');
 }
-.green:active {
-    color: #a9c08c;
-    background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
-    background: -moz-linear-gradient(top, #4e7d0e, #7db72f);
- filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
-		</style>
+.red:active {
+    color: #de898c;
+    background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
+    background: -moz-linear-gradient(top, #aa1317, #ed1c24);
+ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
+}
+</style>
 		
 		
 	</head>
@@ -577,6 +586,7 @@ tr:nth-child(even) {
 
 		
         <button  type="button" onclick="submitPoiDetailInfo()" style="margin-left:140px;font:bold 14px 宋体;color:white">提&nbsp;交</button>
+        <button  type="button" onclick="deleteInterestPlace()" style="font:bold 14px 宋体;color:white">删&nbsp;除</button>
 		<button  type="button" onclick="cancelPoiDetailInfo()" style="font:bold 14px 宋体;color:white">取&nbsp;消</button><br/><br/>	
         <div class="spacer"></div>
     </form>

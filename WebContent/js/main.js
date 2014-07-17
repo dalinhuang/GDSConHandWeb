@@ -129,31 +129,31 @@ function load() {
 	floor_ul.style.display = "none";
 	point_ul.style.display = "none";
 	zoom_ul.style.display = "none";
-/*	
-	var     s   =   "";     
-  s   +=   " 网页可见区域宽："+   document.body.clientWidth;     
-  s   +=   " 网页可见区域高："+   document.body.clientHeight;     
-  s   +=   " 网页可见区域宽："+   document.body.offsetWidth     +"   (包括边线和滚动条的宽)";     
-  s   +=   " 网页可见区域高："+   document.body.offsetHeight   +"   (包括边线的宽)";     
-  s   +=   " 网页正文全文宽："+   document.body.scrollWidth;     
-  s   +=   " 网页正文全文高："+   document.body.scrollHeight;     
-  s   +=   " 网页被卷去的高："+   document.body.scrollTop;     
-  s   +=   " 网页被卷去的左："+   document.body.scrollLeft;     
-  s   +=   " 网页正文部分上："+   window.screenTop;     
-  s   +=   " 网页正文部分左："+   window.screenLeft;     
-  s   +=   " 屏幕分辨率的高："+   window.screen.height;     
-  s   +=   " 屏幕分辨率的宽："+   window.screen.width;     
-  s   +=   " 屏幕可用工作区高度："+   window.screen.availHeight;     
-  s   +=   " 屏幕可用工作区宽度："+   window.screen.availWidth;     
-  s   +=   " 你的屏幕设置是   "+   window.screen.colorDepth   +"   位彩色";     
-  s   +=   " 你的屏幕设置   "+   window.screen.deviceXDPI   +"   像素/英寸";     
-  alert(s);
+	/*
+	var     s   =   "";
+	s   +=   " 网页可见区域宽："+   document.body.clientWidth;
+	s   +=   " 网页可见区域高："+   document.body.clientHeight;
+	s   +=   " 网页可见区域宽："+   document.body.offsetWidth     +"   (包括边线和滚动条的宽)";
+	s   +=   " 网页可见区域高："+   document.body.offsetHeight   +"   (包括边线的宽)";
+	s   +=   " 网页正文全文宽："+   document.body.scrollWidth;
+	s   +=   " 网页正文全文高："+   document.body.scrollHeight;
+	s   +=   " 网页被卷去的高："+   document.body.scrollTop;
+	s   +=   " 网页被卷去的左："+   document.body.scrollLeft;
+	s   +=   " 网页正文部分上："+   window.screenTop;
+	s   +=   " 网页正文部分左："+   window.screenLeft;
+	s   +=   " 屏幕分辨率的高："+   window.screen.height;
+	s   +=   " 屏幕分辨率的宽："+   window.screen.width;
+	s   +=   " 屏幕可用工作区高度："+   window.screen.availHeight;
+	s   +=   " 屏幕可用工作区宽度："+   window.screen.availWidth;
+	s   +=   " 你的屏幕设置是   "+   window.screen.colorDepth   +"   位彩色";
+	s   +=   " 你的屏幕设置   "+   window.screen.deviceXDPI   +"   像素/英寸";
+	alert(s);
 
-alert (window.screen.height * window.screen.width); 
+	alert (window.screen.height * window.screen.width);
 
-// 
-	
-	*/
+	//
+
+	 */
 
 	$("#zoom").hover(function () {
 		point_ul.style.display = "none";
@@ -265,10 +265,9 @@ alert (window.screen.height * window.screen.width);
 	 */
 
 	loadImg();
-	
+
 	//document.getElementsByTagName('body').style.overflow = 'auto';
-	
-	
+
 
 	$.ajax({
 		type : 'post',
@@ -578,18 +577,16 @@ alert (window.screen.height * window.screen.width);
 			if (!move_finish) {
 				return;
 			}
-			
-			
 
 			if (!event.ctrlKey) {
-			    
+
 				return;
 			}
 
 			move_finish = false;
 
 			canvas.style.cursor = "move";
-			
+
 			var x = pos1.x - pos.x;
 
 			//ctx_up.strokeStyle='red';
@@ -645,8 +642,6 @@ alert (window.screen.height * window.screen.width);
 			if (!ismove) {
 				//alert("bb");
 				del_pop("id_out", "id_in");
-				
-				
 
 				pop_up(pos.x, pos.y, realX, realY, true, null);
 			} else {
@@ -654,7 +649,7 @@ alert (window.screen.height * window.screen.width);
 				//canvas_upper.style.zIndex = 2;
 
 			}
-			
+
 			ismove = false;
 		}
 	}
@@ -760,8 +755,8 @@ function initplace(x, y, content, divid) {
 	div.appendChild(rightBar);
 
 	var bodydiv = document.getElementById("canvasdiv");
-	
-	div.style.visibility="visible";
+
+	div.style.visibility = "visible";
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
@@ -828,19 +823,18 @@ function initplaceNav(x, y, content, divid) {
 	div.style.color = "yellow";
 	if (content != "换") {
 		div.style.background = "red";
-		
+
 	} else {
 		div.style.background = "green";
-		
-		
+
 	}
 	//div.style.opacity = 1;
 	//alert(div.style.opacity);
 	div.style.borderRadius = "15px";
 	div.style.height = "24px";
 	div.style.width = "24px";
-	
-	div.style.visibility="visible";
+
+	div.style.visibility = "visible";
 
 	//div.style.whiteSpace = "nowrap";
 	div.style.MozUserSelect = "none";
@@ -866,11 +860,11 @@ function initplaceNav(x, y, content, divid) {
 	div.innerHTML = content;
 
 	var bodydiv = document.getElementById("canvasdiv");
-	
+
 	//alert(bodydiv);
-	
-	
-    div.style.zIndex = 3;
+
+
+	div.style.zIndex = 3;
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
 	//bodydiv.style.zIndex = 0;
@@ -956,8 +950,8 @@ function initplaceLine(x, y, divid) {
 
 	div.style.left = x + "px";
 	div.style.top = y + "px";
-	
-	div.style.visibility="visible";
+
+	div.style.visibility = "visible";
 
 	var bodydiv = document.getElementById("canvasdiv");
 
@@ -987,8 +981,6 @@ function initplaceLine(x, y, divid) {
 		var m = currdiv.split("_");
 		pt1 = m[0];
 		pt2 = m[1];
-		
-		
 
 		pop_up_line_info(pos.x + CANVAS_OFFSET_X, pos.y + CANVAS_OFFSET_Y, pt1, pt2);
 
@@ -1001,8 +993,6 @@ function initplaceLine(x, y, divid) {
 }
 function pop_up(posx, posy, realX, realY, isInput, content) {
 
-
-	
 	var login;
 
 	if (isInput) {
@@ -1053,18 +1043,18 @@ function pop_up(posx, posy, realX, realY, isInput, content) {
 		canvas_upper.style.zIndex = 2;
 		first = true;
 	}
-	
+
 	div_in.style.position = "absolute";
 
 	login.appendChild(x);
-	
-	div_in.style.visibility="visible";
+
+	div_in.style.visibility = "visible";
 
 	var bodydiv = document.getElementById("canvasdiv");
 
 	bodydiv.appendChild(div_in);
 	//bodydiv.style.overflow = "scroll";
-	
+
 	bodydiv.style.overflow = "hidden";
 
 }
@@ -1089,9 +1079,7 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 	div_in.style.padding = 3 + "px";
 	div_in.style.backgroundColor = "#CCCCCC";
 	div_in.style.zIndex = 10000;
-	
-   
-	
+
 	login.style.position = "absolute";
 	div_in.appendChild(login);
 
@@ -1108,14 +1096,14 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 	}
 
 	login.appendChild(x);
-	
-	div_in.style.visibility="visible";
+
+	div_in.style.visibility = "visible";
 
 	var bodydiv = document.getElementById("canvasdiv");
 
 	bodydiv.appendChild(div_in);
 	//bodydiv.style.overflow = "scroll";
-	
+
 	bodydiv.style.overflow = "hidden";
 
 }
@@ -1233,7 +1221,7 @@ function createLogin(realX, realY, posx, posy, content) {
 
 		"<div style='width:300px;height:120px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><label for=name style='font:color:green'><b>简要描述&nbsp</b></label> &nbsp;&nbsp;<textarea name='content' cols='30' rows='3' placeholder='请输入简要信息' with='180px'></textarea></div>" +
 
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPoint(" + realX + "," + realY + ")'" + ">提交</button></div>" +
+		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'blue',  onClick= 'setPoint(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 		"</form>";
 
 	return login;
@@ -1265,7 +1253,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:100px;height:15px' type=text placeholder='检票口' value=" + nav_name + "></div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'blue',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
 
 	} else {
@@ -1278,7 +1266,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>连通点&nbsp;&nbsp;&nbsp;&nbsp</b></label><select name='selectNav' style='width:50px;height:25px' id='selectNav'><option value='1'>1</option><option value='2'>2</option></option><option value='3'>3</option></option><option value='4'>4</option></option><option value='5'>5</option></select></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>连通类型&nbsp</b></label>  <select name='selectNavType' style='width:50px;height:25px' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'blue',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
 
 		first = true;
@@ -1346,7 +1334,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>坐标 X&nbsp;&emsp;</b></label> <input id='xpos' name='xpos'  style='width:50px;height:15px' type=text  value=" + realX + "></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>坐标 Y&nbsp;&emsp;</b></label> <input id='ypos' name='ypos'  style='width:50px;height:15px' type=text  value=" + realY + "></div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'blue',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
 			"</form>";
 	} else {
 		var x1 = nav_x[currIdx];
@@ -1403,7 +1391,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp</b></label> <input id='forward' name='forward'  style='width:100px;height:15px' type=text placeholder='办公室到门口'></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp</b></label> <input id='backward' name='backward'  style='width:100px;height:15px' type=text placeholder='门口到办公室'></div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left'><center><button type='button' class = 'button',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left'><center><button type='button' class = 'blue',  onClick= 'setPointNav(" + realX + "," + realY + ")'" + ">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' class = 'red',  onClick= 'deleteNavPoint()'" + ">删除</button></div>" +
 			"</form>";
 
 		first = true;
@@ -1514,11 +1502,11 @@ function createLineInfo(pt1, pt2) {
 			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px;float:left;'>&nbsp;路径信息</div>" +
 			"<div id = 'pathInfo' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>选择节点&nbsp;&nbsp;</b></label>  <select name='selectNavTerm' style= 'width:100px;height:25px;' id='selectNavTerm' onchange='changeTransit(this.options[this.options.selectedIndex].value)'>" + conn + "</select>  </div>" +
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>操作&nbsp;&nbsp;&nbsp;&nbsp;&emsp;</b></label>  <select name='selectNavType' style= 'width:80px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>选择方向&nbsp;&nbsp;</b></label>  <select name='selectNavType' style= 'width:100px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option></select>  </div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp;&nbsp;</b></label> <input id='forward' name='forward'  style= 'width:100px;height:15px;' type=text placeholder='办公室到门口'></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;float:left;float:left;'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp;&nbsp;</b></label> <input id='backward' name='backward'  style= 'width:100px;height:15px;'type=text placeholder='门口到办公室'></div>" +
-			"<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left;float:left;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>" +
+			"<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;float:left;float:left;'><center><button type='button' class = 'blue',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' class = 'red',  onClick= 'deleteTransitNavLine(" + curr_from_node + "," + curr_to_node + ")'" + ">删除</button></div>" +
 
 			"</form>";
 
@@ -1553,15 +1541,87 @@ function createLineInfo(pt1, pt2) {
 			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息</div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>" + pathInfo + "</b></div>" +
 
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left;'><b>操作&nbsp;&nbsp;&nbsp;&nbsp;&emsp;</b></label>  <select name='selectNavType' style='width:80px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option><option value='4'>删除</option></select>  </div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left;'><b>选择方向&nbsp;&nbsp;</b></label>  <select name='selectNavType' style='width:100px;height:25px;' id='selectNavType'><option value='1'>双向 </option><option value='2'>" + op1 + "</option> <option value='3'>" + op2 + "</option></select>  </div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>正向信息&nbsp;&nbsp</b></label> <input id='forward' name='forward'  style='width:100px;height:15px;' type=text placeholder='办公室到门口' value=" + mforwardGuide + "></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>反向信息&nbsp;&nbsp</b></label> <input id='backward' name='backward'  style='width:100px;height:15px;' type=text placeholder='门口到办公室' value=" + mbackwardGuide + "></div>" +
-			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opLine(" + pt1 + "," + pt2 + ")'" + ">提交</button></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'blue',  onClick= 'opLine(" + pt1 + "," + pt2 + ")'" + ">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' class = 'red',  onClick= 'deleteNavLine(" + pt1 + "," + pt2 + ")'" + ">删除</button></div>" +
 			"</form>";
 	}
 
 	return login;
+}
+
+//不同楼层导航线的改方向和删除的导航线操作
+function deleteTransitNavLine(pt1, pt2) {
+
+	for (var i = 0; i < fromNode.length; i++) {
+
+		if (fromNode[i] == pt1 && toNode[i] == pt2) {
+
+			fromNode.splice(i, 1);
+
+			toNode.splice(i, 1);
+			direction.splice(i, 1);
+			forwardGuide.splice(i, 1);
+			backwardGuide.splice(i, 1);
+
+			if (!judgeTransitPt(pt1)) {
+				nav_transit[pt1 - 1] = false;
+
+				trandivId = pt1 + "_transit"
+					trandiv = document.getElementById(trandivId);
+				trandiv.style.display = "none";
+
+				trandivId = pt1 + "_transit"
+					trandiv = document.getElementById(trandivId);
+				trandiv.style.display = "none";
+
+				var trandivlineId = pt1 + "_" + "0";
+				var trandivline = document.getElementById(trandivlineId);
+				trandivline.style.display = "none";
+			}
+
+			if (!judgeTransitPt(pt2)) {
+				nav_transit[pt2 - 1] = false;
+
+				trandivId = pt2 + "_transit"
+					trandiv = document.getElementById(trandivId);
+				trandiv.style.display = "none";
+
+				trandivId = pt2 + "_transit"
+					trandiv = document.getElementById(trandivId);
+				trandiv.style.display = "none";
+
+				var trandivlineId = pt2 + "_" + "0";
+				var trandivline = document.getElementById(trandivlineId);
+				trandivline.style.display = "none";
+			}
+			//forwardGuide.splice(i, 1);
+			//backwardGuide.splice(i, 1);
+
+			//在数据库中删除这条导航线, 只需要知道fromNode toNode
+			$.post("deletenavipath.action", {
+				fromNode : pt1,
+				toNode : pt2,
+
+			});
+
+			break;
+
+		}
+		break;
+	}
+
+	redrawAll();
+
+	del_pop("id_out", "id_in");
+	del_pop("id_out", "id_in");
+
+	canvas_upper.style.zIndex = 2;
+	canvas_nav.style.zIndex = 3;
+	canvas.style.zIndex = 2;
+
 }
 
 //不同楼层导航线的改方向和删除的导航线操作
@@ -1670,6 +1730,43 @@ function opTransitLine(pt1, pt2) {
 			default:
 				break;
 			}
+			break;
+		}
+	}
+
+	redrawAll();
+
+	del_pop("id_out", "id_in");
+	del_pop("id_out", "id_in");
+
+	canvas_upper.style.zIndex = 2;
+	canvas_nav.style.zIndex = 3;
+	canvas.style.zIndex = 2;
+
+}
+
+function deleteNavLine(pt1, pt2) {
+
+	for (var i = 0; i < fromNode.length; i++) {
+
+		if (fromNode[i] == pt1 && toNode[i] == pt2) {
+
+			fromNode.splice(i, 1);
+
+			toNode.splice(i, 1);
+			direction.splice(i, 1);
+			forwardGuide.splice(i, 1);
+			backwardGuide.splice(i, 1);
+			//forwardGuide.splice(i, 1);
+			//backwardGuide.splice(i, 1);
+			del_div(currdiv);
+
+			//在数据库中删除这条导航线, 只需要知道fromNode toNode
+			$.post("deletenavipath.action", {
+				fromNode : pt1,
+				toNode : pt2,
+
+			});
 			break;
 		}
 	}
@@ -2530,6 +2627,9 @@ function deleteInterestPlace(posx, posy, realX, realY) {
 
 	canvas.style.zIndex = 1;
 	canvas_upper.style.zIndex = 2;
+
+	detaildiv = document.getElementById("stylized");
+	detaildiv.style.display = "none";
 }
 
 function mywait(time) {
@@ -3121,7 +3221,7 @@ function changeTransit(to_node) {
 	jsAddItemToSelect(selectNavType, "双向", 1);
 	jsAddItemToSelect(selectNavType, op1, 2);
 	jsAddItemToSelect(selectNavType, op2, 3);
-	jsAddItemToSelect(selectNavType, "删除", 3);
+	//jsAddItemToSelect(selectNavType, "删除", 3);
 
 	pathInfo += op3;
 
@@ -3138,7 +3238,7 @@ function changeTransit(to_node) {
 	//pathInfoDiv.style = "width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px";
 	//pathInfoDiv.text = pathInfo;
 	//alert(pathInfoDiv.innerHTML);
-	opLineDiv.innerHTML = "<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center><button type='button' class = 'button',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button></div>"
+	opLineDiv.innerHTML = "<div id = 'opline' style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;'><center>&nbsp;&nbsp;<button type='button' class = 'blue',  onClick= 'opTransitLine(" + curr_from_node + "," + curr_to_node + ")'" + ">提交</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <button type='button' class = 'red',  onClick= 'deleteTransitNavLine(" + curr_from_node + "," + curr_to_node + ")'" + ">删除</button> </div>"
 
 }
 
