@@ -444,6 +444,8 @@ function load() {
 						toNode.push(data.data[i].toNode);
 						direction.push(data.data[i].direction);
 
+						var mdirection = data.data[i].direction;
+
 						forwardGuide.push(data.data[i].forwardGuide);
 						backwardGuide.push(data.data[i].backwardGuide);
 
@@ -465,7 +467,24 @@ function load() {
 						var midx = (x1 + x2) / 2;
 						var midy = (y1 + y2) / 2;
 
-						initplaceLine(midx, midy, divid);
+						var degree = getDegree(x1, y1, x2, y2);
+
+						if (mdirection == 1) {
+							if ((x2 - x1) >= 0) {
+								degree = 90 + degree;
+							} else {
+								degree = 270 + degree;
+							}
+
+						} else {
+							if ((x2 - x1) < 0) {
+
+								degree = 180 + degree;
+							}
+
+						}
+
+						initplaceLine(midx, midy, divid, mdirection, degree);
 						navtransdiv.push(divid);
 						trans_x.push(midx);
 						trans_y.push(midy);
@@ -488,7 +507,7 @@ function load() {
 							var trandiv = document.getElementById(trandivId);
 							trandiv.style.display = "none";
 
-							initplaceLine(x2, y2 + 30, i + 1 + "_" + "0");
+							initplaceLine(x2, y2 + 30, i + 1 + "_" + "0", 1, 0);
 							navtransdiv.push(i + 1 + "_" + "0");
 							trans_x.push(x2);
 							trans_y.push(y2 + 30);
@@ -534,9 +553,8 @@ function load() {
 
 		document.getElementById('coordtext').innerHTML = str;
 	}
-	
-	canvas_nav.onmouseout = function (event) {
 
+	canvas_nav.onmouseout = function (event) {
 
 		var str = "X=" + 0 + "&nbsp;&nbsp;&nbsp;&nbsp;Y=" + 0;
 
@@ -926,7 +944,7 @@ function initplaceNav(x, y, content, divid) {
 	}
 }
 
-function initplaceLine(x, y, divid) {
+function initplaceLine(x, y, divid, direction, degree) {
 	//保存map对象实例
 
 	//创建div元素，作为自定义覆盖物的容器
@@ -934,38 +952,36 @@ function initplaceLine(x, y, divid) {
 	div.id = divid;
 	div.style.position = "absolute";
 
-	div.style.color = "yellow";
+	if (direction == 1) {
+		div.className = "diamond-narrow";
+	} else {
+		div.className = "triangle-right";
+	}
 
-	div.style.background = "blue";
-
-	div.style.height = "10px";
-	div.style.width = "10px";
-
-	div.style.lineHeight = "12px";
-	//div.style.whiteSpace = "nowrap";
-	div.style.MozUserSelect = "none";
-	div.style.fontSize = "16px";
-	div.style.textAlign = "center";
-	div.style.lineHeight = "20px";
-	div.style.zIndex = 5;
-	div.style.verticalAlign = "bottom";
-	div.style.fontWeight = "bolder";
-	//div.style.fontColor = "#FFFF00";
-
-
-	x = x * imgScale + imgX - 5 + CANVAS_OFFSET_X;
-	y = y * imgScale + imgY - 5 + CANVAS_OFFSET_Y;
+	if (direction == 1) {
+		x = x * imgScale + imgX - 4 + CANVAS_OFFSET_X;
+		y = y * imgScale + imgY - 7 + CANVAS_OFFSET_Y;
+	} else {
+		x = x * imgScale + imgX - 5 + CANVAS_OFFSET_X;
+		y = y * imgScale + imgY - 5 + CANVAS_OFFSET_Y;
+	}
 
 	div.style.left = x + "px";
 	div.style.top = y + "px";
+	div.style.zIndex = 5;
 
 	div.style.visibility = "visible";
+
+	div.style.MozTransform = "rotate(" + degree + "deg)";
+	div.style.WebkitTransform = "rotate(" + degree + "deg)";
+	div.style.transform = "rotate(" + degree + "deg)";
 
 	var bodydiv = document.getElementById("canvasdiv");
 
 	bodydiv.appendChild(div);
 	bodydiv.style.overflow = "hidden";
 	//bodydiv.style.zIndex = 0;
+
 
 	div.onmouseup = function () {
 		canvas.onmousemove = null;
@@ -999,6 +1015,36 @@ function initplaceLine(x, y, divid) {
 	}
 
 }
+
+function resetplaceLine(x, y, div, direction, degree) {
+	//保存map对象实例
+
+	if (direction == 1) {
+		div.className = "diamond-narrow";
+	} else {
+		div.className = "triangle-right";
+	}
+
+	if (direction == 1) {
+		x = x * imgScale + imgX - 4 + CANVAS_OFFSET_X;
+		y = y * imgScale + imgY - 7 + CANVAS_OFFSET_Y;
+	} else {
+		x = x * imgScale + imgX - 5 + CANVAS_OFFSET_X;
+		y = y * imgScale + imgY - 5 + CANVAS_OFFSET_Y;
+	}
+
+	div.style.left = x + "px";
+	div.style.top = y + "px";
+	div.style.zIndex = 5;
+
+	div.style.visibility = "visible";
+
+	div.style.MozTransform = "rotate(" + degree + "deg)";
+	div.style.WebkitTransform = "rotate(" + degree + "deg)";
+	div.style.transform = "rotate(" + degree + "deg)";
+
+}
+
 function pop_up(posx, posy, realX, realY, isInput, content) {
 
 	var login;
@@ -1116,8 +1162,6 @@ function pop_up_line_info_fix(posx, posy, pt1, pt2) {
 
 }
 
-
-
 function pop_up_line_info(posx, posy, pt1, pt2) {
 
 	var login;
@@ -1166,8 +1210,6 @@ function pop_up_line_info(posx, posy, pt1, pt2) {
 	bodydiv.style.overflow = "hidden";
 
 }
-
-
 
 function del_pop(id_out, id_in) {
 	var bodydiv = document.getElementById('canvasdiv');
@@ -1468,7 +1510,6 @@ function mdist(x1, y1, x2, y2) {
 	return d;
 }
 
-
 function createLineInfoFix(posx, posy, pt1, pt2) {
 	var login = document.createElement('DIV');
 	var conn = "";
@@ -1573,7 +1614,6 @@ function createLineInfoFix(posx, posy, pt1, pt2) {
 			"</form>";
 
 	} else {
-	   
 
 		var pathInfo = "该导航线连接导航节点" + pt1 + "与" + pt2;
 		var op1 = pt1 + " 到 " + pt2;
@@ -1596,33 +1636,31 @@ function createLineInfoFix(posx, posy, pt1, pt2) {
 				break;
 			}
 		}
-		
+
 		if (mforwardGuide == null || mforwardGuide == "") {
-		   mforwardGuide = "无"
-		} 
-		
+			mforwardGuide = "无"
+		}
+
 		if (mbackwardGuide == null || mbackwardGuide == "") {
-		   mbackwardGuide = "无"
-		} 
+			mbackwardGuide = "无"
+		}
 
 		pathInfo += op3;
 
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
-		
-			
-			
-	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息&nbsp" +  "<img src='images/edit.jpg' title='编辑' onClick= 'modifyLineInfo(" + posx + "," + posy + "," + pt1 + "," + pt2 + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavLine(" + pt1 + "," + pt2 + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 起始节点      " + pt1 + "<br></div>" +
-		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 终止节点      " + pt2 + "<br></div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 方向信息      " + op3 + "<br></div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 正向信息      " + mforwardGuide + "<br></div>" +
-		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 反向信息      " + mbackwardGuide + "<br></div>";
+
+
+		login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;路径信息&nbsp" + "<img src='images/edit.jpg' title='编辑' onClick= 'modifyLineInfo(" + posx + "," + posy + "," + pt1 + "," + pt2 + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavLine(" + pt1 + "," + pt2 + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 起始节点      " + pt1 + "<br></div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 终止节点      " + pt2 + "<br></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 方向信息      " + op3 + "<br></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 正向信息      " + mforwardGuide + "<br></div>" +
+			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 反向信息      " + mbackwardGuide + "<br></div>";
 
 	}
 
 	return login;
 }
-
 
 function modifyLineInfo(posx, posy, pt1, pt2) {
 
@@ -1634,7 +1672,6 @@ function modifyLineInfo(posx, posy, pt1, pt2) {
 
 	//
 }
-
 
 function createLineInfo(pt1, pt2) {
 	var login = document.createElement('DIV');
@@ -2018,6 +2055,26 @@ function opLine(pt1, pt2) {
 	var mforwardGuide = document.forms['loginform']['forward'].value;
 	var mbackwardGuide = document.forms['loginform']['backward'].value;
 
+	var x1 = nav_x[pt1 -1];
+	var y1 = nav_y[pt1 -1];
+	var x2 = nav_x[pt2 -1];
+	var y2 = nav_y[pt2 -1];
+	var degree = 0;
+	
+	var x = 0;
+	var y = 0;
+
+	for (var j = 0; j < navtransdiv.length; j++) {
+		if (currdiv.id == navtransdiv[j]) {
+			if (direction[i] == 1) {
+				x = trans_x[j];
+				y = trans_y[j];
+
+			}
+			break;
+		}
+	}
+
 	for (var i = 0; i < fromNode.length; i++) {
 
 		if (fromNode[i] == pt1 && toNode[i] == pt2) {
@@ -2025,6 +2082,16 @@ function opLine(pt1, pt2) {
 			switch (parseInt(opcode)) {
 			case 1:
 				direction[i] = 1;
+
+				degree = getDegree(x1, y1, x2, y2);
+
+				if ((x2 - x1) >= 0) {
+					degree = 90 + degree;
+				} else {
+					degree = 270 + degree;
+				}
+
+				resetplaceLine(x, y, document.getElementById(pt1 + "_" + pt2), 1, degree);
 
 				forwardGuide[i] = mforwardGuide;
 				backwardGuide[i] = mbackwardGuide;
@@ -2042,6 +2109,14 @@ function opLine(pt1, pt2) {
 
 				direction[i] = 2;
 
+				degree = getDegree(x1, y1, x2, y2);
+
+				if ((x2 - x1) < 0) {
+					degree = 180 + degree;
+				}
+
+				resetplaceLine(x, y, document.getElementById(pt1 + "_" + pt2), 2, degree);
+
 				forwardGuide[i] = mforwardGuide;
 				backwardGuide[i] = mbackwardGuide;
 
@@ -2058,9 +2133,17 @@ function opLine(pt1, pt2) {
 				fromNode[i] = pt2;
 				toNode[i] = pt1;
 				direction[i] = 2;
-				navdiv = document.getElementById(currdiv)
-					navdiv.id = pt2 + "_" + pt1;
+				navdiv = document.getElementById(currdiv);
+				navdiv.id = pt2 + "_" + pt1;
 				currdiv = pt2 + "_" + pt1;
+
+				degree = getDegree(x2, y2, x1, y1);
+
+				if ((x1 - x2) < 0) {
+					degree = 180 + degree;
+				}
+
+				resetplaceLine(x, y, document.getElementById(currdiv), 2, degree);
 
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (pt1 + "_" + pt2 == navtransdiv[j]) {
@@ -2301,7 +2384,7 @@ function setPointNav(realX, realY) {
 						var trandiv = document.getElementById(trandivId);
 						trandiv.style.display = "none";
 
-						initplaceLine(x2, y2 + 30, pt2 + "_" + "0");
+						initplaceLine(x2, y2 + 30, pt2 + "_" + "0", 1, 0);
 						navtransdiv.push(pt2 + "_" + "0");
 						trans_x.push(x2);
 						trans_y.push(y2 + 30);
@@ -2368,7 +2451,7 @@ function setPointNav(realX, realY) {
 					trans_y.push(y2 - 20);
 					//alert (y2 - 20 - nav_y[pt1 - 1]);
 
-					initplaceLine(x1, y2 - 50, pt1 + "_" + "0");
+					initplaceLine(x1, y2 - 50, pt1 + "_" + "0", 1, 0);
 					navtransdiv.push(pt1 + "_" + "0");
 					trans_x.push(x1);
 					trans_y.push(y2 - 50);
@@ -2427,35 +2510,22 @@ function setPointNav(realX, realY) {
 				if (document.forms['loginform']['selectNavType'].value == "1") {
 
 					ctx_nav.strokeStyle = 'blue';
-					ctx_nav.lineWidth = 2;
-
-					ctx_nav.beginPath();
-
-					ctx_nav.moveTo(x1, y1);
-					ctx_nav.lineTo(x2, y2);
-
-					ctx_nav.stroke();
 
 				} else {
 
-					new_x2 = x1 + (x2 - x1) * 5 / 6;
-					new_y2 = y1 + (y2 - y1) * 5 / 6;
-
-					var vector = {
-						sta : [x1, 800 - y1],
-						end : [new_x2, 800 - new_y2]
-					};
-
-					drawArrowLine(vector.sta, vector.end, true);
-
-					var vector = {
-						sta : [new_x2, 800 - new_y2],
-						end : [x2, 800 - y2]
-					};
-
-					drawArrowLine(vector.sta, vector.end, false);
-
+					ctx_nav.strokeStyle = 'green';
 				}
+
+				ctx_nav.lineWidth = 2;
+
+				ctx_nav.beginPath();
+
+				ctx_nav.moveTo(x1, y1);
+				ctx_nav.lineTo(x2, y2);
+
+				ctx_nav.stroke();
+
+				var deg = getDegree(x1, y1, x2, y2);
 
 				del_pop("id_out", "id_in");
 				del_pop("id_out", "id_in");
@@ -2466,7 +2536,23 @@ function setPointNav(realX, realY) {
 
 				var divid = pt1 + "_" + pt2;
 
-				initplaceLine(realmidx, realmidy, divid);
+				if (mdirection == 1) {
+					if ((x2 - x1) >= 0) {
+						degree = 90 + degree;
+					} else {
+						degree = 270 + degree;
+					}
+
+				} else {
+					if ((x2 - x1) < 0) {
+
+						degree = 180 + degree;
+					}
+
+				}
+
+				initplaceLine(realmidx, realmidy, divid, mdirection, degree);
+
 				navtransdiv.push(divid);
 				trans_x.push(realmidx);
 				trans_y.push(realmidy);
@@ -3083,6 +3169,7 @@ function redrawAll() {
 	ctx_nav.clearRect(0, 0, WIDTH, HEIGHT);
 
 	var mleft = 0;
+	var mleft = 0;
 	var mtop = 0;
 
 	for (var i = 0; i < nav_x.length; i++) {
@@ -3133,11 +3220,11 @@ function redrawAll() {
 
 				for (var j = 0; j < navtransdiv.length; j++) {
 					if (trandivlineId == navtransdiv[j]) {
-						trandivline.style.left = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X + "px";
-						trandivline.style.top = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
+						trandivline.style.left = imgX + trans_x[j] * imgScale - 4 + CANVAS_OFFSET_X + "px";
+						trandivline.style.top = imgY + trans_y[j] * imgScale - 7 + CANVAS_OFFSET_Y + "px";
 
-						mleft = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X;
-						mtop = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y;
+						mleft = imgX + trans_x[j] * imgScale - 4 + CANVAS_OFFSET_X;
+						mtop = imgY + trans_y[j] * imgScale - 7 + CANVAS_OFFSET_Y;
 						break;
 					}
 				}
@@ -3224,11 +3311,20 @@ function redrawAll() {
 
 			for (var j = 0; j < navtransdiv.length; j++) {
 				if (divlineId == navtransdiv[j]) {
-					divline.style.left = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X + "px";
-					divline.style.top = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
+					if (direction[i] == 1) {
+						divline.style.left = imgX + trans_x[j] * imgScale - 4 + CANVAS_OFFSET_X + "px";
+						divline.style.top = imgY + trans_y[j] * imgScale - 7 + CANVAS_OFFSET_Y + "px";
 
-					mleft = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X;
-					mtop = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
+						mleft = imgX + trans_x[j] * imgScale - 4 + CANVAS_OFFSET_X;
+						mtop = imgY + trans_y[j] * imgScale - 7 + CANVAS_OFFSET_Y + "px";
+					} else {
+						divline.style.left = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X + "px";
+						divline.style.top = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
+
+						mleft = imgX + trans_x[j] * imgScale - 5 + CANVAS_OFFSET_X;
+						mtop = imgY + trans_y[j] * imgScale - 5 + CANVAS_OFFSET_Y + "px";
+
+					}
 					break;
 				}
 			}
@@ -3249,33 +3345,20 @@ function redrawAll() {
 		if (direction[i] == 1) {
 
 			ctx_nav.strokeStyle = 'blue';
-			ctx_nav.lineWidth = 2;
-
-			ctx_nav.beginPath();
-
-			ctx_nav.moveTo(x1, y1);
-			ctx_nav.lineTo(x2, y2);
-
-			ctx_nav.stroke();
 
 		} else {
-			new_x2 = x1 + (x2 - x1) * 5 / 6;
-			new_y2 = y1 + (y2 - y1) * 5 / 6;
+			ctx_nav.strokeStyle = 'green';
 
-			var vector = {
-				sta : [x1, 800 - y1],
-				end : [new_x2, 800 - new_y2]
-			};
-
-			drawArrowLine(vector.sta, vector.end, true);
-
-			var vector = {
-				sta : [new_x2, 800 - new_y2],
-				end : [x2, 800 - y2]
-			};
-
-			drawArrowLine(vector.sta, vector.end, false);
 		}
+
+		ctx_nav.lineWidth = 2;
+
+		ctx_nav.beginPath();
+
+		ctx_nav.moveTo(x1, y1);
+		ctx_nav.lineTo(x2, y2);
+
+		ctx_nav.stroke();
 	}
 
 }
@@ -3850,8 +3933,6 @@ function zoomIn() {
 
 	clearInterestDraw();
 	clearNavDraw();
-	
-
 
 	if (point_type == ONLY_NAV) {
 		redrawAll();
@@ -3883,8 +3964,6 @@ function zoomOut() {
 	canvas_upper.style.zIndex = 1;
 
 	var pos = windowToCanvas(canvas, 200, 200);
-	
-	
 
 	imgScale /= 1.2;
 	imgX = imgX / 1.2 + pos.x / 1.2;
@@ -3892,8 +3971,6 @@ function zoomOut() {
 	onscale(1 / 1.2, pos.x / 1.2, pos.y / 1.2);
 
 	drawImage();
-	
-
 
 	clearInterestDraw();
 	clearNavDraw();
@@ -3943,4 +4020,19 @@ function displayScale() {
 		break;
 
 	}
+}
+
+function getDegree(x1, y1, x2, y2) {
+	if (x1 == x2) {
+		if (y2 > y1) {
+			return 90;
+		} else {
+			return -90;
+		}
+	}
+
+	var k = (y2 - y1) / (x2 - x1);
+
+	degree = Math.atan(k) * 180 / 3.1415926;
+	return degree;
 }

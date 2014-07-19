@@ -443,7 +443,37 @@ tr:nth-child(even) {
     background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
     background: -moz-linear-gradient(top, #aa1317, #ed1c24);
  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
+ }
+ 
+ .diamond-narrow {
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	border-bottom: 10px solid blue;
+	position: absolute;
+	top: 100px;
+	left:100px
 }
+.diamond-narrow:after {
+	content: '';
+	position: absolute;
+	left: -5px; top: 10px;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	border-top: 10px solid blue;
+}
+
+
+   .triangle-right {
+	width: 0;
+	height: 0;
+	border-top: 6px solid transparent;
+	border-left: 12px solid green;
+	border-bottom: 6px solid transparent;
+}
+
+
 </style>
 		
 		
@@ -489,7 +519,7 @@ tr:nth-child(even) {
 		
 	     </div>
 		 
-		 <div id="floor" style="width:100px">楼层
+		 <div id="floor" style="width:100px">楼层f
 		 
 		
 	     </div>
