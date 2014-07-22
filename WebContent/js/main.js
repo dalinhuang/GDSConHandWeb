@@ -3382,6 +3382,7 @@ function selectFloor(floor) {
 		floor_ul_1.style.backgroundSize = "6px 6px";
 		which_floor = 15;
 		document.getElementById('floortext').innerHTML = '15F';
+		document.getElementById('zoomtext').innerHTML = '原图比例';
 		scaleLevel = 3;
 	} else {
 		img.src = "images/map2.png";
@@ -3390,6 +3391,7 @@ function selectFloor(floor) {
 		floor_ul_2.style.backgroundSize = "6px 6px";
 		which_floor = 5;
 		document.getElementById('floortext').innerHTML = '5F';
+		document.getElementById('zoomtext').innerHTML = '原图比例';
 		scaleLevel = 3;
 	}
 

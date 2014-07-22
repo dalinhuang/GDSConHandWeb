@@ -519,7 +519,7 @@ tr:nth-child(even) {
 		
 	     </div>
 		 
-		 <div id="floor" style="width:100px">楼层f
+		 <div id="floor" style="width:100px">楼层
 		 
 		
 	     </div>
