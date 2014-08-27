@@ -680,7 +680,6 @@ function load() {
 		}
 	}
 
-}
 
 function loadImg() {
 	img = new Image();

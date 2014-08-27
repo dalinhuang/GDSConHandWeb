@@ -184,7 +184,7 @@
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="index" namespace="/user" />
-										<s:a href="/GDSConHandWeb/nodeedit.jsp">
+										<s:a href="/GDSConHandWeb/mapedit.jsp">
 											<s:text name="信息港A栋" />
 										</s:a></li>
 								<!--  <li><s:a value="/user/index.jsp">User Management</s:a></li> -->
