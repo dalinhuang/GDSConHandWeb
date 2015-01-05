@@ -16,7 +16,7 @@
 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Indoor Positing System">
-<meta name="author" content="Ericsson">
+<meta name="author" content="IPS">
 
 <title><decorator:title default="IPS" /></title>
 
@@ -66,7 +66,7 @@
 	<div class="navbar navbar-fixed-top">
 		<!-- Banner -->
 		<!-- <div class="navbar-inner1">
-			<img src="<%=request.getContextPath() %>/images/ericsson.png" />
+		
 			
 		</div>  -->
 		<!-- Menu bar -->
@@ -78,86 +78,73 @@
 				</a>
 
 				<s:a value="/default.jsp" cssClass="brand">
-					<img alt="Ericcson" src="<%=request.getContextPath() %>/images/ericsson.png">
-					<s:text name="system.name" />
+					
 				</s:a>
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li><s:a value="/default.jsp">
 								<i class="icon-home"></i>
-								<s:text name="menu.index" />
+								<s:text name="首页" />
 							</s:a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="menu.map" /><b
+							data-toggle="dropdown"><s:text name="地图管理" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="map" namespace="/map" /> <s:a
 										href="%{#url}">
-										<s:text name="menu.map.map" />
+										<s:text name="地图管理" />
 									</s:a></li>
 								<li><s:url var="url" action="building" namespace="/map" />
 									<s:a href="%{#url}">
-										<s:text name="menu.map.building" />
+										<s:text name="地点管理" />
 									</s:a></li>
 								<li><s:url var="url" action="position" namespace="/map" />
 									<s:a href="%{#url}">
-										<s:text name="menu.map.position" />
+										<s:text name="位置管理" />
 									</s:a></li>
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="Nav" /><b
+							data-toggle="dropdown"><s:text name="节点管理" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="neighbor" namespace="/nav" />
 									<s:a href="%{#url}">
-										<s:text name="menu.nav.neighbor" />
+										<s:text name="邻节点管理" />
 									</s:a></li>
 								<li><s:url var="url" action="node" namespace="/nav" /> <s:a
 										href="%{#url}">
-										<s:text name="menu.nav.node" />
+										<s:text name="节点管理" />
 									</s:a></li>
 								<li><s:url var="url" action="pair" namespace="/nav" /> <s:a
 										href="%{#url}">
-										<s:text name="menu.nav.pair" />
+										<s:text name="节点对管理" />
 									</s:a></li>
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="menu.emergency" /><b
+							data-toggle="dropdown"><s:text name="应急疏散信息管理" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="trace" namespace="/emergency" />
 									<s:a href="%{#url}">
-										<s:text name="menu.emergency.trace" />
+										<s:text name="用户和设备追踪" />
 									</s:a></li>
 								<li><s:url var="url" action="urgentNotice"
 										namespace="/emergency" /> <s:a href="%{#url}">
-										<s:text name="menu.emergency.pre_notice" />
+										<s:text name="紧急通知预设信息" />
 									</s:a></li>
 								<li><s:url var="url" action="normal_notice"
 										namespace="/emergency" /> <s:a href="%{#url}">
-										<s:text name="menu.emergency.normal_notice" />
+										<s:text name="普通信息预设通知" />
 									</s:a></li>
 							</ul></li>
+						
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="Transport" /><b
-								class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><s:url var="url" action="bus" namespace="/public" /> <s:a
-										href="%{#url}">
-										<s:text name="menu.public.bus" />
-									</s:a></li>
-								<li><s:url var="url" action="metro" namespace="/public" />
-									<s:a href="%{#url}">
-										<s:text name="menu.public.metro" />
-									</s:a></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="Ad" /><b
+							data-toggle="dropdown"><s:text name="广告管理" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="index" namespace="/ad" /> <s:a
 										href="%{url}">
-										<s:text name="menu.ad.item" />
+										<s:text name="广告内容管理" />
 									</s:a></li>
 								<!-- <li><s:url var="url" action="index" namespace="/ad" /> <s:a
 										href="%{url}">
@@ -165,12 +152,12 @@
 									</s:a></li> -->
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><s:text name="menu.system" /><b
+							data-toggle="dropdown"><s:text name="系统管理" /><b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="index" namespace="/user" />
 										<s:a href="%{url}">
-											<s:text name="menu.system.user" />
+											<s:text name="用户管理" />
 										</s:a></li>
 								<!--  <li><s:a value="/user/index.jsp">User Management</s:a></li> -->
 								<!-- <li><s:a value="/user/user.jsp">
@@ -185,7 +172,7 @@
 							<ul class="dropdown-menu">
 								<li><s:url var="url" action="index" namespace="/user" />
 										<s:a href="/GDSConHandWeb/nodeedit.jsp">
-											<s:text name="信息港A栋" />
+											<s:text name="科学中心" />
 										</s:a></li>
 								<!--  <li><s:a value="/user/index.jsp">User Management</s:a></li> -->
 								<!-- <li><s:a value="/user/user.jsp">
@@ -199,7 +186,7 @@
 					<ul class="nav pull-right">
 						<li class="dropdown last"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"><i class="icon-flag"></i> <s:text
-									name="menu.help" /><b class="caret"></b></a>
+									name="帮助" /><b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="http://struts.apache.org/mail.html"><i
 										class="icon-share"></i> <s:text name="menu.help.documentation" /></a></li>
@@ -221,13 +208,13 @@
 				<!-- end branding -->
 
 				<p>
-					<s:text name="system.name" />
+					<s:text name="&nbsp" />
 				</p>
 				<!-- end search -->
 			</div>
 
 			<div class="pull-left">
-				<p>Copyright &copy; 2013 Ericsson</p>
+				<p>&nbsp</p>
 			</div>
 
 		</div>

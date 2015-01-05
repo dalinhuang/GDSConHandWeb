@@ -491,7 +491,7 @@ tr:nth-child(even) {
 		
 		<div id="header" style="position:absolute;left:0px;top:40px;z-index:4;overflow:hidden;width:1203px;height:40px;background:#f3f3f3;opacity:0.9">
 	
-	     <div id="floornum"><p id="floortext">15F</p>
+	     <div id="floornum"><p id="floortext">1F</p>
 		 
 		
 	     </div>
@@ -534,8 +534,8 @@ tr:nth-child(even) {
 		</ul>
 	
 	     <ul id="floor_ul" style="list-style-type:none;">
-			<li id="floor_ul_1"><a href="javascript:selectFloor(15)">15   楼</a></li>
-			<li id="floor_ul_2"><a href="javascript:selectFloor(5)">&nbsp;&nbsp;5  楼</a></li>						
+			<li id="floor_ul_1"><a href="javascript:selectFloor(1)">1   楼</a></li>
+			<li id="floor_ul_2"><a href="javascript:selectFloor(2)">2  楼</a></li>						
 		</ul>
 		
 		 <ul id="point_ul" style="list-style-type:none;">

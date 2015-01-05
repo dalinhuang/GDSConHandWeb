@@ -1,6 +1,6 @@
 var canvas, context, canvas_upper, ctx_up, canvas_nav, ctx_nav;
 var img; //图片对象
-var which_floor = 15,
+var which_floor = 1,
 scaleLevel = 3,
 imgIsLoaded, //图片是否加载完成;
 imgX = 0,
@@ -330,8 +330,8 @@ function load() {
 				interest_hallid.push(data.data[i].hallId);
 				interest_ttsid.push(data.data[i].ttsNo);
 				interest_floor.push(data.data[i].mapId);
-				interest_x.push(data.data[i].placeX);
-				interest_y.push(data.data[i].placeY);
+				interest_x.push(invTransferX(data.data[i].placeX));
+				interest_y.push(invTransferY(data.data[i].placeY));
 				interest_nearnavid.push(data.data[i].neareastNaviNode);
 				interest_iconurl.push(data.data[i].iconUrl);
 				interest_audiourl.push(data.data[i].audioUrl);
@@ -414,8 +414,8 @@ function load() {
 
 				var id = data.data[i].id - 1;
 				nav_flag[id] = true;
-				nav_x[id] = data.data[i].placeX;
-				nav_y[id] = data.data[i].placeY;
+				nav_x[id] = invTransferX(data.data[i].placeX);
+				nav_y[id] = invTransferY(data.data[i].placeY);
 				nav_label[id] = data.data[i].label;
 				nav_floor[id] = data.data[i].mapId;
 
@@ -689,7 +689,7 @@ function loadImg() {
 		drawImage();
 	}
 	img.src = "images/map.png";
-	whcih_floor = 15;
+	whcih_floor = 1;
 
 	/* initplace(300, 400, "餐厅", "div1");
 	initplace(100, 300, "美国", "div2");
@@ -1352,7 +1352,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 	if (first) {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
+			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标  " + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F1</div>" +
 
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:100px;height:15px' type=text placeholder='检票口' value=" + nav_name + "></div>" +
 
@@ -1362,10 +1362,10 @@ function createLoginNav(realX, realY, posx, posy, content) {
 	} else {
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
+			"<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F1</div>" +
 
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  type=text style='width:100px;height:15px' placeholder='检票口' value=" + nav_name + "></div>" +
-			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' style='width:50px;height:25px' id='selectFloor'><option value='1'>F15</option><option value='2'>F5</option></select> </div>" +
+			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' style='width:50px;height:25px' id='selectFloor'><option value='1'>F1</option><option value='2'>F2</option></select> </div>" +
 			"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px'><label for=name style='font:color:green;float:left'><b>连通点&nbsp;&nbsp;&nbsp;&nbsp</b></label><select name='selectNav' style='width:50px;height:25px' id='selectNav'><option value='1'>1</option><option value='2'>2</option></option><option value='3'>3</option></option><option value='4'>4</option></option><option value='5'>5</option></select></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>连通类型&nbsp</b></label>  <select name='selectNavType' style='width:50px;height:25px' id='selectNavType'><option value='1'>双向 </option><option value='2'>单向 </option></select> </div>" +
 
@@ -1465,12 +1465,12 @@ function createLoginNav(realX, realY, posx, posy, content) {
 		//<option value='1'>1</option><option value='2'>2</option></option><option value='3'>3</option></option><option value='4'>4</option></option><option value='5'>5</option>
 
 
-		//<option value='1'>F15</option><option value='2'>F16</option></select>
-		if (which_floor == 15) {
-			floorStr = "<option value='1'>F15</option><option value='2'>F5</option></select>";
+		
+		if (which_floor == 1) {
+			floorStr = "<option value='1'>F1</option><option value='2'>F2</option></select>";
 
 		} else {
-			floorStr = "<option value='1'>F5</option><option value='2'>F15</option></select>";
+			floorStr = "<option value='1'>F2</option><option value='2'>F1</option></select>";
 
 		}
 
@@ -1485,7 +1485,7 @@ function createLoginNav(realX, realY, posx, posy, content) {
 
 		//login.innerHTML="<form name = \"loginform\" action=\"login.jsp\" method=\"post\" onSubmit=\"return validateFormLogin()\"><fieldset><legend>位置信息  "+ "  X=" + realX + "  Y=" + realY + "</legend><table><tr><td><label for=\"petName\">节点名称</label></td><td><input type=\"text\" name=\"petName\" value=" + interest_name + "></td></tr><tr><td><label for=\"psd\">具体信息</label></td><td><input type=\"text\" name=\"psd\" /></td></tr><tr><td><input type = \"hidden\" name = \"return_url\" /></td></tr><tr><td></td></table><center><td><input type=\"button\" value=\提交\ onClick=\"setPoint(+" + realX + "," + realY + ")\" ></td></tr></fieldset></form>";
 		login.innerHTML = "<form name = 'loginform'>" +
-			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F15</div>" +
+			"<div style='poaition:absoltue;width:300px;height:40px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp" + "位置坐标" + "  X=" + realX + "  Y=" + realY + "&nbsp;&nbsp;&nbsp; F1</div>" +
 
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:30px;'><label for=name style='font:color:green;float:left'><b>节点名称&nbsp</b></label> <input id='petName' name='petName'  style='width:100px;height:15px' type=text placeholder='导航点' value=" + nav_name + "></div>" +
 			"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 10px;line-height:0px'><label for=name style='font:color:green;float:left'><b>楼层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>  <select name='selectFloor' style='width:80px;height:25px' id='selectFloor' onchange='changeFloor(this.options[this.options.selectedIndex].value)'>" + floorStr + "</select></div>" +
@@ -2284,8 +2284,8 @@ function setPoint(realX, realY) {
 
 	$.post("savepoi.action", {
 		mapId : which_floor,
-		placeX : realX,
-		placeY : realY,
+		placeX : transferX(realX),
+		placeY : transferY(realY),
 		label : document.forms['loginform']['petName'].value,
 		generalDesc : document.forms['loginform']['content'].value,
 		type : document.forms['loginform']['selectInterest'].value,
@@ -2582,8 +2582,8 @@ function setPointNav(realX, realY) {
 	//首次增加导航点,  只是设置序号, 坐标,  楼层,  label
 	$.post("savenavinode.action", {
 		mapId : which_floor,
-		placeX : realX,
-		placeY : realY,
+		placeX : transferX(realX),
+		placeY : transferY(realY),
 		label : mlabel
 	}, function (data) {
 		//alert(data.data);
@@ -2729,7 +2729,7 @@ function createInfoNav(posx, posy, realX, realY, content) {
 	//login.innerHTML="<div style='width:200px;height:200px;background-color:Black;'> + content + "<br><center><tr><td><input type=\"button\" value=\修改\ onClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" ><input type=\"button\" value=\删除\ onClick=\"deleteInterestPlace()\" ></td></tr>";
 	//logonClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" >"
 	//login.innerHTML="<div style='width:200px;height:200px;background-color:Black;'> + content + "<br><center><tr><td><input type=\"button\" value=\修改\ onClick=\"modifyInterestPlace(" + posx + "," + posy +  "," + realX +  "," + realY + ")\" ><input type=\"button\" value=\删除\ onClick=\"deleteNavPoint()\" ></td></tr>";
-	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;位置信息&nbsp" + "  X=" + realX + "  Y=" + realY + "&nbsp;F15" + "<img src='images/edit.jpg' title='编辑' onClick= 'modifyNavPoint(" + posx + "," + posy + "," + realX + "," + realY + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavPoint(" + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
+	login.innerHTML = "<div style='poaition:absoltue;width:300px;height:30px;background-color:#F5F5F5;font:bold 14px 宋体;color:blue;line-height:27px'>&nbsp;位置信息&nbsp" + "  X=" + realX + "  Y=" + realY + "&nbsp;F1" + "<img src='images/edit.jpg' title='编辑' onClick= 'modifyNavPoint(" + posx + "," + posy + "," + realX + "," + realY + ")'" + " style = 'position:absolute;right:75px;top:4px '><img src='images/delete.jpg' title='删除', onClick= 'deleteNavPoint(" + ")'" + " style='position:absolute;right:50px;top:8px'></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 导航点序号      " + content + "<br></div>" +
 		"<div style='width:300px;height:30px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 导航点名称      " + nav_name + "<br></div>" +
 		"<div style='width:300px;height:40px;background-color:#F9F9F9;font: 12px 宋体;text-indent: 100px'><br>&nbsp;&nbsp; 双向连接点      " + conn_bi_direction + "<br></div>" +
@@ -3375,13 +3375,13 @@ function selectFloor(floor) {
 	var floor_ul_1 = document.getElementById('floor_ul_1');
 	var floor_ul_2 = document.getElementById('floor_ul_2');
 
-	if (floor == 15) {
+	if (floor == 1) {
 		img.src = "images/map.png";
 		floor_ul_1.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		floor_ul_2.style.background = "";
 		floor_ul_1.style.backgroundSize = "6px 6px";
-		which_floor = 15;
-		document.getElementById('floortext').innerHTML = '15F';
+		which_floor = 1;
+		document.getElementById('floortext').innerHTML = '1F';
 		document.getElementById('zoomtext').innerHTML = '原图比例';
 		scaleLevel = 3;
 	} else {
@@ -3389,8 +3389,8 @@ function selectFloor(floor) {
 		floor_ul_2.style.background = "url(images/circle.gif) no-repeat 5px 8px";
 		floor_ul_1.style.background = "";
 		floor_ul_2.style.backgroundSize = "6px 6px";
-		which_floor = 5;
-		document.getElementById('floortext').innerHTML = '5F';
+		which_floor = 2;
+		document.getElementById('floortext').innerHTML = '2F';
 		document.getElementById('zoomtext').innerHTML = '原图比例';
 		scaleLevel = 3;
 	}
@@ -4037,4 +4037,20 @@ function getDegree(x1, y1, x2, y2) {
 
 	degree = Math.atan(k) * 180 / 3.1415926;
 	return degree;
+}
+
+function transferX(x){
+	return (30000.0 / 1200) * x;
+}
+
+function transferY(y){
+	return (40000.0 / 1600) * y;
+}
+
+function invTransferX(x){
+	return (1200.0 / 30000) * x;
+}
+
+function invTransferY(y){
+	return (1600.0 / 40000) * y;
 }
