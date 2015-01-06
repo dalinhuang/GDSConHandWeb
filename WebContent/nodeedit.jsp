@@ -5,7 +5,7 @@
 	<head>
 		<meta charset='utf-8'>
 		
-		<title>图片加载平移放大缩小示例</title>
+		<title>信息编辑</title>
 		<style>
 			html,body{
 				margin:0px;
@@ -544,9 +544,9 @@ tr:nth-child(even) {
 		</ul>
 		
 		 <div id="canvasdiv" style="position:absolute;left:0px;top:40px;z-index:2;overflow:hidden;width:1500px;height:1200px;z-index:0;background:#f3f3f3;visibility:hidden">    
-		<canvas id="canvas" width=1200" height="800"  style="position:absolute;left:0px;top:0px;z-index:1;overflow:hidden;visibility:visible"></canvas>
-		<canvas id="line" width=1200" height="800" style="position:absolute;left:0px;top:0px;z-index:2;overflow:hidden;visibility:visible"></canvas>
-		<canvas id="nav" width=1200" height="800" style="position:absolute;left:0px;top:0px;z-index:3;overflow:hidden;visibility:visible"></canvas>
+		<canvas id="canvas" width=1200" height="1600"  style="position:absolute;left:0px;top:0px;z-index:1;overflow:hidden;visibility:visible"></canvas>
+		<canvas id="line" width=1200" height="1600" style="position:absolute;left:0px;top:0px;z-index:2;overflow:hidden;visibility:visible"></canvas>
+		<canvas id="nav" width=1200" height="1600" style="position:absolute;left:0px;top:0px;z-index:3;overflow:hidden;visibility:visible"></canvas>
 		 
 	
 		
