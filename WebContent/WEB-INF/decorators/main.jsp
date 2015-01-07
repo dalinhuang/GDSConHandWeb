@@ -202,22 +202,6 @@
 
 	<decorator:body />
 
-	<footer id="footer" class="footer">
-		<div class="navbar-footer">
-			<div class="pull-right">
-				<!-- end branding -->
-
-				<p>
-					<s:text name="&nbsp" />
-				</p>
-				<!-- end search -->
-			</div>
-
-			<div class="pull-left">
-				<p>&nbsp</p>
-			</div>
-
-		</div>
-	</footer>
+	
 </body>
 </html>
