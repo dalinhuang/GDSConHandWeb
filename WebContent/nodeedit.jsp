@@ -637,7 +637,7 @@ tr:nth-child(even) {
 
 
 
-					<script type="text/javascript" src="js/main.js"></script>
+					<script type="text/javascript" src="js/maind"></script>
 					<script type="text/javascript">
 						window.onload = function() {
 							load();
