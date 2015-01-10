@@ -515,7 +515,7 @@ tr:nth-child(even) {
 					</ul>
 
 					<div id="canvasdiv"
-						style="position: absolute; left: 0px; top: 40px; z-index: 2; overflow: hidden; width: 1500px; height: 1200px; z-index: 0; background: #f3f3f3; visibility: hidden">
+						style="position: absolute; left: 0px; top: 40px; z-index: 2; overflow: hidden; width: 2400px; height: 2000px; z-index: 0; background: #f3f3f3; visibility: hidden">
 						<canvas id="canvas" width=1200 " height="1600"
 							style="position: absolute; left: 0px; top: 0px; z-index: 1; overflow: hidden; visibility: visible"></canvas>
 						<canvas id="line" width=1200 " height="1600"
